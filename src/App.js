@@ -8,8 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/after-10" element={<CareerAfter10 />} />
-        <Route path="/after-12" element={<CareerAfter12 />} />
+        
       </Routes>
     </BrowserRouter>
   );
