@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import Services from "../components/Services";
+import Footer from "../components/Footer";
 import "./Home.css";
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
       <Services />
       <section className="section about">About Section</section>
       <section className="section content">Content Section</section>
+      <Footer />
     </div>
   );
 };
