@@ -1,6 +1,6 @@
 .hero {
   min-height: 100vh;
-  background: #f9f7ff;
+  background: #ff0000;
   display: flex;
   align-items: center;
 }
@@ -19,7 +19,7 @@
 .hero-text h1 {
   font-size: 4rem;
   font-weight: 700;
-  color: #51679c;
+  color: #5c67bd;
 }
 
 .hero-text p {

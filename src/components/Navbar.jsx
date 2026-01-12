@@ -4,7 +4,6 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="nav-container">
-
         {/* Logo */}
         <div className="logo">CareerViewX</div>
 
@@ -19,8 +18,7 @@ const Navbar = () => {
         </nav>
 
         {/* CTA */}
-        <button className="nav-btn">Call Now</button>
-
+        <button className="nav-btn">Learn More</button>
       </div>
     </header>
   );
