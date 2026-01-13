@@ -18,7 +18,7 @@ const Navbar = () => {
         </nav>
 
         {/* CTA */}
-        <button className="nav-btn">Learn More</button>
+        <button className="nav-btn hover-pop">Learn More</button>
       </div>
     </header>
   );
