@@ -9,17 +9,14 @@ const About = () => {
         {/* LEFT CONTENT */}
         <div className="about-text">
           <span className="about-label">ABOUT</span>
-          <h2>Our Experts Are<br />the Finest</h2>
+          <h2>Your Career<br/>Starts Here</h2>
 
           <p>
-            I'm a paragraph. Click here to add your own text and edit me.
-            It’s easy. Just click “Edit Text” or double click me to add
-            your own content and make changes to the font.
+            Choosing the right career is one of the most important decisions in a student’s life, yet many students feel confused due to lack of proper guidance and clarity. CareerGuide is a career guidance platform designed to help students make informed decisions about their future.
           </p>
 
           <p>
-            This is a great space to write a long text about your company
-            and your services. Talk about your team and what services you provide.
+            Our platform analyzes students’ interests, strengths, and academic background to provide personalized stream and career recommendations. Along with career suggestions, we offer clear roadmaps, required skills, and future scope to help students confidently plan their academic and professional journey.
           </p>
         </div>
 

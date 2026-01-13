@@ -14,7 +14,7 @@ const Home = () => {
       <Services />
       <About />
       <Testimonials />
-      <section className="section content">Content Section</section>
+      {/* <section className="section content">Content Section</section> */}
       <Footer />
     </div>
   );
