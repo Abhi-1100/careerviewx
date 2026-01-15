@@ -1,5 +1,5 @@
 import "./About.css";
-import aboutImg from "../assets/about-graph.png"; // placeholder image
+import aboutImg from "../../assets/about-graph.png"; // placeholder image
 
 const About = () => {
   return (
