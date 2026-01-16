@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
+import heroImg from "../../assets/hero-image.png";
 const Hero = () => {
   const navigate = useNavigate();
 
@@ -30,12 +30,26 @@ const Hero = () => {
         <div className="relative h-[300px] md:h-[420px] flex items-end justify-end">
           <div
             className="
-              w-full h-full
-              bg-gradient-to-br from-violet-400 to-violet-700
-              rounded-[60%_40%_30%_70%/60%_30%_70%_40%]
-              transition-transform duration-300 hover:scale-105
-            "
-          />
+      w-full h-full
+      bg-gradient-to-br from-violet-400 to-violet-700
+      rounded-[60%_40%_30%_70%/60%_30%_70%_40%]
+      overflow-hidden
+      transition-transform duration-300 hover:scale-105
+      relative
+    "
+          >
+            <img
+  src={heroImg}
+  alt="Career illustration"
+  className="
+    w-full h-full
+    object-cover
+    scale-125
+    translate-y-[-10%]
+  "
+/>
+
+          </div>
         </div>
       </div>
     </section>
