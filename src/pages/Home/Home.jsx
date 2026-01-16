@@ -1,10 +1,10 @@
 import   useScrollAnimation from "../../hooks/useScrollAnimation";
-import Hero from "../../components/Hero/Hero";
-import Navbar from "../../components/Navbar/Navbar";
-import Services from "../../components/Services/Services";
-import About from "../../components/About/About";
-import Testimonials from "../../components/Testimonials/Testimonials";
-import Footer from "../../components/Footer/Footer";
+import Hero from "../../components/HomeSection/Hero";
+import Navbar from "../../components/HomeSection/Navbar";
+import Services from "../../components/HomeSection/Services";
+import About from "../../components/HomeSection/About";
+import Testimonials from "../../components/HomeSection/Testimonials";
+import Footer from "../../components/HomeSection/Footer";
 import "./Home.css";
 
 const Home = () => {
