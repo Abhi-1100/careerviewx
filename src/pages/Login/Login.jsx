@@ -1,6 +1,11 @@
 import React from "react";
 import GraphImg from "../../assets/main-graph.png";
+import { useNavigate } from "react-router-dom";
+ 
 const Login = () => {
+  const navigate = useNavigate(); // ✅ IMPORTANT
+
+
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
@@ -45,7 +50,8 @@ const Login = () => {
               </a>
             </div>
 
-            <button className="w-full bg-violet-500 text-white py-3 rounded-lg font-semibold hover:bg-violet-400 transition"
+            <button onClick={() => navigate("/Dashboard")} 
+            className="w-full bg-violet-500 text-white py-3 rounded-lg font-semibold hover:bg-violet-400 transition"
             >
               Sign in
             </button>
