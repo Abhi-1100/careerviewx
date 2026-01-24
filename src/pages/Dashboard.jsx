@@ -19,7 +19,7 @@ export default function CareerGuidanceDashboard() {
   const [selectedTimeframe, setSelectedTimeframe] = useState("1M");
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="flex h-screen bg-gradient-to-br from-slate-900 via-violate-900 to-slate-900">
       {/* Sidebar */}
       <div className="w-20 bg-slate-900/50 backdrop-blur-sm border-r border-slate-700/50 flex flex-col items-center py-6 space-y-8">
         <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/50">

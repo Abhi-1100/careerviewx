@@ -1,120 +1,159 @@
 import React from "react";
-import GraphImg from "../../assets/main-graph.png";
 import { useNavigate } from "react-router-dom";
  
-const Login = () => {
-  const navigate = useNavigate(); // ✅ IMPORTANT
+import { useState } from "react";
 
+const Login = () => {
+  const Navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({ email, password });
+  };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-        
-        {/* LEFT SIDE – LOGIN FORM */}
-        <div className="p-8 md:p-12 flex flex-col justify-center">
-          <h2 className="text-3xl font-bold text-gray-900">
-            Welcome Back <span className="inline-block">👋</span>
-          </h2>
-          <p className="text-gray-500 mt-2">
-            Today is a new day. It's your day. You shape it.  
-            Sign in to start managing your projects.
-          </p>
+    <div className="dark">
 
-          {/* FORM */}
-          <form className="mt-8 space-y-5">
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="Example@email.com"
-                className="mt-1 w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-              />
+    
+    <div className="dark bg-charcoal font-display text-white min-h-screen overflow-hidden">
+      <div className="flex min-h-screen w-full">
+        {/* LEFT IMAGE SECTION */}
+        <div className="relative hidden lg:block w-1/2 overflow-hidden">
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiblYCW8mRRime06B7Nif8NbJqslDzV27SkpSVAylJNiu6EMnyc-kn8UYQAmBBjINdHoBJlzaq2yW0wmjZU6WRM99BgyXwx09-DHZ6XlEfBneUYYk2M2Y6qFxiHNx4YQpwOSSlC7tAJTtXI9wt6aksrzhuHdICxcP9VS0z-dGXYZhDIx5uOFJSBL9bF1RzSuPil8LyB03ynFCNRRHxm-b084NUGM-aC4bZ9BVQQRWB7RfPYa0fGCgiavKpPrGLj448A2zeUmnOah4"
+            alt="Career Guidance"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-charcoal/70 via-primary/20 to-charcoal/80" />
+
+          <div className="absolute top-12 left-12 flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/40">
+              <span className="material-symbols-outlined">auto_awesome</span>
             </div>
-
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="At least 8 characters"
-                className="mt-1 w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-              />
-            </div>
-
-            <div className="text-right">
-              <a href="#" className="text-sm text-blue-600 hover:underline">
-                Forgot Password?
-              </a>
-            </div>
-
-            <button onClick={() => navigate("/Dashboard")} 
-            className="w-full bg-violet-500 text-white py-3 rounded-lg font-semibold hover:bg-violet-400 transition"
-            >
-              Sign in
-            </button>
-          </form>
-
-          {/* OR */}
-          <div className="my-6 flex items-center gap-3">
-            <div className="flex-1 h-px bg-gray-300"></div>
-            <span className="text-gray-400 text-sm">Or</span>
-            <div className="flex-1 h-px bg-gray-300"></div>
+            <span className="text-2xl font-bold">Lumina Career</span>
           </div>
 
-          {/* SOCIAL LOGIN */}
-          <div className="space-y-3">
-            <button className="w-full flex items-center justify-center gap-3 border py-3 rounded-lg hover:bg-gray-50">
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                alt="Google"
-                className="w-5 h-5"
-              />
-              <span className="text-sm font-medium">Sign in with Google</span>
-            </button>
-
-            <button className="w-full flex items-center justify-center gap-3 border py-3 rounded-lg hover:bg-gray-50">
-              <img
-                src="https://www.svgrepo.com/show/475647/facebook-color.svg"
-                alt="Facebook"
-                className="w-5 h-5"
-              />
-              <span className="text-sm font-medium">Sign in with Facebook</span>
-            </button>
+          <div className="absolute bottom-12 left-12 right-12 glass-panel p-8 rounded-2xl max-w-lg">
+            <h2 className="text-2xl font-semibold mb-2">Build your future.</h2>
+            <p className="text-gray-300 text-sm">
+              Access AI-powered career guidance and personalized opportunities tailored to your skills.
+            </p>
           </div>
-
-          {/* SIGN UP */}
-          <p className="text-sm text-gray-500 text-center mt-6">
-            Don’t you have an account?
-            <a href="#" className="text-blue-600 font-medium ml-1">
-              Sign up
-            </a>
-          </p>
-
-          <p className="text-xs text-gray-400 text-center mt-6">
-            © 2023 ALL RIGHTS RESERVED
-          </p>
         </div>
 
-        {/* RIGHT SIDE – IMAGE */}
-        <div className="hidden md:block relative">
-          <img
-            src={GraphImg}
-            alt="Flowers"
-            className="h-full w-full object-cover"
-          />
+        {/* RIGHT LOGIN SECTION */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative">
+          <div className="absolute top-1/4 -right-1/4 w-96 h-96 bg-primary/10 blur-[120px] rounded-full" />
+          <div className="absolute bottom-1/4 -left-1/4 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full" />
 
-          {/* MOBILE CARD PREVIEW (like your image) */}
-          <div className="absolute bottom-6 right-6 bg-white rounded-xl shadow-lg p-4 w-72">
-            <h3 className="font-semibold">Welcome Back 👋</h3>
-            <p className="text-xs text-gray-500 mt-1">
-              Today is a new day. Sign in to start managing your projects.
+          <div className="w-full max-w-md space-y-8 relative z-10">
+            {/* HEADER */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold tracking-widest text-primary uppercase">Step 1 of 4</span>
+                <div className="flex gap-1">
+                  <div className="h-1 w-8 rounded-full bg-primary" />
+                  <div className="h-1 w-8 rounded-full bg-white/10" />
+                  <div className="h-1 w-8 rounded-full bg-white/10" />
+                  <div className="h-1 w-8 rounded-full bg-white/10" />
+                </div>
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold mb-2">Welcome back</h1>
+                <p className="text-gray-400">Sign in to continue your career journey.</p>
+              </div>
+            </div>
+
+            {/* FORM */}
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* EMAIL */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-300 ml-1">Email Address</label>
+                <div className="relative group">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500 group-focus-within:text-primary">mail</span>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@example.com"
+                    required
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary placeholder:text-gray-600"
+                  />
+                </div>
+              </div>
+
+              {/* PASSWORD */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center ml-1">
+                  <label className="block text-sm font-medium text-gray-300">Password</label>
+                  <a href="#forgot_pass" className="text-xs text-primary hover:underline">Forgot Password?</a>
+                </div>
+                <div className="relative group">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500 group-focus-within:text-primary">lock</span>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary placeholder:text-gray-600"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white"
+                  >
+                    <span className="material-symbols-outlined">
+                      {showPassword ? "visibility_off" : "visibility"}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* SUBMIT */}
+              <button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 font-bold py-4 px-6 rounded-xl glow-button flex items-center justify-center gap-2 group"
+                onClick={() => Navigate("/Dashboard")}
+              >
+                Continue
+                <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </button>
+            </form>
+
+            {/* SOCIAL LOGIN */}
+            <div className="relative flex items-center py-4">
+              <div className="flex-grow border-t border-white/5" />
+              <span className="mx-4 text-xs font-semibold text-gray-500 uppercase">Or login with</span>
+              <div className="flex-grow border-t border-white/5" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <button className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-sm font-medium">
+                <img
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  alt="Google"
+                  className="w-5 h-5 opacity-80"
+                />
+                Google
+              </button>
+
+              <button className="flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-sm font-medium">
+                <span className="material-symbols-outlined text-[#0A66C2]">person</span>
+                LinkedIn
+              </button>
+            </div>
+
+            <p className="text-center text-gray-500 text-sm">
+              New to Lumina? <a href="#creat_Account" className="text-primary font-semibold hover:underline">Create an account</a>
             </p>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
