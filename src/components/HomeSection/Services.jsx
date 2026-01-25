@@ -1,86 +1,56 @@
 const Services = () => {
+  const services = [
+    {
+      icon: "edit_note",
+      title: "Discover Strengths",
+      description: "Take our psychometric quiz and AI skill assessment to identify your unique natural talents and latent interests."
+    },
+    {
+      icon: "travel_explore",
+      title: "Explore Careers",
+      description: "Browse a curated database of 500+ career paths that match your profile. Get insights into salary, growth, and requirements."
+    },
+    {
+      icon: "groups",
+      title: "Connect & Grow",
+      description: "Get 1-on-1 guidance from industry mentors and follow personalized learning roadmaps to land your dream job."
+    }
+  ];
+
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-5">
-
-        {/* HEADING */}
-        <div className="text-center mb-20 opacity-0 animate-[fadeUp_0.8s_ease-out_forwards]">
-          <span className="text-violet-500 font-semibold tracking-widest text-sm">
-            SERVICES
-          </span>
-
-          <h2 className="mt-4 text-3xl md:text-5xl font-bold text-slate-900 leading-tight">
-            Find the Right Career Path <br /> for Your Future
-          </h2>
-        </div>
-
-        {/* CARDS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-14">
-
-          {/* CARD 1 */}
-          <div className="text-center px-5 opacity-0 animate-[fadeUp_0.8s_ease-out_0.1s_forwards]
-                          hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-20 h-20 bg-violet-500 rounded-full mx-auto mb-6"></div>
-
-            <h3 className="text-lg font-semibold text-slate-900">
-              Personalized Career Guidance
-            </h3>
-
-            <p className="mt-3 text-slate-600 text-sm leading-relaxed">
-              Students receive career suggestions based on their interests,
-              skills, and answers — not random advice.
+    <section className="flex flex-1 justify-center py-24 bg-charcoal">
+      <div className="layout-content-container flex flex-col max-w-[1200px] flex-1 px-6 md:px-10">
+        <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-4 text-center items-center">
+            <h2 className="text-white tracking-tight text-5xl font-black leading-tight max-w-[720px]">
+              Your Journey to Success
+            </h2>
+            <p className="text-gray-400 text-xl font-normal leading-normal max-w-[600px]">
+              A structured approach to finding and landing your dream career.
             </p>
           </div>
-
-          {/* CARD 2 */}
-          <div className="text-center px-5 opacity-0 animate-[fadeUp_0.8s_ease-out_0.2s_forwards]
-                          hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-20 h-20 border-[6px] border-violet-500 rounded-2xl mx-auto mb-6
-                            rotate-[-45deg]"></div>
-
-            <h3 className="text-lg font-semibold text-slate-900">
-              Skill & Pathway Recommendations
-            </h3>
-
-            <p className="mt-3 text-slate-600 text-sm leading-relaxed">
-              We suggest the right skills, courses, and learning paths needed
-              for the chosen career direction.
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="group flex flex-col gap-6 rounded-3xl border border-white/5 bg-black/40 p-10 hover:border-primary/30 transition-all duration-500"
+              >
+                <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary/20 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                  <span className="material-symbols-outlined text-5xl">{service.icon}</span>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <h3 className="text-white text-2xl font-black leading-tight">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-400 text-base font-normal leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-
-          {/* CARD 3 */}
-          <div className="text-center px-5 opacity-0 animate-[fadeUp_0.8s_ease-out_0.3s_forwards]
-                          hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-20 h-20 bg-violet-500 mx-auto mb-6"></div>
-
-            <h3 className="text-lg font-semibold text-slate-900">
-              Clear Career Roadmap
-            </h3>
-
-            <p className="mt-3 text-slate-600 text-sm leading-relaxed">
-              A step-by-step roadmap that shows what to do next — after school
-              or college — with clarity and confidence.
-            </p>
-          </div>
-
         </div>
       </div>
-
-      {/* Animation keyframes */}
-      <style>
-        {`
-          @keyframes fadeUp {
-            0% {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            100% {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}
-      </style>
     </section>
   );
 };

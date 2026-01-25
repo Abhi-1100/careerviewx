@@ -1,54 +1,90 @@
 import { useNavigate } from "react-router-dom";
-import heroImg from "../../assets/hero-image.png";
+
 const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="min-h-screen flex items-center bg-slate-900">
-      <div className="w-[90%] max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12">
-        {/* LEFT SIDE */}
-        <div>
-          <h1 className="text-4xl md:text-6xl font-bold text-indigo-400 leading-tight">
-            Your future deserves clarity, not confusion.
-          </h1>
+    <section className="flex flex-1 justify-center py-12 md:py-24 bg-charcoal">
+      <div className="layout-content-container flex flex-col max-w-[1200px] flex-1 px-6 md:px-10">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+          {/* Left Content */}
+          <div className="flex flex-col gap-8 md:flex-1">
+            <div className="flex flex-col gap-5">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/15 text-primary text-xs font-bold w-fit uppercase tracking-[0.1em] border border-primary/20">
+                Empowering Future Leaders
+              </div>
+              <h1 className="text-white text-5xl md:text-7xl font-black leading-tight">
+                Find Your Path to a <span className="text-primary italic">Fulfilling</span> Career
+              </h1>
+              <p className="text-gray-400 text-xl leading-relaxed max-w-[560px]">
+                Unlock your potential with AI-driven assessments and expert mentorship designed specifically for students and young professionals.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-5">
+              <button onClick={() => navigate("/quiz")} className="flex min-w-[240px] cursor-pointer items-center justify-center rounded-2xl h-16 px-8 bg-primary text-white text-lg font-bold shadow-xl shadow-primary/30 hover:scale-[1.02] hover:shadow-primary/40 transition-all">
+                Take the Career Quiz
+              </button>
+              <button className="flex min-w-[200px] cursor-pointer items-center justify-center rounded-2xl h-16 px-8 border-2 border-white/10 text-white text-lg font-bold hover:bg-white/5 transition-all">
+                Explore Mentors
+              </button>
+            </div>
+            <div className="flex items-center gap-5 pt-4">
+              <div className="flex -space-x-4">
+                <div
+                  className="w-12 h-12 rounded-full border-4 border-charcoal bg-cover bg-center"
+                  style={{
+                    backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCp8U7FJAtSuqxxhU9LjrL13gcbJBFEfF89LiiIAqAbZCMU-omns33IPtU4PyVVQMRRMPlf9ZDtBoI_0UkYTQrrQGO-n4j9EiSflIEXY9Q_XyUv1-BkfCm7zhvw47Wq3NoX9b1nB82Uitqa4358r85BeMdWsZXwLOiuRcFjOb9nzBTu4UWV5LBUMTTySAizvWlZfOdg_n39gVc6Qoksols_jYqU1036ygz18TU9ap-rtqJIDUccrWk6PteLpQWcQZWHiakybFlZdiw")',
+                  }}
+                ></div>
+                <div
+                  className="w-12 h-12 rounded-full border-4 border-charcoal bg-cover bg-center"
+                  style={{
+                    backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAIXAoenMAwaCdvZoNDamHZR60Rhmuvq9c32ao1Y1oKJrzlVJ4pXvALljUhX6cW3D-C56DwshEKSB1l7p1Jrb4sGdmKhFa6LBIoNk18mvnY_-D0P1Z5BTC5tLM_-iiov8dI_Ji5EGWUjeShX8WDqjzP6UHnS7sC516rd4D4MXsxt8JfKsqGEcm5xDVLALzIXbNqkxgnJfNF3WzKMG0bxMFdoNhaziFCS1WwOBCR3omvhB8KUOxmw8EnMHpuRae_JhLdz52GQFYBv8c")',
+                  }}
+                ></div>
+                <div
+                  className="w-12 h-12 rounded-full border-4 border-charcoal bg-cover bg-center"
+                  style={{
+                    backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFBO8oLin57JaRMriJNoqKJVFU83J6mxXPg-mD5jbc0K46ai6w6jjoTgy6FVpGJqTB4t88k4_irxDjjuh8qRo1brSEprq_OIyTw-R6yGG-s03i8W0oD5FtsMh26Q0PmETtHeYHndEsD7kxyBBhsixM8JBTcecr2Uaoa_UVBsHlB7K6wMK4vuu7qn4zjMOBDULZbpHep1jxNWigKaOsnCPFlDtYJV9jTuFPLP69j3SfBF2CxR0w0vcflea56HbkI-c4_9AV7zYRoqc")',
+                  }}
+                ></div>
+                <div className="w-12 h-12 rounded-full border-4 border-charcoal bg-primary flex items-center justify-center text-[10px] font-bold">
+                  +2k
+                </div>
+              </div>
+              <p className="text-base text-gray-400">
+                Joined by <span className="text-white font-bold">10,000+</span> students this month
+              </p>
+            </div>
+          </div>
 
-          <p className="mt-6 text-slate-700 text-lg max-w-md">
-            Get personalized career guidance, explore career options, and make
-            confident decisions.
-          </p>
-
-          <button
-            onClick={() => navigate("/login")}
-            className="mt-8 px-7 py-3 bg-violet-500 text-white rounded-full font-medium
-                       hover:bg-violet-600 transition-transform duration-300 hover:scale-105"
-          >
-            Join Now
-          </button>
-        </div>
-
-        {/* RIGHT SIDE */}
-        <div className="relative h-[300px] md:h-[420px] flex items-end justify-end">
-          <div
-            className="
-      w-full h-full
-      bg-gradient-to-br from-violet-400 to-violet-700
-      rounded-[60%_40%_30%_70%/60%_30%_70%_40%]
-      overflow-hidden
-      transition-transform duration-300 hover:scale-105
-      relative
-    "
-          >
-            <img
-  src={heroImg}
-  alt="Career illustration"
-  className="
-    w-full h-full
-    object-cover
-    scale-125
-    translate-y-[-10%]
-  "
-/>
-
+          {/* Right Image */}
+          <div className="flex-1 w-full">
+            <div className="relative w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-[0_0_50px_rgba(139,92,246,0.15)] group ring-1 ring-white/10">
+              <div className="absolute inset-0 bg-primary/5 mix-blend-overlay"></div>
+              <div
+                className="w-full h-full bg-center bg-cover transition-transform duration-700 group-hover:scale-105"
+                style={{
+                  backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD19T4oEu9qHLhKBJak1TvrhK72f7U8xdTZsk_thZTuUTV-eEC-AHvkAq71OXx-3iKN_PTp5uJAuBbInAfZUtrTmOeu_so6SamTj4c-sqt4TMegeagFCGD_tHLwXdEJo7KO4Ek0zfe9fwgFnYMiFMrI5WSp_U5PEra8Bh9AhqYb23OMJpxh-DQOLtCmMrTfFbAA0Oenf4w1HvRxuRxtemV4kMRDgnalFv5-8BNAlVncQGXtpLfHviEEdjU-ixxqZolnNkEIAPmNQcI")',
+                }}
+              ></div>
+              <div className="absolute bottom-8 left-8 right-8 bg-[#1e1e1e]/90 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-2xl flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                    <span className="material-symbols-outlined text-3xl">psychology</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-white">AI Career Match</p>
+                    <p className="text-xs text-gray-400">98% Accuracy based on skills</p>
+                  </div>
+                </div>
+                <div className="h-10 w-px bg-white/10"></div>
+                <div className="text-right">
+                  <p className="text-sm font-black text-primary">Top Choice</p>
+                  <p className="text-xs text-gray-400 font-medium">UI/UX Designer</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

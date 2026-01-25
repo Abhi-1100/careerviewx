@@ -1,40 +1,49 @@
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
-    <header className="w-full bg-[rgb(233,237,255)] sticky top-0 z-[100] border-b border-gray-200">
-      <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
-        
-        {/* Logo */}
-        <div className="text-2xl font-bold text-slate-900">
-          CareerViewX
+    <header className="flex items-center justify-between whitespace-nowrap border-b border-[#2a2a2a] px-6 md:px-10 py-4 bg-charcoal/80 backdrop-blur-md sticky top-0 z-50">
+      <div className="flex items-center gap-3 text-primary">
+        <div className="size-9 flex items-center justify-center bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl text-white shadow-lg shadow-purple-500/30">
+          <span className="text-lg font-bold">PF</span>
         </div>
-
-        {/* Menu */}
-        <nav className="hidden md:flex gap-7">
-          <a href="#Home" className="text-slate-600 font-medium hover:text-violet-500">
-            Home
+        <h2 className="text-white text-lg md:text-xl font-extrabold leading-tight tracking-tight">
+          CareerViewX
+        </h2>
+      </div>
+      <div className="flex flex-1 justify-end gap-8 items-center">
+        <nav className="hidden md:flex items-center gap-8">
+          <a
+            className="text-gray-300 text-sm font-semibold leading-normal hover:text-purple-400 transition-colors relative group"
+            href="#"
+          >
+            Careers
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
           </a>
-          <a href="#Services" className="text-slate-600 font-medium hover:text-violet-500">
-            Services
+          <a
+            className="text-gray-300 text-sm font-semibold leading-normal hover:text-purple-400 transition-colors relative group"
+            href="#"
+          >
+            Resources
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
           </a>
-          <a href="#About" className="text-slate-600 font-medium hover:text-violet-500">
-            About
-          </a>
-          <a href="#Testimonials" className="text-slate-600 font-medium hover:text-violet-500">
-            Testimonials
-          </a>
-          <a href="#Clients" className="text-slate-600 font-medium hover:text-violet-500">
-            Clients
-          </a>
-          <a href="#Contact" className="text-slate-600 font-medium hover:text-violet-500">
-            Contact
+          <a
+            className="text-gray-300 text-sm font-semibold leading-normal hover:text-purple-400 transition-colors relative group"
+            href="#"
+          >
+            Mentors
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
           </a>
         </nav>
-
-        {/* CTA */}
-        <button className="bg-violet-500 text-white px-6 py-2 rounded-full font-medium hover:bg-violet-600 transition">
-          Learn More
-        </button>
-
+        <div className="flex items-center gap-4">
+          <button className="hidden sm:flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-5 border border-purple-500 text-purple-400 text-sm font-bold hover:bg-purple-500/10 transition-all"
+            onClick={()=> navigate("/login")}>
+            <span>Log In</span>
+          </button>
+          <button className="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-5 bg-gradient-to-r from-purple-600 to-purple-700 text-white text-sm font-bold shadow-lg shadow-purple-500/30 hover:brightness-110 transition-all">
+            <span>Join Free</span>
+          </button>
+        </div>
       </div>
     </header>
   );

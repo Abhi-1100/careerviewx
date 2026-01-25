@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
- 
+import loginBg from "../../assets/Loginimg.png";
+
 import { useState } from "react";
 
 const Login = () => {
@@ -23,7 +24,7 @@ const Login = () => {
         {/* LEFT IMAGE SECTION */}
         <div className="relative hidden lg:block w-1/2 overflow-hidden">
           <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiblYCW8mRRime06B7Nif8NbJqslDzV27SkpSVAylJNiu6EMnyc-kn8UYQAmBBjINdHoBJlzaq2yW0wmjZU6WRM99BgyXwx09-DHZ6XlEfBneUYYk2M2Y6qFxiHNx4YQpwOSSlC7tAJTtXI9wt6aksrzhuHdICxcP9VS0z-dGXYZhDIx5uOFJSBL9bF1RzSuPil8LyB03ynFCNRRHxm-b084NUGM-aC4bZ9BVQQRWB7RfPYa0fGCgiavKpPrGLj448A2zeUmnOah4"
+            src={loginBg}
             alt="Career Guidance"
             className="absolute inset-0 h-full w-full object-cover"
           />

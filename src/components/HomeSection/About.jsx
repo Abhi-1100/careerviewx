@@ -1,68 +1,59 @@
-import aboutImg from "../../assets/about-graph.png";
-
 const About = () => {
+  const features = [
+    {
+      title: "AI-Powered Insights",
+      description: "Our algorithms analyze millions of data points to provide hyper-personalized career matches that evolve as you gain new skills.",
+      backgroundImage: "https://images.unsplash.com/photo-1549887534-7e9e2c2f2c4c?w=800&h=600&fit=crop"
+    },
+    {
+      title: "Global Mentor Network",
+      description: "Direct access to 2,000+ vetted experts from top-tier companies like Google, Microsoft, and McKinsey.",
+      backgroundImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop"
+    },
+    {
+      title: "Interactive Resources",
+      description: "Exclusive access to live webinars, interview prep simulators, and step-by-step career roadmap templates.",
+      backgroundImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop"
+    }
+  ];
+
   return (
-    <>
-    <section className="py-24 bg-white">
-      <div className="max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-
-        {/* LEFT CONTENT */}
-        <div className="opacity-0 animate-[fadeUp_0.8s_ease-out_forwards]">
-          <span className="text-4xl text-violet-500 font-semibold tracking-widest text-sm">
-            ABOUT
-          </span>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mt-4 mb-8 leading-tight">
-            Your Career <br /> Starts Here
-          </h2>
-
-          <p className="text-slate-600 text-base leading-relaxed mb-5 max-w-md">
-            Choosing the right career is one of the most important decisions in a
-            student’s life, yet many students feel confused due to lack of proper
-            guidance and clarity. CareerGuide is a career guidance platform
-            designed to help students make informed decisions about their future.
-          </p>
-
-          <p className="text-slate-600 text-base leading-relaxed max-w-md">
-            Our platform analyzes students’ interests, strengths, and academic
-            background to provide personalized stream and career recommendations.
-            Along with career suggestions, we offer clear roadmaps, required
-            skills, and future scope to help students confidently plan their
-            academic and professional journey.
-          </p>
-        </div>
-
-        {/* RIGHT IMAGE */}
-        <div className="opacity-0 animate-[fadeUp_0.8s_ease-out_0.2s_forwards]">
-          <div className="bg-gradient-to-b from-violet-100 to-violet-300 rounded-2xl overflow-hidden
-                          transition-transform duration-300 hover:scale-105">
-            <img
-              src={aboutImg}
-              alt="Growth graph"
-              className="w-full h-full object-cover"
-              />
+    <section className="flex flex-1 justify-center py-24 bg-charcoal">
+      <div className="layout-content-container flex flex-col max-w-[1200px] flex-1 px-6 md:px-10">
+        <div className="flex flex-col gap-14 @container">
+          <div className="flex flex-col gap-4">
+            <h2 className="text-white text-[32px] md:text-5xl font-black leading-tight tracking-tight">
+              Why Leading Students Choose Us
+            </h2>
+            <p className="text-gray-400 text-xl max-w-[600px]">
+              The most data-backed career platform built for the next generation of global talent.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {features.map((feature, index) => (
+              <div key={index} className="flex flex-col gap-6 group">
+                <div className="w-full aspect-[16/10] overflow-hidden rounded-[2rem] border border-white/10 bg-charcoal">
+                  <div
+                    className="w-full h-full bg-center bg-no-repeat bg-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                    style={{
+                      backgroundImage: `url("${feature.backgroundImage}")`
+                    }}
+                  ></div>
+                </div>
+                <div className="px-2">
+                  <h4 className="text-white text-2xl font-bold leading-normal mb-3 group-hover:text-primary transition-colors">
+                    {feature.title}
+                  </h4>
+                  <p className="text-gray-400 text-base font-normal leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-
       </div>
-
-      {/* Animation keyframes */}
-      <style>
-        {`
-          @keyframes fadeUp {
-            0% {
-              opacity: 0;
-              transform: translateY(30px);
-              }
-              100% {
-                opacity: 1;
-                transform: translateY(0);
-                }
-                }
-                `}
-      </style>
     </section>
-                </>
   );
 };
 
