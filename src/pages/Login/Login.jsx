@@ -32,9 +32,9 @@ const Login = () => {
 
           <div className="absolute top-12 left-12 flex items-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/40">
-              <span className="material-symbols-outlined">auto_awesome</span>
+              <span className="material-symbols-outlined">rocket_launch</span>
             </div>
-            <span className="text-2xl font-bold">Lumina Career</span>
+            <span className="text-2xl font-bold"> CareerViewX</span>
           </div>
 
           <div className="absolute bottom-12 left-12 right-12 glass-panel p-8 rounded-2xl max-w-lg">
