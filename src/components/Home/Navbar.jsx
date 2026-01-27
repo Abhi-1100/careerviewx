@@ -16,6 +16,10 @@ const Navbar = () => {
           <a
             className="text-gray-300 text-sm font-semibold leading-normal hover:text-purple-400 transition-colors relative group"
             href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/dashboard");
+            }}
           >
             Careers
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
@@ -23,8 +27,23 @@ const Navbar = () => {
           <a
             className="text-gray-300 text-sm font-semibold leading-normal hover:text-purple-400 transition-colors relative group"
             href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/resources");
+            }}
           >
             Resources
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
+          </a>
+          <a
+            className="text-gray-300 text-sm font-semibold leading-normal hover:text-purple-400 transition-colors relative group"
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/assessments");
+            }}
+          >
+            Assessments
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
           </a>
           <a

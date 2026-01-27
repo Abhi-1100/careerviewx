@@ -23,7 +23,10 @@ export default function CareerGuidanceDashboard() {
             </div>
 
             {/* Profile Card */}
-            <div className="flex gap-3 items-center p-2 rounded-xl bg-[#1a142e]/50 border border-[#2d264a]/50">
+            <div
+              className="flex gap-3 items-center p-2 rounded-xl bg-[#1a142e]/50 border border-[#2d264a]/50 cursor-pointer"
+              onClick={() => navigate("/profile")}
+            >
               <div
                 className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-10"
                 style={{
