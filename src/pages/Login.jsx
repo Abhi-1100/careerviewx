@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import loginBg from "../../assets/Loginimg.png";
+import loginBg from "../assets/Loginimg.png";
 
 import { useState } from "react";
 
@@ -118,7 +118,10 @@ const Login = () => {
               <button
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 font-bold py-4 px-6 rounded-xl glow-button flex items-center justify-center gap-2 group"
-                onClick={() => Navigate("/Dashboard")}
+                onClick={(e) => {
+                  e.preventDefault();
+                  Navigate("/dashboard");
+                }}
               >
                 Continue
                 <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -149,7 +152,7 @@ const Login = () => {
             </div>
 
             <p className="text-center text-gray-500 text-sm">
-              New to Lumina? <a href="#creat_Account" className="text-primary font-semibold hover:underline">Create an account</a>
+              New to CareerViewX? <a href="#creat_Account" className="text-primary font-semibold hover:underline">Create an account</a>
             </p>
           </div>
         </div>

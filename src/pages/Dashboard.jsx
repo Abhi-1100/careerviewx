@@ -3,9 +3,9 @@ import SectionHeader from "../components/cards/Dashboard/SectionHeader";
 import CareerMatchCard from "../components/cards/Dashboard/CareerMatchCard";
 import CourseCard from "../components/cards/Dashboard/CourseCard";
 import MentorSessionCard from "../components/cards/Dashboard/MentorSessionCard";
-
+import { useNavigate } from "react-router-dom";
 export default function CareerGuidanceDashboard() {
-
+  const navigate = useNavigate();
   return (
     <div className="flex h-screen bg-[#0f0a1e] text-white font-display overflow-hidden">
       {/* Sidebar */}
@@ -17,7 +17,9 @@ export default function CareerGuidanceDashboard() {
               <div className="size-9 bg-[#8b5cf6] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#8b5cf6]/20">
                 <span className="material-symbols-outlined">rocket_launch</span>
               </div>
-              <h2 className="text-xl font-bold tracking-tight text-white">CareerPath</h2>
+              <h2 className="text-xl font-bold tracking-tight text-white">
+                CareerViewX
+              </h2>
             </div>
 
             {/* Profile Card */}
@@ -30,15 +32,21 @@ export default function CareerGuidanceDashboard() {
                 }}
               ></div>
               <div className="flex flex-col overflow-hidden">
-                <h1 className="text-white text-sm font-semibold truncate">Alex Johnson</h1>
-                <p className="text-[#a094b8] text-xs font-normal">Career Explorer</p>
+                <h1 className="text-white text-sm font-semibold truncate">
+                  Alex Johnson
+                </h1>
+                <p className="text-[#a094b8] text-xs font-normal">
+                  Career Explorer
+                </p>
               </div>
             </div>
 
             {/* Navigation */}
             <nav className="flex flex-col gap-1.5">
               <a className="flex items-center gap-3 px-3 py-2.5 rounded-r-lg active-nav group transition-all bg-gradient-to-r from-[#8b5cf6]/15 to-[#8b5cf6]/5 border-l-3 border-[#8b5cf6]">
-                <span className="material-symbols-outlined text-[#8b5cf6]">dashboard</span>
+                <span className="material-symbols-outlined text-[#8b5cf6]">
+                  dashboard
+                </span>
                 <p className="text-sm font-medium">Dashboard</p>
               </a>
               <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors text-[#a094b8] hover:text-white">
@@ -63,8 +71,12 @@ export default function CareerGuidanceDashboard() {
           {/* Premium Card */}
           <div className="bg-gradient-to-br from-[#8b5cf6]/20 to-transparent p-4 rounded-xl border border-[#8b5cf6]/30 relative overflow-hidden group">
             <div className="absolute -right-4 -top-4 size-16 bg-[#8b5cf6]/10 rounded-full blur-2xl group-hover:bg-[#8b5cf6]/20 transition-all"></div>
-            <p className="text-white text-xs font-bold mb-2 relative z-10">Unlock Premium</p>
-            <p className="text-[#a094b8] text-[10px] mb-4 leading-relaxed relative z-10">Get unlimited mentor sessions and advanced skill tracking.</p>
+            <p className="text-white text-xs font-bold mb-2 relative z-10">
+              Unlock Premium
+            </p>
+            <p className="text-[#a094b8] text-[10px] mb-4 leading-relaxed relative z-10">
+              Get unlimited mentor sessions and advanced skill tracking.
+            </p>
             <button className="w-full py-2 bg-[#8b5cf6] hover:bg-[#8b5cf6]/90 text-white text-xs font-bold rounded-lg transition-all shadow-lg shadow-[#8b5cf6]/20">
               Upgrade Now
             </button>
@@ -78,7 +90,9 @@ export default function CareerGuidanceDashboard() {
         <header className="sticky top-0 z-30 flex items-center justify-between bg-[#0f0a1e]/80 backdrop-blur-xl border-b border-[#2d264a] px-8 py-4">
           <div className="flex items-center gap-6 flex-1">
             <div className="flex w-full max-w-md items-center rounded-xl bg-[#1a142e] border border-[#2d264a] px-4 h-11">
-              <span className="material-symbols-outlined text-[#a094b8] text-[20px]">search</span>
+              <span className="material-symbols-outlined text-[#a094b8] text-[20px]">
+                search
+              </span>
               <input
                 className="w-full border-none bg-transparent focus:ring-0 text-white placeholder:text-[#a094b8] px-3 text-sm"
                 placeholder="Search courses, mentors, or careers..."
@@ -88,11 +102,15 @@ export default function CareerGuidanceDashboard() {
           <div className="flex items-center gap-5">
             <div className="flex gap-3">
               <button className="relative flex items-center justify-center size-10 rounded-xl bg-[#1a142e] border border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5 transition-all">
-                <span className="material-symbols-outlined text-[22px]">notifications</span>
+                <span className="material-symbols-outlined text-[22px]">
+                  notifications
+                </span>
                 <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#8b5cf6] rounded-full border border-[#0f0a1e]"></span>
               </button>
               <button className="flex items-center justify-center size-10 rounded-xl bg-[#1a142e] border border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5 transition-all">
-                <span className="material-symbols-outlined text-[22px]">chat_bubble</span>
+                <span className="material-symbols-outlined text-[22px]">
+                  chat_bubble
+                </span>
               </button>
             </div>
             <div className="h-6 w-px bg-[#2d264a]"></div>
@@ -121,7 +139,9 @@ export default function CareerGuidanceDashboard() {
               </p>
             </div>
             <button className="flex items-center gap-2 px-6 py-3.5 bg-[#8b5cf6] text-white text-sm font-bold rounded-xl hover:bg-[#8b5cf6]/90 transition-all shadow-lg shadow-[#8b5cf6]/30">
-              <span className="material-symbols-outlined text-[20px]">add_task</span>
+              <span className="material-symbols-outlined text-[20px]">
+                add_task
+              </span>
               <span>Take New Assessment</span>
             </button>
           </div>
@@ -132,7 +152,10 @@ export default function CareerGuidanceDashboard() {
             <div className="xl:col-span-2 space-y-10">
               {/* Top Career Matches */}
               <section>
-                <SectionHeader title="Top Career Matches" onViewAll={() => {}} />
+                <SectionHeader
+                  title="Top Career Matches"
+                  onViewAll={() => {}}
+                />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <CareerMatchCard
                     icon="draw"
@@ -161,7 +184,10 @@ export default function CareerGuidanceDashboard() {
 
               {/* Recommended Learning */}
               <section>
-                <SectionHeader title="Recommended Learning" showViewAll={false} />
+                <SectionHeader
+                  title="Recommended Learning"
+                  showViewAll={false}
+                />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   <CourseCard
                     isPopular={true}
@@ -191,9 +217,13 @@ export default function CareerGuidanceDashboard() {
               {/* Mentor Sessions */}
               <section className="bg-[#1a142e] rounded-2xl border border-[#2d264a] p-6 card-elevation relative overflow-hidden">
                 <div className="flex items-center justify-between mb-8">
-                  <h3 className="text-white font-bold text-lg">Mentor Sessions</h3>
+                  <h3 className="text-white font-bold text-lg">
+                    Mentor Sessions
+                  </h3>
                   <button className="text-[#8b5cf6] hover:bg-[#8b5cf6]/10 p-2 rounded-xl transition-colors border border-[#8b5cf6]/20">
-                    <span className="material-symbols-outlined text-[20px]">calendar_month</span>
+                    <span className="material-symbols-outlined text-[20px]">
+                      calendar_month
+                    </span>
                   </button>
                 </div>
                 <div className="space-y-6">
@@ -214,7 +244,13 @@ export default function CareerGuidanceDashboard() {
                     actionButtonLabel="Edit"
                   />
                 </div>
-                <button className="w-full mt-10 py-3.5 bg-[#8b5cf6]/5 hover:bg-[#8b5cf6]/10 text-[#8b5cf6] text-xs font-bold rounded-xl transition-all border border-dashed border-[#8b5cf6]/40">
+                <button
+                  className="w-full mt-10 py-3.5 bg-[#8b5cf6]/5 hover:bg-[#8b5cf6]/10 text-[#8b5cf6] text-xs font-bold rounded-xl transition-all border border-dashed border-[#8b5cf6]/40"
+                  onClick={(e) => {
+                    
+                    navigate("/mentors");
+                  }}
+                >
                   + Book New Mentor
                 </button>
               </section>
@@ -224,14 +260,20 @@ export default function CareerGuidanceDashboard() {
                 <div className="absolute -top-10 -right-10 size-32 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
                 <div className="relative z-10">
                   <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[24px] text-[#f59e0b]">stars</span>
+                    <span className="material-symbols-outlined text-[24px] text-[#f59e0b]">
+                      stars
+                    </span>
                     Next Badge: Expert
                   </h3>
                   <p className="text-xs text-white/90 mb-5 leading-relaxed">
-                    Complete 3 more UX assessments to earn your "Interaction Expert" badge.
+                    Complete 3 more UX assessments to earn your "Interaction
+                    Expert" badge.
                   </p>
                   <div className="relative h-2.5 w-full bg-white/20 rounded-full overflow-hidden mb-3">
-                    <div className="absolute h-full bg-white rounded-full shadow-[0_0_8px_white]" style={{ width: "70%" }}></div>
+                    <div
+                      className="absolute h-full bg-white rounded-full shadow-[0_0_8px_white]"
+                      style={{ width: "70%" }}
+                    ></div>
                   </div>
                   <div className="flex justify-between text-[11px] font-bold">
                     <span className="opacity-90">14/17 Assessments</span>
