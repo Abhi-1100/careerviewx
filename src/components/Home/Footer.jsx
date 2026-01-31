@@ -1,3 +1,5 @@
+import Button from '../../components/Button';
+
 const Footer = () => {
   const footerLinks = {
     platform: [
@@ -56,8 +58,8 @@ const Footer = () => {
           <h3 className="font-bold text-white text-lg tracking-wide">Stay Updated</h3>
           <p className="text-base text-gray-400">Weekly career insights and platform news.</p>
           <div className="flex flex-col gap-3">
-            <input class="w-full px-4 py-4 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="your@email.com" type="email"/>
-            <button class="w-full bg-primary text-white font-bold py-4 rounded-xl hover:brightness-110 transition-all shadow-lg shadow-primary/20">Subscribe</button>
+            <input className="w-full px-4 py-4 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="your@email.com" type="email"/>
+            <Button variant="primary">Subscribe</Button>
           </div>
         </div>
       </div>

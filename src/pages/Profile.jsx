@@ -1,6 +1,9 @@
 import React from "react";
 import Navbar from "../components/Home/Navbar";
 import Footer from "../components/Home/Footer";
+import ListItem from "../components/ListItem";
+import InfoRow from "../components/InfoRow";
+import Button from "../components/Button";
 
 const Profile = () => {
   return (
@@ -125,44 +128,17 @@ const Profile = () => {
                 </a>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-border-dark hover:bg-white/10 transition-colors cursor-pointer">
-                  <div
-                    className="h-12 w-12 rounded-lg bg-cover bg-center"
-                    style={{
-                      backgroundImage:
-                        'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzMg_i5Im_L_k_BJpcDnJOCQihGfUXSs8tCMXKq-k-wzRUjufFI0yIEJ9-7OVNT1fgQBAmO3Iu5gDrfAAwhcxr6sfZGHs_zx63kHPYHvofP77HtDZZ6J5aQTmfNXdnPu7fE8-Q7JAsUNeRzwq5tpLlxDHZ9Xq5LlvkyDvnbyraw2SYwtt4z_i9uzofpKz62i_KVDn3RkIMtyBqG4yT0VCSmsFLKjZP2X1Fzn7m2OgdlVYayedS9PoY0wwuuBVz4uf6syB1_cHu5DA")',
-                    }}
-                  ></div>
-                  <div>
-                    <p className="font-bold text-sm text-white">Sarah Chen</p>
-                    <p className="text-xs text-gray-400">
-                      Senior Architect at Google
-                    </p>
-                  </div>
-                  <span className="material-symbols-outlined ml-auto text-gray-500">
-                    chevron_right
-                  </span>
-                </div>
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-border-dark hover:bg-white/10 transition-colors cursor-pointer">
-                  <div
-                    className="h-12 w-12 rounded-lg bg-cover bg-center"
-                    style={{
-                      backgroundImage:
-                        'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDk9SaMgWh55JUqfsjaxigKzyPn9sdHRJ5d1QbWaAUvb8wKmJIrt0v50KM4y6ICMk55T03okzamW0kewumSrTt_GUFWPuv75EntcR0ZjRsNNLpfqbgFf0nEuN8jIPQiJYmCO_otxF2yoByyZeIoBq1CMXe_CHIufq5SgGnNHxjV5s9WWlMYQ0THexyyWxIT_2HmkmaIg1_lJ5Xr0tsubOcHb_eTA5efa6suZUgkh3GWC4vKjyf8_tfjlWzLPNc_uxteFBCNSbePJUw")',
-                    }}
-                  ></div>
-                  <div>
-                    <p className="font-bold text-sm text-white">
-                      Marcus Thorne
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      Engineering Manager at Stripe
-                    </p>
-                  </div>
-                  <span className="material-symbols-outlined ml-auto text-gray-500">
-                    chevron_right
-                  </span>
-                </div>
+                <ListItem
+                  avatarStyle={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzMg_i5Im_L_k_BJpcDnJOCQihGfUXSs8tCMXKq-k-wzRUjufFI0yIEJ9-7OVNT1fgQBAmO3Iu5gDrfAAwhcxr6sfZGHs_zx63kHPYHvofP77HtDZZ6J5aQTmfNXdnPu7fE8-Q7JAsUNeRzwq5tpLlxDHZ9Xq5LlvkyDvnbyraw2SYwtt4z_i9uzofpKz62i_KVDn3RkIMtyBqG4yT0VCSmsFLKjZP2X1Fzn7m2OgdlVYayedS9PoY0wwuuBVz4uf6syB1_cHu5DA")' }}
+                  title="Sarah Chen"
+                  subtitle="Senior Architect at Google"
+                />
+
+                <ListItem
+                  avatarStyle={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDk9SaMgWh55JUqfsjaxigKzyPn9sdHRJ5d1QbWaAUvb8wKmJIrt0v50KM4y6ICMk55T03okzamW0kewumSrTt_GUFWPuv75EntcR0ZjRsNNLpfqbgFf0nEuN8jIPQiJYmCO_otxF2yoByyZeIoBq1CMXe_CHIufq5SgGnNHxjV5s9WWlMYQ0THexyyWxIT_2HmkmaIg1_lJ5Xr0tsubOcHb_eTA5efa6suZUgkh3GWC4vKjyf8_tfjlWzLPNc_uxteFBCNSbePJUw")' }}
+                  title="Marcus Thorne"
+                  subtitle="Engineering Manager at Stripe"
+                />
               </div>
             </section>
           </div>
@@ -225,9 +201,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <button className="w-full mt-6 py-2 bg-card-dark border border-border-dark text-xs font-bold uppercase tracking-widest text-gray-300 rounded hover:bg-white/5 transition-colors">
-                Add New Skill
-              </button>
+              <Button variant="card">Add New Skill</Button>
             </section>
 
             <section className="bg-card-dark rounded-xl p-6">
@@ -238,78 +212,29 @@ const Profile = () => {
                 Assessment History
               </h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 border-l-2 border-primary">
-                  <div>
-                    <p className="text-sm font-bold text-white">
-                      Logic &amp; Reasoning
-                    </p>
-                    <p className="text-[10px] text-gray-400">Oct 12, 2023</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-primary">95%</p>
-                    <p className="text-[10px] text-green-500 font-bold">
-                      Excellent
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 border-l-2 border-border-dark">
-                  <div>
-                    <p className="text-sm font-bold text-white">
-                      Aptitude Test
-                    </p>
-                    <p className="text-[10px] text-gray-400">Sep 28, 2023</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-gray-300">88%</p>
-                    <p className="text-[10px] text-gray-400 font-bold">
-                      Completed
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 border-l-2 border-border-dark">
-                  <div>
-                    <p className="text-sm font-bold text-white">
-                      Personality (INTJ)
-                    </p>
-                    <p className="text-[10px] text-gray-400">Aug 15, 2023</p>
-                  </div>
-                  <div className="text-right">
-                    <span className="material-symbols-outlined text-gray-500 text-sm">
-                      verified
-                    </span>
-                  </div>
-                </div>
+                <InfoRow
+                  title="Logic &amp; Reasoning"
+                  subtitle="Oct 12, 2023"
+                  right={<><p className="text-sm font-bold text-primary">95%</p><p className="text-[10px] text-green-500 font-bold">Excellent</p></>}
+                  variant="primary"
+                />
+                <InfoRow
+                  title="Aptitude Test"
+                  subtitle="Sep 28, 2023"
+                  right={<><p className="text-sm font-bold text-gray-300">88%</p><p className="text-[10px] text-gray-400 font-bold">Completed</p></>}
+                />
+                <InfoRow
+                  title="Personality (INTJ)"
+                  subtitle="Aug 15, 2023"
+                  right={<span className="material-symbols-outlined text-gray-500 text-sm">verified</span>}
+                />
               </div>
             </section>
           </div>
         </div>
       </main>
 
-      <footer class="w-full bg-background-dark border-t border-[#2d2845] py-10 px-4 mt-12">
-<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="flex items-center gap-3 text-primary">
-<span class="material-symbols-outlined text-2xl">explore</span>
-<span class="text-lg font-bold text-white">PathFinder</span>
-</div>
-<div class="flex gap-8 text-gray-400 text-sm">
-<a class="hover:text-primary transition-colors" href="#">About Us</a>
-<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
-<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
-<a class="hover:text-primary transition-colors" href="#">Contact</a>
-</div>
-<div class="flex gap-4">
-<div class="size-8 rounded-full bg-[#1c1a2e] border border-[#2d2845] flex items-center justify-center cursor-pointer hover:text-primary hover:border-primary/50 transition-all">
-<span class="material-symbols-outlined text-lg">public</span>
-</div>
-<div class="size-8 rounded-full bg-[#1c1a2e] border border-[#2d2845] flex items-center justify-center cursor-pointer hover:text-primary hover:border-primary/50 transition-all">
-<span class="material-symbols-outlined text-lg">thumb_up</span>
-</div>
-</div>
-</div>
-<div class="text-center mt-8 text-xs text-gray-600">
-            © 2024 PathFinder Career Guidance Platform. All rights reserved.
-        </div>
-</footer>
+      <Footer />
     </div>
   );
 };
