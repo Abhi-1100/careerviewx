@@ -3,9 +3,11 @@ import SectionHeader from "../components/cards/Dashboard/SectionHeader";
 import CareerMatchCard from "../components/cards/Dashboard/CareerMatchCard";
 import CourseCard from "../components/cards/Dashboard/CourseCard";
 import MentorSessionCard from "../components/cards/Dashboard/MentorSessionCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 export default function CareerGuidanceDashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path; // helper to detect active link
   return (
     <div className="flex h-screen bg-[#0f0a1e] text-white font-display overflow-hidden">
       {/* Sidebar */}
@@ -46,28 +48,45 @@ export default function CareerGuidanceDashboard() {
 
             {/* Navigation */}
             <nav className="flex flex-col gap-1.5">
-              <a className="flex items-center gap-3 px-3 py-2.5 rounded-r-lg active-nav group transition-all bg-gradient-to-r from-[#8b5cf6]/15 to-[#8b5cf6]/5 border-l-3 border-[#8b5cf6]">
-                <span className="material-symbols-outlined text-[#8b5cf6]">
-                  dashboard
-                </span>
+              <button
+                onClick={() => navigate('/dashboard')}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-r-lg group transition-all ${isActive('/dashboard') ? 'bg-gradient-to-r from-[#8b5cf6]/15 to-[#8b5cf6]/5 border-l-3 border-[#8b5cf6] text-white' : 'text-[#a094b8] hover:text-white hover:bg-white/5'}`}
+              >
+                <span className="material-symbols-outlined text-[#8b5cf6]">dashboard</span>
                 <p className="text-sm font-medium">Dashboard</p>
-              </a>
-              <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors text-[#a094b8] hover:text-white">
+              </button>
+
+              <button
+                onClick={() => navigate('/career-paths')}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-all ${isActive('/career-paths') ? 'bg-white/5 text-white' : 'text-[#a094b8] hover:text-white hover:bg-white/5'}`}
+              >
                 <span className="material-symbols-outlined">explore</span>
                 <p className="text-sm font-medium">Career Paths</p>
-              </a>
-              <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors text-[#a094b8] hover:text-white">
+              </button>
+
+              <button
+                onClick={() => navigate('/assessments')}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-all ${isActive('/assessments') ? 'bg-white/5 text-white' : 'text-[#a094b8] hover:text-white hover:bg-white/5'}`}
+              >
                 <span className="material-symbols-outlined">quiz</span>
                 <p className="text-sm font-medium">Assessments</p>
-              </a>
-              <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors text-[#a094b8] hover:text-white">
+              </button>
+
+              <button
+                onClick={() => navigate('/mentors')}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-all ${isActive('/mentors') ? 'bg-white/5 text-white' : 'text-[#a094b8] hover:text-white hover:bg-white/5'}`}
+              >
                 <span className="material-symbols-outlined">groups</span>
                 <p className="text-sm font-medium">Mentors</p>
-              </a>
-              <a className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors text-[#a094b8] hover:text-white">
+              </button>
+
+              <button
+                onClick={() => navigate('/settings')}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-all ${isActive('/settings') ? 'bg-white/5 text-white' : 'text-[#a094b8] hover:text-white hover:bg-white/5'}`}
+              >
                 <span className="material-symbols-outlined">settings</span>
                 <p className="text-sm font-medium">Settings</p>
-              </a>
+              </button>
             </nav>
           </div>
 
@@ -141,7 +160,7 @@ export default function CareerGuidanceDashboard() {
                 You're making great progress towards your UX Designer goal.
               </p>
             </div>
-            <button className="flex items-center gap-2 px-6 py-3.5 bg-[#8b5cf6] text-white text-sm font-bold rounded-xl hover:bg-[#8b5cf6]/90 transition-all shadow-lg shadow-[#8b5cf6]/30">
+            <button onClick={() => navigate('/assessments/quest')} className="flex items-center gap-2 px-6 py-3.5 bg-[#8b5cf6] text-white text-sm font-bold rounded-xl hover:bg-[#8b5cf6]/90 transition-all shadow-lg shadow-[#8b5cf6]/30">
               <span className="material-symbols-outlined text-[20px]">
                 add_task
               </span>
