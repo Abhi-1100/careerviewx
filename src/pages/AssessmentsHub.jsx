@@ -1,48 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import InternalNavbar from "../components/InternalNavbar";
 
 export default function AssessmentsHub() {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background-dark text-white font-display">
-      <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-6 lg:px-40 py-3 bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="flex items-center gap-8">
-          <div className="flex items-center gap-4 text-white">
-            <div className="size-6 text-primary">
-              <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path clipRule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fillRule="evenodd"></path>
-              </svg>
-            </div>
-            <h2 className="text-white text-xl font-bold leading-tight tracking-tight">CareerEdge</h2>
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <button onClick={() => navigate('/dashboard')} className="text-white/70 hover:text-white text-sm font-medium transition-colors">Dashboard</button>
-            <button onClick={() => navigate('/assessments')} className="text-primary text-sm font-semibold transition-colors border-b-2 border-primary pb-1">Assessments</button>
-            <button onClick={() => navigate('/career-paths')} className="text-white/70 hover:text-white text-sm font-medium transition-colors">Careers</button>
-            <button onClick={() => navigate('/mentors')} className="text-white/70 hover:text-white text-sm font-medium transition-colors">Mentors</button>
-          </nav>
-        </div>
-        <div className="flex flex-1 justify-end gap-6">
-          <label className="hidden md:flex flex-col min-w-40 h-10 max-w-64">
-            <div className="flex w-full flex-1 items-stretch rounded-lg glass-panel h-full">
-              <div className="text-white/40 flex items-center justify-center pl-4">
-                <span className="material-symbols-outlined text-xl">search</span>
-              </div>
-              <input className="form-input flex w-full min-w-0 flex-1 border-none bg-transparent text-white focus:outline-0 focus:ring-0 h-full placeholder:text-white/40 px-4 pl-2 text-sm" placeholder="Search assessments..." />
-            </div>
-          </label>
-          <div className="flex gap-3">
-            <button className="flex items-center justify-center rounded-lg h-10 w-10 glass-panel hover:bg-white/10 transition-colors">
-              <span className="material-symbols-outlined text-xl text-white">notifications</span>
-            </button>
-            <button className="flex items-center justify-center rounded-lg h-10 w-10 glass-panel hover:bg-white/10 transition-colors">
-              <span className="material-symbols-outlined text-xl text-white">account_circle</span>
-            </button>
-            <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/40" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD8vASQX_AblTDFjAfIr_ria9CbnDwE9mfYkEu1KeLmDUYdVJX6l3BgNv9dFnJmCUmYAx-lEXLSM5LhrLdUD0FkVFLM9UrF6DcTZ7r-EDa5OiyR-2PJj8Qf4qsDwT3YwiB3W9B3V_A9OWR_pjjNynczntkcxfBDlQQ21WoQOpDANtmiycRk8oHOb7rB5DLKnyknXwGTnbQpm1A_3-OYA0KLYUkhowVUaUlPJmuortDOtT1fZaZVboy0xcj4UXhJ50HJL9CLjrphVRE")'}}></div>
-          </div>
-        </div>
-      </header>
+      <InternalNavbar />
 
       <main className="flex-1 px-4 lg:px-40 py-8">
         <div className="flex flex-col lg:flex-row gap-8">

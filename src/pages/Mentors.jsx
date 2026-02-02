@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Home/Navbar";
+import InternalNavbar from "../components/InternalNavbar";
 import Footer from "../components/Home/Footer";
 import { useNavigate } from "react-router-dom";
 
@@ -7,7 +7,7 @@ const Mentors = () => {
   const navigate = useNavigate();
   return (
     <div className="mentors-page">
-      <Navbar />
+      <InternalNavbar />
 
       <main className="flex-1 flex flex-col lg:flex-row max-w-[1440px] mx-auto w-full px-4 lg:px-10 py-8 gap-8">
         <aside className="w-full lg:w-64 flex flex-col gap-6 shrink-0">
@@ -92,7 +92,7 @@ const Mentors = () => {
               Home
             </a>
             <span className="material-symbols-outlined text-gray-600 text-sm">chevron_right</span>
-            <span className="text-white text-sm font-semibold">Mentor Marketplace</span>
+            <span className="text-primary text-sm font-semibold">Mentor Marketplace</span>
           </nav>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-card-dark p-8 rounded-xl border border-border-dark">
@@ -153,7 +153,7 @@ const Mentors = () => {
         </div>
       </main>
 
-      <Footer />
+      
     </div>
   );
 };

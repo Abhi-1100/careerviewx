@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Home/Navbar";
+import InternalNavbar from "../components/InternalNavbar";
 import Footer from "../components/Home/Footer";
 import ListItem from "../components/ListItem";
 import InfoRow from "../components/InfoRow";
@@ -8,7 +8,7 @@ import Button from "../components/Button";
 const Profile = () => {
   return (
     <div className="min-h-screen bg-background-dark text-white font-display">
-      <Navbar />
+      <InternalNavbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="relative mb-12">
