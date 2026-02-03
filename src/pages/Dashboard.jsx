@@ -3,6 +3,7 @@ import SectionHeader from "../components/cards/Dashboard/SectionHeader";
 import CareerMatchCard from "../components/cards/Dashboard/CareerMatchCard";
 import CourseCard from "../components/cards/Dashboard/CourseCard";
 import MentorSessionCard from "../components/cards/Dashboard/MentorSessionCard";
+
 import { useNavigate, useLocation } from "react-router-dom";
 export default function CareerGuidanceDashboard() {
   const navigate = useNavigate();
@@ -160,7 +161,7 @@ export default function CareerGuidanceDashboard() {
                 You're making great progress towards your UX Designer goal.
               </p>
             </div>
-            <button onClick={() => navigate('/assessments/quest')} className="flex items-center gap-2 px-6 py-3.5 bg-[#8b5cf6] text-white text-sm font-bold rounded-xl hover:bg-[#8b5cf6]/90 transition-all shadow-lg shadow-[#8b5cf6]/30">
+            <button onClick={() => navigate('/assessments')} className="flex items-center gap-2 px-6 py-3.5 bg-[#8b5cf6] text-white text-sm font-bold rounded-xl hover:bg-[#8b5cf6]/90 transition-all shadow-lg shadow-[#8b5cf6]/30">
               <span className="material-symbols-outlined text-[20px]">
                 add_task
               </span>
@@ -307,6 +308,7 @@ export default function CareerGuidanceDashboard() {
           </div>
         </div>
       </main>
+      
     </div>
   );
 }

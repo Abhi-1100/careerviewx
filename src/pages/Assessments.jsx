@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import Navbar from "../components/InternalNavbar"
 
 const Assessments = () => {
   const navigate = useNavigate();
@@ -26,24 +27,7 @@ const Assessments = () => {
   return (
     <div className="min-h-screen bg-background-dark text-white font-display">
       {/* Header - mirror landing header from prototype */}
-      <header className="flex items-center justify-between border-b border-solid border-[#2d2839] px-10 py-3 bg-background-dark">
-        <div className="flex items-center gap-4 text-primary">
-          <div className="size-6">
-            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
-            </svg>
-          </div>
-          <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">CareerQuest</h2>
-        </div>
-        <div className="flex gap-2">
-          <button className="flex size-10 items-center justify-center overflow-hidden rounded-lg bg-[#2d2839] text-white hover:bg-primary/20 transition-all">
-            <span className="material-symbols-outlined">notifications</span>
-          </button>
-          <button className="flex size-10 items-center justify-center overflow-hidden rounded-lg bg-[#2d2839] text-white hover:bg-primary/20 transition-all">
-            <span className="material-symbols-outlined">account_circle</span>
-          </button>
-        </div>
-      </header>
+      <Navbar/>
 
       <main className="flex flex-1 justify-center py-12 px-4 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>

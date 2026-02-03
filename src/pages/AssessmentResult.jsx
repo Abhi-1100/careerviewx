@@ -1,25 +1,11 @@
 import React from "react";
+import Navbar from "../components/InternalNavbar"
+
 
 export default function AssessmentResult() {
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-white font-display">
-      <nav className="border-b border-slate-800 bg-[#0a0a0c]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-              <span className="material-symbols-outlined text-white text-xl">insights</span>
-            </div>
-            <span className="font-bold text-xl tracking-tight">FuturePath</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <button className="text-sm font-medium hover:text-primary transition-colors text-slate-400">Dashboard</button>
-            <button className="text-sm font-medium hover:text-primary transition-colors text-slate-400">My Assessments</button>
-            <div className="h-8 w-8 rounded-full bg-slate-800 overflow-hidden border border-slate-700">
-              <img alt="Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBUvg6SIfbDjgpaZLZ37qg_MJAzYNTQER2fAmU1xA00h-X35OtQiqqqoaFiH2y2qSrnjcA07JXEweMUZVMUfMej9KVtXNfbajKmzRjekv2vKkot6CwZMHVUp20BsAA1J5KGIesRiVz2j86c9hK9tbUvAIumcUjyE4h03fAa-Xp_5Ei_oPdfsDdcD3eRACUv3U-iFR059GkDZy9nbuQWHJiba45-HWU5-oMlF2AVaPY31UeCpqjmhN74q21bas0BEn2S1XdmjuNQy8" />
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar/>
 
       <main className="max-w-7xl mx-auto px-6 py-12">
         <header className="text-center mb-16 relative">
@@ -316,6 +302,7 @@ export default function AssessmentResult() {
           <a className="text-xs text-slate-600 hover:text-primary transition-colors" href="#">Support</a>
         </div>
       </footer>
+
     </div>
   );
 }

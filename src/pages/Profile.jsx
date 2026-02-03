@@ -1,9 +1,9 @@
 import React from "react";
 import InternalNavbar from "../components/InternalNavbar";
-import Footer from "../components/Home/Footer";
 import ListItem from "../components/ListItem";
 import InfoRow from "../components/InfoRow";
 import Button from "../components/Button";
+import Footer from "../components/internalfooter";
 
 const Profile = () => {
   return (
@@ -234,7 +234,7 @@ const Profile = () => {
         </div>
       </main>
 
-      <Footer />
+      <Footer/>
     </div>
   );
 };
