@@ -5,6 +5,7 @@ import SectionHeader from "../components/cards/Dashboard/SectionHeader";
 import CareerMatchCard from "../components/cards/Dashboard/CareerMatchCard";
 import CourseCard from "../components/cards/Dashboard/CourseCard";
 import MentorSessionCard from "../components/cards/Dashboard/MentorSessionCard";
+import CareerNewsCard from "../components/cards/Dashboard/CareerNewsCard";
 
 import { useNavigate, useLocation } from "react-router-dom";
 export default function CareerGuidanceDashboard() {
@@ -18,7 +19,7 @@ export default function CareerGuidanceDashboard() {
     fetchCareerNews()
       .then((data) => {
         const articles = Array.isArray(data?.articles) ? data.articles : [];
-        setCareerNews(articles.slice(0, 4));
+        setCareerNews(articles.slice(0, 3));
         setNewsLoading(false);
       })
       .catch((err) => {
@@ -227,49 +228,25 @@ export default function CareerGuidanceDashboard() {
               </section>
 
               {/* Recommended Learning */}
-              
-                {/* Latest Career News */}
-                <section>
-                  <SectionHeader
-                    title="Latest Career News"
-                    onViewAll={() => { }}
-                  />
 
-                  {newsLoading ? (
-                    <p className="text-[#a094b8] text-sm">Loading career news...</p>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {careerNews.map((news, index) => (
-                        <div
-                          key={index}
-                          className="bg-[#1a142e] border border-[#2d264a] rounded-2xl p-5 hover:border-[#8b5cf6]/50 transition-all cursor-pointer"
-                          onClick={() => window.open(news.url, "_blank")}
-                        >
-                          {news.urlToImage && (
-                            <img
-                              src={news.urlToImage}
-                              alt={news.title}
-                              className="rounded-xl mb-4 h-40 w-full object-cover"
-                            />
-                          )}
+              {/* Latest Career News */}
+              <section>
+                <SectionHeader
+                  title="Latest Career News"
+                  onViewAll={() => { }}
+                />
 
-                          <h3 className="text-white font-bold text-sm leading-snug line-clamp-2">
-                            {news.title}
-                          </h3>
-
-                          <p className="text-[#a094b8] text-xs mt-2 line-clamp-3">
-                            {news.description || "Read more about this story."}
-                          </p>
-
-                          <p className="text-[#8b5cf6] text-xs font-semibold mt-3">
-                            Read more →
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </section>
-                <section>
+                {newsLoading ? (
+                  <p className="text-[#a094b8] text-sm">Loading career news...</p>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {careerNews.map((news, index) => (
+                      <CareerNewsCard key={index} news={news} />
+                    ))}
+                  </div>
+                )}
+              </section>
+              <section>
                 <SectionHeader
                   title="Recommended Learning"
                   showViewAll={false}
