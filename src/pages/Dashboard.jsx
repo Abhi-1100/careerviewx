@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchCareerNews } from "../Services/newsService";
+
 import SectionHeader from "../components/cards/Dashboard/SectionHeader";
 import CareerMatchCard from "../components/cards/Dashboard/CareerMatchCard";
 import CourseCard from "../components/cards/Dashboard/CourseCard";
@@ -9,6 +11,25 @@ export default function CareerGuidanceDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   const isActive = (path) => location.pathname === path; // helper to detect active link
+  const [careerNews, setCareerNews] = useState([]);
+  const [newsLoading, setNewsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCareerNews()
+      .then((data) => {
+        const articles = Array.isArray(data?.articles) ? data.articles : [];
+        setCareerNews(articles.slice(0, 4));
+        setNewsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setCareerNews([
+          { title: "Career tips and news", description: "Check back soon for the latest career and placement updates.", url: "#", urlToImage: null },
+        ]);
+        setNewsLoading(false);
+      });
+  }, []);
+
   return (
     <div className="flex h-screen bg-[#0f0a1e] text-white font-display overflow-hidden">
       {/* Sidebar */}
@@ -177,7 +198,7 @@ export default function CareerGuidanceDashboard() {
               <section>
                 <SectionHeader
                   title="Top Career Matches"
-                  onViewAll={() => {}}
+                  onViewAll={() => { }}
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <CareerMatchCard
@@ -206,11 +227,54 @@ export default function CareerGuidanceDashboard() {
               </section>
 
               {/* Recommended Learning */}
-              <section>
+              
+                {/* Latest Career News */}
+                <section>
+                  <SectionHeader
+                    title="Latest Career News"
+                    onViewAll={() => { }}
+                  />
+
+                  {newsLoading ? (
+                    <p className="text-[#a094b8] text-sm">Loading career news...</p>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {careerNews.map((news, index) => (
+                        <div
+                          key={index}
+                          className="bg-[#1a142e] border border-[#2d264a] rounded-2xl p-5 hover:border-[#8b5cf6]/50 transition-all cursor-pointer"
+                          onClick={() => window.open(news.url, "_blank")}
+                        >
+                          {news.urlToImage && (
+                            <img
+                              src={news.urlToImage}
+                              alt={news.title}
+                              className="rounded-xl mb-4 h-40 w-full object-cover"
+                            />
+                          )}
+
+                          <h3 className="text-white font-bold text-sm leading-snug line-clamp-2">
+                            {news.title}
+                          </h3>
+
+                          <p className="text-[#a094b8] text-xs mt-2 line-clamp-3">
+                            {news.description || "Read more about this story."}
+                          </p>
+
+                          <p className="text-[#8b5cf6] text-xs font-semibold mt-3">
+                            Read more →
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </section>
+                <section>
                 <SectionHeader
                   title="Recommended Learning"
                   showViewAll={false}
                 />
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   <CourseCard
                     isPopular={true}
@@ -270,7 +334,7 @@ export default function CareerGuidanceDashboard() {
                 <button
                   className="w-full mt-10 py-3.5 bg-[#8b5cf6]/5 hover:bg-[#8b5cf6]/10 text-[#8b5cf6] text-xs font-bold rounded-xl transition-all border border-dashed border-[#8b5cf6]/40"
                   onClick={(e) => {
-                    
+
                     navigate("/mentors");
                   }}
                 >
@@ -278,7 +342,7 @@ export default function CareerGuidanceDashboard() {
                 </button>
               </section>
 
-              {/* Next Badge */}
+              {/* Next Badge
               <section className="bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] rounded-2xl p-6 text-white card-elevation relative overflow-hidden group">
                 <div className="absolute -top-10 -right-10 size-32 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
                 <div className="relative z-10">
@@ -303,12 +367,12 @@ export default function CareerGuidanceDashboard() {
                     <span>70%</span>
                   </div>
                 </div>
-              </section>
+              </section> */}
             </div>
           </div>
         </div>
       </main>
-      
+
     </div>
   );
 }
