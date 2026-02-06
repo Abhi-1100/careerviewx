@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import AssessmentsQuest from "./pages/Assessments";
 import AssessmentsHub from "./pages/AssessmentsHub";
 import AssessmentResult from "./pages/AssessmentResult";
+import NotFound from "./pages/NotFound";
 function App() {
   return (
     <>
@@ -23,6 +24,7 @@ function App() {
           <Route path="/assessments" element={<AssessmentsHub />} />
           <Route path="/assessments/quest" element={<AssessmentsQuest />} />
           <Route path="/assessments/result" element={<AssessmentResult />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </>

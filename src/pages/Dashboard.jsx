@@ -239,7 +239,7 @@ export default function CareerGuidanceDashboard() {
                 {newsLoading ? (
                   <p className="text-[#a094b8] text-sm">Loading career news...</p>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
                     {careerNews.map((news, index) => (
                       <CareerNewsCard key={index} news={news} />
                     ))}
