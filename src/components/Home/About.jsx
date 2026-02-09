@@ -1,19 +1,24 @@
+import home_i0 from '../../assets/home_i0.png';
+import home_i1 from '../../assets/home_i1.png';
+import home_i2 from '../../assets/home_i2.png';
+
+
 const About = () => {
   const features = [
     {
       title: "AI-Powered Insights",
       description: "Our algorithms analyze millions of data points to provide hyper-personalized career matches that evolve as you gain new skills.",
-      backgroundImage: "https://images.unsplash.com/photo-1549887534-7e9e2c2f2c4c?w=800&h=600&fit=crop"
+      backgroundImage: home_i0
     },
     {
       title: "Global Mentor Network",
       description: "Direct access to 2,000+ vetted experts from top-tier companies like Google, Microsoft, and McKinsey.",
-      backgroundImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop"
+      backgroundImage: home_i1
     },
     {
       title: "Interactive Resources",
       description: "Exclusive access to live webinars, interview prep simulators, and step-by-step career roadmap templates.",
-      backgroundImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop"
+      backgroundImage: home_i2
     }
   ];
 

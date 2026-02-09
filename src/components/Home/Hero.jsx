@@ -1,3 +1,8 @@
+import Hero_i0 from '../../assets/Hero_i0.png';
+import Hero_i1 from '../../assets/Hero_i1.png';
+import Hero_i2 from '../../assets/Hero_i2.png';
+import Hero_i3 from '../../assets/Hero_i3.png';
+
 import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
@@ -30,22 +35,23 @@ const Hero = () => {
             </div>
             <div className="flex items-center gap-5 pt-4">
               <div className="flex -space-x-4">
+              <div
+                 className="w-12 h-12 rounded-full border-4 border-charcoal bg-cover bg-center"
+                 style={{
+                  backgroundImage: `url(${Hero_i0})`,
+         }}
+                ></div>
+
                 <div
                   className="w-12 h-12 rounded-full border-4 border-charcoal bg-cover bg-center"
                   style={{
-                    backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCp8U7FJAtSuqxxhU9LjrL13gcbJBFEfF89LiiIAqAbZCMU-omns33IPtU4PyVVQMRRMPlf9ZDtBoI_0UkYTQrrQGO-n4j9EiSflIEXY9Q_XyUv1-BkfCm7zhvw47Wq3NoX9b1nB82Uitqa4358r85BeMdWsZXwLOiuRcFjOb9nzBTu4UWV5LBUMTTySAizvWlZfOdg_n39gVc6Qoksols_jYqU1036ygz18TU9ap-rtqJIDUccrWk6PteLpQWcQZWHiakybFlZdiw")',
+                    backgroundImage: `url(${Hero_i1})`,
                   }}
                 ></div>
                 <div
                   className="w-12 h-12 rounded-full border-4 border-charcoal bg-cover bg-center"
                   style={{
-                    backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAIXAoenMAwaCdvZoNDamHZR60Rhmuvq9c32ao1Y1oKJrzlVJ4pXvALljUhX6cW3D-C56DwshEKSB1l7p1Jrb4sGdmKhFa6LBIoNk18mvnY_-D0P1Z5BTC5tLM_-iiov8dI_Ji5EGWUjeShX8WDqjzP6UHnS7sC516rd4D4MXsxt8JfKsqGEcm5xDVLALzIXbNqkxgnJfNF3WzKMG0bxMFdoNhaziFCS1WwOBCR3omvhB8KUOxmw8EnMHpuRae_JhLdz52GQFYBv8c")',
-                  }}
-                ></div>
-                <div
-                  className="w-12 h-12 rounded-full border-4 border-charcoal bg-cover bg-center"
-                  style={{
-                    backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFBO8oLin57JaRMriJNoqKJVFU83J6mxXPg-mD5jbc0K46ai6w6jjoTgy6FVpGJqTB4t88k4_irxDjjuh8qRo1brSEprq_OIyTw-R6yGG-s03i8W0oD5FtsMh26Q0PmETtHeYHndEsD7kxyBBhsixM8JBTcecr2Uaoa_UVBsHlB7K6wMK4vuu7qn4zjMOBDULZbpHep1jxNWigKaOsnCPFlDtYJV9jTuFPLP69j3SfBF2CxR0w0vcflea56HbkI-c4_9AV7zYRoqc")',
+                    backgroundImage: `url(${Hero_i2})`,
                   }}
                 ></div>
                 <div className="w-12 h-12 rounded-full border-4 border-charcoal bg-primary flex items-center justify-center text-[10px] font-bold">
@@ -65,7 +71,7 @@ const Hero = () => {
               <div
                 className="w-full h-full bg-center bg-cover transition-transform duration-700 group-hover:scale-105"
                 style={{
-                  backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD19T4oEu9qHLhKBJak1TvrhK72f7U8xdTZsk_thZTuUTV-eEC-AHvkAq71OXx-3iKN_PTp5uJAuBbInAfZUtrTmOeu_so6SamTj4c-sqt4TMegeagFCGD_tHLwXdEJo7KO4Ek0zfe9fwgFnYMiFMrI5WSp_U5PEra8Bh9AhqYb23OMJpxh-DQOLtCmMrTfFbAA0Oenf4w1HvRxuRxtemV4kMRDgnalFv5-8BNAlVncQGXtpLfHviEEdjU-ixxqZolnNkEIAPmNQcI")',
+                  backgroundImage: `url(${Hero_i3})`,
                 }}
               ></div>
               <div className="absolute bottom-8 left-8 right-8 bg-[#1e1e1e]/90 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-2xl flex items-center justify-between">

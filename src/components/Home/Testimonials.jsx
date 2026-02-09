@@ -1,3 +1,7 @@
+import Testimonials_i0 from '../../assets/Testimonials_i0.png';
+import Testimonials_i1 from '../../assets/Testimonials_i1.png';
+
+
 const Testimonials = () => {
   const testimonials = [
     {
@@ -5,14 +9,14 @@ const Testimonials = () => {
       author: "Alex Rivera",
       role: "Junior Product Designer • Stanford University",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+      image: Testimonials_i0
     },
     {
       quote: "The mentor network is incredible. I got to talk directly with an engineer at Google who gave me the exact roadmap I needed to prepare for my technical interviews.",
       author: "David Chen",
       role: "CS Senior • University of Waterloo",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
+      image: Testimonials_i1
     }
   ];
 
