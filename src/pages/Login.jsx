@@ -7,6 +7,8 @@ import OptionCard from "../components/OptionCard";
 import StepHeader from "../components/StepHeader";
 import Button from "../components/Button";
 import IconInput from "../components/IconInput";
+import { signup as signupAPI, login as loginAPI } from "../Services/api";
+import { saveUserData, clearUserData } from "../utils/auth";
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -26,12 +28,44 @@ const Login = () => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [showSignupPassword, setShowSignupPassword] = useState(false);
-  const signupTotalSteps = 3; 
+  const signupTotalSteps = 3;
 
-  const handleNext = (e) => {
+  // Error and Loading states
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleNext = async (e) => {
     e && e.preventDefault && e.preventDefault();
-    if (step < totalSteps) setStep((s) => s + 1);
-    else Navigate("/dashboard");
+
+    // Step 1: Login - Call backend API
+    if (step === 1) {
+      setError("");
+      setLoading(true);
+
+      try {
+        const response = await loginAPI({ email, password });
+        const { token, user } = response.data;
+
+        // Clear any old user data first
+        clearUserData();
+
+        // Save token and user data to localStorage
+        saveUserData(token, user);
+
+        // Move to next step
+        setStep((s) => s + 1);
+      } catch (err) {
+        setError(err.response?.data?.message || "Login failed. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    // Other steps: just navigate
+    else if (step < totalSteps) {
+      setStep((s) => s + 1);
+    } else {
+      Navigate("/dashboard");
+    }
   };
 
   const handleBack = () => {
@@ -40,10 +74,66 @@ const Login = () => {
   };
 
   // Signup handlers
-  const handleSignupNext = (e) => {
+  const handleSignupNext = async (e) => {
     e && e.preventDefault && e.preventDefault();
-    if (signupStep < signupTotalSteps) setSignupStep((s) => s + 1);
-    else Navigate("/dashboard");
+
+    // Step 1: Create account - Call backend API
+    if (signupStep === 1) {
+      setError("");
+      setLoading(true);
+
+      try {
+        const fullName = `${firstName} ${lastName}`;
+        await signupAPI({
+          name: fullName,
+          email: signupEmail,
+          password: signupPassword
+        });
+
+        // Move to next step after successful signup
+        setSignupStep((s) => s + 1);
+      } catch (err) {
+        setError(err.response?.data?.message || "Signup failed. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    // Other steps: just navigate
+    else if (signupStep < signupTotalSteps) {
+      setSignupStep((s) => s + 1);
+    } else {
+      // Step 3 (Final): Send all data to backend and auto-login
+      setError("");
+      setLoading(true);
+
+      try {
+        const fullName = `${firstName} ${lastName}`;
+        const response = await signupAPI({
+          name: fullName,
+          email: signupEmail,
+          password: signupPassword,
+          education: education,
+          stream: stream
+        });
+
+
+        // Backend now returns token and user data
+        const { token, user } = response.data;
+
+        // Clear any old user data first
+        clearUserData();
+
+        // Save new user data to localStorage
+        saveUserData(token, user);
+
+        // Redirect to dashboard with full page reload to ensure fresh data
+        window.location.href = "/dashboard";
+      } catch (err) {
+        setError(err.response?.data?.message || "Signup failed. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const handleSignupBack = () => {
@@ -80,7 +170,7 @@ const Login = () => {
     1: { title: 'Welcome back', subtitle: 'Sign in to continue your career journey.' },
     2: { title: 'Education Level', subtitle: 'Select the highest qualification you have completed to date.' },
     3: { title: 'Select Stream', subtitle: 'Choose your academic or professional focus to help us customize your experience.' },
-  }; 
+  };
 
   return (
     <div className="bg-charcoal font-display text-white min-h-screen overflow-hidden">
@@ -115,7 +205,7 @@ const Login = () => {
           <div className="absolute bottom-1/4 -left-1/4 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full" />
 
           <div className="w-full max-w-md relative z-10">
-            
+
             {/* ========== SIGNUP FORM VIEW ========== */}
             {isSignup ? (
               <>
@@ -207,13 +297,22 @@ const Login = () => {
                         </div>
                       </div>
 
+                      {/* ERROR MESSAGE */}
+                      {error && (
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-400 text-xs flex items-center gap-2">
+                          <span className="material-symbols-outlined text-sm">error</span>
+                          {error}
+                        </div>
+                      )}
+
                       {/* CONTINUE BUTTON */}
                       <button
                         type="submit"
-                        className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3.5 px-6 rounded-xl glow-button transition-all duration-300 flex items-center justify-center gap-2 group text-sm"
+                        disabled={loading}
+                        className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3.5 px-6 rounded-xl glow-button transition-all duration-300 flex items-center justify-center gap-2 group text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Continue
-                        <span className="material-symbols-outlined transition-transform group-hover:translate-x-1 text-sm">arrow_forward</span>
+                        {loading ? "Creating account..." : "Continue"}
+                        {!loading && <span className="material-symbols-outlined transition-transform group-hover:translate-x-1 text-sm">arrow_forward</span>}
                       </button>
                     </form>
 
@@ -367,172 +466,185 @@ const Login = () => {
                 {/* HEADER */}
                 <StepHeader step={step} totalSteps={totalSteps} title={stepHeaders[step].title} subtitle={stepHeaders[step].subtitle} />
 
-            {/* Step 1: Login Form */}
-            {step === 1 && (
-              <form onSubmit={handleNext} className="space-y-4">
-                {/* EMAIL */}
-                <div className="space-y-1.5">
-                  <label className="block text-xs font-medium text-gray-300 ml-1">Email Address</label>
-                  <div>
-                    <IconInput
-                      iconLeft="mail"
-                      inputProps={{
-                        type: 'email',
-                        value: email,
-                        onChange: (e) => setEmail(e.target.value),
-                        placeholder: 'name@example.com',
-                        required: true,
-                        className: "text-sm",
-                      }}
-                    />
-                  </div>
-                </div>
+                {/* Step 1: Login Form */}
+                {step === 1 && (
+                  <form onSubmit={handleNext} className="space-y-4">
+                    {/* EMAIL */}
+                    <div className="space-y-1.5">
+                      <label className="block text-xs font-medium text-gray-300 ml-1">Email Address</label>
+                      <div>
+                        <IconInput
+                          iconLeft="mail"
+                          inputProps={{
+                            type: 'email',
+                            value: email,
+                            onChange: (e) => setEmail(e.target.value),
+                            placeholder: 'name@example.com',
+                            required: true,
+                            className: "text-sm",
+                          }}
+                        />
+                      </div>
+                    </div>
 
-                {/* PASSWORD */}
-                <div className="space-y-1.5">
-                  <div className="flex justify-between items-center ml-1">
-                    <label className="block text-xs font-medium text-gray-300">Password</label>
-                    <a href="#forgot_pass" className="text-xs text-primary hover:underline">Forgot Password?</a>
+                    {/* PASSWORD */}
+                    <div className="space-y-1.5">
+                      <div className="flex justify-between items-center ml-1">
+                        <label className="block text-xs font-medium text-gray-300">Password</label>
+                        <a href="#forgot_pass" className="text-xs text-primary hover:underline">Forgot Password?</a>
+                      </div>
+                      <div>
+                        <IconInput
+                          iconLeft="lock"
+                          inputProps={{
+                            type: showPassword ? 'text' : 'password',
+                            value: password,
+                            onChange: (e) => setPassword(e.target.value),
+                            placeholder: '••••••••',
+                            required: true,
+                            className: "text-sm",
+                          }}
+                          rightElement={
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="text-gray-500 hover:text-white"
+                            >
+                              <span className="material-symbols-outlined text-sm">
+                                {showPassword ? 'visibility_off' : 'visibility'}
+                              </span>
+                            </button>
+                          }
+                        />
+                      </div>
+                    </div>
+
+                    {/* ERROR MESSAGE */}
+                    {error && (
+                      <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-400 text-xs flex items-center gap-2">
+                        <span className="material-symbols-outlined text-sm">error</span>
+                        {error}
+                      </div>
+                    )}
+
+                    {/* SUBMIT goes to next step */}
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        disabled={loading}
+                        className="w-full flex items-center justify-center gap-2 text-sm py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {loading ? "Signing in..." : "Continue"}
+                        {!loading && <span className="material-symbols-outlined text-sm">arrow_forward</span>}
+                      </Button>
+
+                      <div className="relative flex items-center py-2">
+                        <div className="flex-grow border-t border-white/5" />
+                        <span className="mx-3 text-xs font-semibold text-gray-500 uppercase">Or login with</span>
+                        <div className="flex-grow border-t border-white/5" />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button variant="ghost" className="flex items-center justify-center gap-2 text-xs py-2.5">
+                          <img
+                            src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            alt="Google"
+                            className="w-4 h-4 opacity-80"
+                          />
+                          Google
+                        </Button>
+
+                        <Button variant="ghost" className="flex items-center justify-center gap-2 text-xs py-2.5">
+                          <span className="material-symbols-outlined text-[#0A66C2] text-sm">person</span>
+                          LinkedIn
+                        </Button>
+                      </div>
+
+                      <p className="text-center text-gray-500 text-xs">
+                        New to CareerViewX? <button onClick={toggleSignup} className="text-primary font-semibold hover:underline">Create an account</button>
+                      </p>
+                    </div>
+                  </form>
+                )}
+
+                {/* Step 2: Education */}
+                {step === 2 && (
+                  <div className="space-y-3">
+                    <div className="flex flex-col gap-2">
+                      {[
+                        { value: 'Masters / PhD', title: 'Masters / PhD', desc: 'Post-graduate degree', icon: 'history_edu' },
+                        { value: 'Graduate', title: 'Graduate', desc: "Bachelor's degree", icon: 'school' },
+                        { value: '12th Grade', title: '12th Grade', desc: 'Higher secondary', icon: 'menu_book' },
+                        { value: '10th Grade', title: '10th Grade', desc: 'Secondary certificate', icon: 'edit_note' },
+                      ].map((opt) => (
+                        <OptionCard
+                          key={opt.value}
+                          inputType="radio"
+                          name="education"
+                          value={opt.value}
+                          title={opt.title}
+                          desc={opt.desc}
+                          icon={opt.icon}
+                          selected={education === opt.value}
+                          onSelect={setEducation}
+                        />
+                      ))}
+                    </div>
+
+                    <div className="mt-3 flex flex-col gap-2">
+                      <Button onClick={handleNext} disabled={!education} variant="primary" className="w-full flex items-center justify-center gap-2 text-sm py-3">
+                        Continue
+                        <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                      </Button>
+                      <button onClick={handleBack} className="w-full h-10 bg-transparent text-white/30 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2 group">
+                        <span className="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                        Back
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <IconInput
-                      iconLeft="lock"
-                      inputProps={{
-                        type: showPassword ? 'text' : 'password',
-                        value: password,
-                        onChange: (e) => setPassword(e.target.value),
-                        placeholder: '••••••••',
-                        required: true,
-                        className: "text-sm",
-                      }}
-                      rightElement={
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="text-gray-500 hover:text-white"
-                        >
-                          <span className="material-symbols-outlined text-sm">
-                            {showPassword ? 'visibility_off' : 'visibility'}
-                          </span>
+                )}
+
+                {/* Step 3: Stream Selection (Finish) */}
+                {step === 3 && (
+                  <div className="space-y-3">
+                    <div className="space-y-2">
+                      {[
+                        { value: 'science', title: 'Science & Technology', desc: 'Engineering, Medicine, Research', icon: 'science' },
+                        { value: 'commerce', title: 'Commerce & Business', desc: 'Finance, Marketing, Management', icon: 'payments' },
+                        { value: 'humanities', title: 'Humanities & Arts', desc: 'Design, Literature, Psychology', icon: 'palette' },
+                        { value: 'vocational', title: 'Diploma & Vocational', desc: 'Technical & Professional Certs', icon: 'handyman' },
+                      ].map((opt) => (
+                        <OptionCard
+                          key={opt.value}
+                          inputType="button"
+                          value={opt.value}
+                          title={opt.title}
+                          desc={opt.desc}
+                          icon={opt.icon}
+                          selected={stream === opt.value}
+                          onSelect={setStream}
+                        />
+                      ))}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Button onClick={(e) => handleSubmit(e)} disabled={!stream} variant="primary" className="w-full text-sm py-3">
+                        Finish Setup
+                      </Button>
+
+                      <div className="flex items-center gap-2">
+                        <button onClick={handleBack} className="flex-1 h-10 bg-transparent text-white/30 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-1 group">
+                          <span className="material-symbols-outlined text-xs">arrow_back</span>
+                          Back
                         </button>
-                      }
-                    />
+                        <button onClick={() => Navigate("/dashboard")} className="flex-1 h-10 text-primary text-xs font-medium hover:text-primary/80 transition-all">
+                          Skip
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-
-                {/* SUBMIT goes to next step */}
-                <div className="flex flex-col gap-2">
-                  <Button type="submit" variant="primary" className="w-full flex items-center justify-center gap-2 text-sm py-3">
-                    Continue
-                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                  </Button>
-
-                  <div className="relative flex items-center py-2">
-                    <div className="flex-grow border-t border-white/5" />
-                    <span className="mx-3 text-xs font-semibold text-gray-500 uppercase">Or login with</span>
-                    <div className="flex-grow border-t border-white/5" />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button variant="ghost" className="flex items-center justify-center gap-2 text-xs py-2.5">
-                      <img
-                        src="https://www.svgrepo.com/show/475656/google-color.svg"
-                        alt="Google"
-                        className="w-4 h-4 opacity-80"
-                      />
-                      Google
-                    </Button>
-
-                    <Button variant="ghost" className="flex items-center justify-center gap-2 text-xs py-2.5">
-                      <span className="material-symbols-outlined text-[#0A66C2] text-sm">person</span>
-                      LinkedIn
-                    </Button>
-                  </div>
-
-                  <p className="text-center text-gray-500 text-xs">
-                    New to CareerViewX? <button onClick={toggleSignup} className="text-primary font-semibold hover:underline">Create an account</button>
-                  </p>
-                </div>
-              </form>
-            )}
-
-            {/* Step 2: Education */}
-            {step === 2 && (
-              <div className="space-y-3">
-                <div className="flex flex-col gap-2">
-                  {[
-                    { value: 'Masters / PhD', title: 'Masters / PhD', desc: 'Post-graduate degree', icon: 'history_edu' },
-                    { value: 'Graduate', title: 'Graduate', desc: "Bachelor's degree", icon: 'school' },
-                    { value: '12th Grade', title: '12th Grade', desc: 'Higher secondary', icon: 'menu_book' },
-                    { value: '10th Grade', title: '10th Grade', desc: 'Secondary certificate', icon: 'edit_note' },
-                  ].map((opt) => (
-                    <OptionCard
-                      key={opt.value}
-                      inputType="radio"
-                      name="education"
-                      value={opt.value}
-                      title={opt.title}
-                      desc={opt.desc}
-                      icon={opt.icon}
-                      selected={education === opt.value}
-                      onSelect={setEducation}
-                    />
-                  ))}
-                </div>
-
-                <div className="mt-3 flex flex-col gap-2">
-                  <Button onClick={handleNext} disabled={!education} variant="primary" className="w-full flex items-center justify-center gap-2 text-sm py-3">
-                    Continue
-                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                  </Button>
-                  <button onClick={handleBack} className="w-full h-10 bg-transparent text-white/30 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-2 group">
-                    <span className="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
-                    Back
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Step 3: Stream Selection (Finish) */}
-            {step === 3 && (
-              <div className="space-y-3">
-                <div className="space-y-2">
-                  {[
-                    { value: 'science', title: 'Science & Technology', desc: 'Engineering, Medicine, Research', icon: 'science' },
-                    { value: 'commerce', title: 'Commerce & Business', desc: 'Finance, Marketing, Management', icon: 'payments' },
-                    { value: 'humanities', title: 'Humanities & Arts', desc: 'Design, Literature, Psychology', icon: 'palette' },
-                    { value: 'vocational', title: 'Diploma & Vocational', desc: 'Technical & Professional Certs', icon: 'handyman' },
-                  ].map((opt) => (
-                    <OptionCard
-                      key={opt.value}
-                      inputType="button"
-                      value={opt.value}
-                      title={opt.title}
-                      desc={opt.desc}
-                      icon={opt.icon}
-                      selected={stream === opt.value}
-                      onSelect={setStream}
-                    />
-                  ))}
-                </div>
-
-                <div className="space-y-2">
-                  <Button onClick={(e) => handleSubmit(e)} disabled={!stream} variant="primary" className="w-full text-sm py-3">
-                    Finish Setup
-                  </Button>
-
-                  <div className="flex items-center gap-2">
-                    <button onClick={handleBack} className="flex-1 h-10 bg-transparent text-white/30 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-1 group">
-                      <span className="material-symbols-outlined text-xs">arrow_back</span>
-                      Back
-                    </button>
-                    <button onClick={() => Navigate("/dashboard")} className="flex-1 h-10 text-primary text-xs font-medium hover:text-primary/80 transition-all">
-                      Skip
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+                )}
 
               </>
             )}

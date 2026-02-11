@@ -10,6 +10,8 @@ import AssessmentsQuest from "./pages/Assessments";
 import AssessmentsHub from "./pages/AssessmentsHub";
 import AssessmentResult from "./pages/AssessmentResult";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 function App() {
   return (
     <>
@@ -17,13 +19,17 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/career-paths" element={<CareerPaths />} />
-          <Route path="/mentors" element={<Mentors />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/assessments" element={<AssessmentsHub />} />
-          <Route path="/assessments/quest" element={<AssessmentsQuest />} />
-          <Route path="/assessments/result" element={<AssessmentResult />} />
+          
+          {/* Protected Routes */}
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/career-paths" element={<ProtectedRoute><CareerPaths /></ProtectedRoute>} />
+          <Route path="/mentors" element={<ProtectedRoute><Mentors /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/assessments" element={<ProtectedRoute><AssessmentsHub /></ProtectedRoute>} />
+          <Route path="/assessments/quest" element={<ProtectedRoute><AssessmentsQuest /></ProtectedRoute>} />
+          <Route path="/assessments/result" element={<ProtectedRoute><AssessmentResult /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -8,12 +8,22 @@ import MentorSessionCard from "../components/cards/Dashboard/MentorSessionCard";
 import CareerNewsCard from "../components/cards/Dashboard/CareerNewsCard";
 
 import { useNavigate, useLocation } from "react-router-dom";
+import { getCurrentUser, clearUserData } from "../utils/auth";
+
 export default function CareerGuidanceDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   const isActive = (path) => location.pathname === path; // helper to detect active link
   const [careerNews, setCareerNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
+
+  // Get user data from localStorage
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userData = getCurrentUser();
+    setUser(userData);
+  }, []);
 
   useEffect(() => {
     fetchCareerNews()
@@ -30,6 +40,12 @@ export default function CareerGuidanceDashboard() {
         setNewsLoading(false);
       });
   }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    clearUserData();
+    navigate("/login");
+  };
 
   return (
     <div className="flex h-screen bg-[#0f0a1e] text-white font-display overflow-hidden">
@@ -61,10 +77,10 @@ export default function CareerGuidanceDashboard() {
               ></div>
               <div className="flex flex-col overflow-hidden">
                 <h1 className="text-white text-sm font-semibold truncate">
-                  Alex Johnson
+                  {user?.name || "User"}
                 </h1>
                 <p className="text-[#a094b8] text-xs font-normal">
-                  Career Explorer
+                  {user?.email || "Career Explorer"}
                 </p>
               </div>
             </div>
@@ -109,6 +125,14 @@ export default function CareerGuidanceDashboard() {
               >
                 <span className="material-symbols-outlined">settings</span>
                 <p className="text-sm font-medium">Settings</p>
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-all text-red-400 hover:text-red-300 hover:bg-red-500/10"
+              >
+                <span className="material-symbols-outlined">logout</span>
+                <p className="text-sm font-medium">Logout</p>
               </button>
             </nav>
           </div>
@@ -177,10 +201,12 @@ export default function CareerGuidanceDashboard() {
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="flex flex-col gap-2">
               <h1 className="text-white text-4xl font-extrabold tracking-tight">
-                Welcome back, <span className="text-[#8b5cf6]">Alex!</span>
+                Welcome back, <span className="text-[#8b5cf6]">{user?.name?.split(' ')[0] || "User"}!</span>
               </h1>
               <p className="text-[#a094b8] text-lg font-normal">
-                You're making great progress towards your UX Designer goal.
+                {user?.careerSuggestions && user.careerSuggestions.length > 0
+                  ? `You're making great progress towards your ${user.careerSuggestions[0]} goal.`
+                  : "Start your career journey by taking an assessment."}
               </p>
             </div>
             <button onClick={() => navigate('/assessments')} className="flex items-center gap-2 px-6 py-3.5 bg-[#8b5cf6] text-white text-sm font-bold rounded-xl hover:bg-[#8b5cf6]/90 transition-all shadow-lg shadow-[#8b5cf6]/30">

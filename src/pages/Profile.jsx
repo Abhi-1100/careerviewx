@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import InternalNavbar from "../components/InternalNavbar";
 import ListItem from "../components/ListItem";
 import InfoRow from "../components/InfoRow";
 import Button from "../components/Button";
 import Footer from "../components/internalfooter";
+import { getCurrentUser } from "../utils/auth";
 
 const Profile = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userData = getCurrentUser();
+    setUser(userData);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background-dark text-white font-display">
       <InternalNavbar />
@@ -23,16 +31,16 @@ const Profile = () => {
             ></div>
             <div className="mb-2 pb-1">
               <h2 className="mt-4 text-3xl font-bold text-white leading-none">
-                Alex Johnson
+                {user?.name || "User"}
               </h2>
               <p className="mt-2 mb-5 text-slate-200 font-medium mt-1">
-                12th Grade - Science | Aspiring Software Architect
+                {user?.education || "Student"} {user?.stream ? `- ${user.stream}` : ""} | {user?.careerSuggestions?.[0] || "Career Explorer"}
               </p>
               <p className="text-slate-500 text-sm flex items-center gap-1 mt-1">
                 <span className="material-symbols-outlined text-sm">
-                  location_on
+                  mail
                 </span>{" "}
-                San Francisco, CA
+                {user?.email || "email@example.com"}
               </p>
             </div>
           </div>
@@ -234,7 +242,7 @@ const Profile = () => {
         </div>
       </main>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };
