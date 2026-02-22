@@ -25,6 +25,21 @@ const userSchema = new mongoose.Schema({
   careerSuggestions: {
     type: [String],
     default: []
+  },
+  recommendedCareer: {
+    type: String,
+    default: null
+  },
+  assessmentScore: {
+    type: {
+      engineering: Number,
+      medical: Number,
+      design: Number,
+      business: Number,
+      it: Number,
+      government: Number
+    },
+    default: null
   }
 }, { timestamps: true });
 

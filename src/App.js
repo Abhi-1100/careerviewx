@@ -6,9 +6,9 @@ import Mentors from "./pages/Mentors";
 import CareerPaths from "./pages/CareerPaths";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
-import AssessmentsQuest from "./pages/Assessments";
+import Assessment from "./pages/Assessment";
 import AssessmentsHub from "./pages/AssessmentsHub";
-import AssessmentResult from "./pages/AssessmentResult";
+import CareerResult from "./pages/CareerResult";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -26,8 +26,8 @@ function App() {
           <Route path="/mentors" element={<ProtectedRoute><Mentors /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/assessments" element={<ProtectedRoute><AssessmentsHub /></ProtectedRoute>} />
-          <Route path="/assessments/quest" element={<ProtectedRoute><AssessmentsQuest /></ProtectedRoute>} />
-          <Route path="/assessments/result" element={<ProtectedRoute><AssessmentResult /></ProtectedRoute>} />
+          <Route path="/assessments/quest" element={<ProtectedRoute><Assessment /></ProtectedRoute>} />
+          <Route path="/assessments/result" element={<ProtectedRoute><CareerResult /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           
           <Route path="*" element={<NotFound />} />

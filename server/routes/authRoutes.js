@@ -5,94 +5,197 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 
-// SIGNUP
+// SIGNUP - Register new user
 router.post("/signup", async (req, res) => {
-  const { name, email, password, education, stream } = req.body;
+  const { name, email, password } = req.body;
 
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+    // Validation
+    if (!name || !email || !password) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Name, email, and password are required" 
+      });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Password must be at least 6 characters" 
+      });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    if (existingUser) {
+      return res.status(409).json({ 
+        success: false,
+        message: "Email already registered. Please login instead." 
+      });
+    }
+
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create new user
     const user = new User({
       name,
-      email,
+      email: email.toLowerCase(),
       password: hashedPassword,
-      education: education || "",
-      stream: stream || ""
+      education: "",
+      stream: ""
     });
 
     await user.save();
 
-    // Generate token for auto-login after signup
+    // Generate JWT token
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     res.status(201).json({ 
-      message: "User registered successfully",
+      success: true,
+      message: "Account created successfully",
       token,
       user: {
+        id: user._id,
         name: user.name,
         email: user.email,
         education: user.education,
-        stream: user.stream,
-        careerSuggestions: user.careerSuggestions
+        stream: user.stream
       }
     });
 
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Signup error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Server error during signup" 
+    });
   }
 });
 
 
-// LOGIN
+// LOGIN - Authenticate user
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Email and password are required" 
+      });
+    }
+
+    // Find user by email (case-insensitive)
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(401).json({ 
+        success: false,
+        message: "Invalid email or password" 
+      });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+    // Compare passwords
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ 
+        success: false,
+        message: "Invalid email or password" 
+      });
     }
 
+    // Generate JWT token
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
-    res.json({
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
       token,
       user: {
+        id: user._id,
         name: user.name,
         email: user.email,
         education: user.education,
         stream: user.stream,
-        careerSuggestions: user.careerSuggestions
+        recommendedCareer: user.recommendedCareer
       }
     });
 
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Login error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Server error during login" 
+    });
   }
 });
 
 
 // LOGOUT (Client-side token removal, but endpoint for consistency)
 router.post("/logout", (req, res) => {
-  res.json({ message: "Logged out successfully" });
+  res.json({ 
+    success: true,
+    message: "Logged out successfully" 
+  });
+});
+
+// UPDATE PROFILE - Update user education and stream
+router.put("/profile/update", require("../middleware/authMiddleware"), async (req, res) => {
+  try {
+    const { education, stream } = req.body;
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(401).json({ 
+        success: false,
+        message: "Unauthorized" 
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { 
+        ...(education && { education }),
+        ...(stream && { stream })
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ 
+        success: false,
+        message: "User not found" 
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        education: user.education,
+        stream: user.stream
+      }
+    });
+
+  } catch (error) {
+    console.error("Profile update error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Server error during profile update" 
+    });
+  }
 });
 
 module.exports = router;

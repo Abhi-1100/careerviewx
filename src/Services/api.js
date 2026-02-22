@@ -18,10 +18,21 @@ API.interceptors.request.use((config) => {
 export const signup = (userData) => API.post('/auth/signup', userData);
 export const login = (credentials) => API.post('/auth/login', credentials);
 export const logout = () => API.post('/auth/logout');
+export const updateProfile = (profileData) => 
+  API.put('/auth/profile/update', profileData);
 
 // Profile API calls (protected)
 export const getProfile = () => API.get('/profile');
 export const updateCareerSuggestions = (suggestions) => 
   API.put('/profile/career-suggestions', { careerSuggestions: suggestions });
+
+// Assessment API calls (protected)
+export const getAssessmentQuestions = () => API.get('/assessment/questions');
+export const submitAssessment = (answers) => 
+  API.post('/assessment/submit', { answers });
+
+// Career API calls (protected)
+export const getCareerByName = (careerName) => 
+  API.get(`/careers/${careerName}`);
 
 export default API;

@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed:questions": "node seeds/questions.js",
+    "seed:careers": "node seeds/careers.js",
+    "seed:all": "node seeds/questions.js && node seeds/careers.js"
   },
   "keywords": [],
   "author": "",

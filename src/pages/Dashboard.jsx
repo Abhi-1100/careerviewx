@@ -8,11 +8,13 @@ import MentorSessionCard from "../components/cards/Dashboard/MentorSessionCard";
 import CareerNewsCard from "../components/cards/Dashboard/CareerNewsCard";
 
 import { useNavigate, useLocation } from "react-router-dom";
-import { getCurrentUser, clearUserData } from "../utils/auth";
+import { getCurrentUser } from "../utils/auth";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function CareerGuidanceDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
+  const auth = useAuth();
   const isActive = (path) => location.pathname === path; // helper to detect active link
   const [careerNews, setCareerNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
@@ -43,7 +45,7 @@ export default function CareerGuidanceDashboard() {
 
   // Logout function
   const handleLogout = () => {
-    clearUserData();
+    auth.logout();
     navigate("/login");
   };
 
