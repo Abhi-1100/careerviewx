@@ -1,9 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InternalNavbar from "../components/InternalNavbar";
+import { getAssessmentHistory } from "../Services/api";
+
+const careerIconMap = {
+  engineering: { icon: "engineering", color: "text-orange-400", bg: "bg-orange-400/10" },
+  it: { icon: "code", color: "text-blue-400", bg: "bg-blue-400/10" },
+  medical: { icon: "health_and_safety", color: "text-green-400", bg: "bg-green-400/10" },
+  design: { icon: "palette", color: "text-pink-400", bg: "bg-pink-400/10" },
+  business: { icon: "analytics", color: "text-primary", bg: "bg-primary/10" },
+  government: { icon: "gavel", color: "text-yellow-400", bg: "bg-yellow-400/10" },
+};
+
+const careerLabelMap = {
+  engineering: "Engineer",
+  it: "IT Professional",
+  medical: "Medical Professional",
+  design: "UX / UI Designer",
+  business: "Business Analyst",
+  government: "Government Officer",
+};
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 
 export default function AssessmentsHub() {
   const navigate = useNavigate();
+  const [history, setHistory] = useState([]);
+  const [loadingHistory, setLoadingHistory] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(5);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const res = await getAssessmentHistory();
+        if (res.data.success) {
+          setHistory(res.data.history);
+        }
+      } catch (err) {
+        console.error("Failed to fetch assessment history:", err);
+      } finally {
+        setLoadingHistory(false);
+      }
+    };
+    fetchHistory();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background-dark text-white font-display">
@@ -20,7 +63,7 @@ export default function AssessmentsHub() {
               </div>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1 p-4 rounded-lg bg-white/5 border border-white/10">
-                  <p className="text-white text-3xl font-extrabold">12</p>
+                  <p className="text-white text-3xl font-extrabold">{history.length}</p>
                   <p className="text-white/50 text-xs font-medium uppercase tracking-tight leading-normal">Assessments Taken</p>
                 </div>
                 <div className="flex flex-col gap-1 p-4 rounded-lg bg-primary/10 border border-primary/20">
@@ -80,56 +123,83 @@ export default function AssessmentsHub() {
             <section>
               <div className="flex items-center justify-between mb-6 px-2">
                 <h2 className="text-white text-2xl font-bold tracking-tight">Your Assessment History</h2>
-                <div className="flex gap-2">
-                  <button className="glass-panel p-2 rounded-lg text-white/60 hover:text-white transition-colors"><span className="material-symbols-outlined">filter_list</span></button>
-                  <button className="glass-panel p-2 rounded-lg text-white/60 hover:text-white transition-colors"><span className="material-symbols-outlined">sort</span></button>
-                </div>
               </div>
 
-              <div className="flex flex-col gap-4">
-                <div className="glass-panel p-5 rounded-xl flex flex-wrap lg:flex-nowrap items-center gap-6 group hover:bg-white/5 transition-all">
-                  <div className="w-16 h-16 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0 relative overflow-hidden">
-                    <div className="absolute inset-2 border-2 border-primary/40 rounded-sm border-dashed"></div>
-                    <span className="material-symbols-outlined text-primary text-3xl">analytics</span>
-                  </div>
-                  <div className="flex-1 min-w-[200px]">
-                    <h3 className="text-white text-lg font-bold group-hover:text-primary transition-colors">Comprehensive Career Aptitude</h3>
-                    <p className="text-white/40 text-sm flex items-center gap-2 mt-1"><span className="material-symbols-outlined text-sm">calendar_month</span> Oct 24, 2023</p>
-                  </div>
-                  <div className="flex flex-col gap-1 items-start lg:items-center min-w-[140px]">
-                    <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Top Match</p>
-                    <span className="text-primary font-bold bg-primary/10 px-3 py-1 rounded-full border border-primary/20">Software Engineer</span>
-                  </div>
-                  <div className="flex flex-col gap-1 items-start lg:items-center min-w-[120px]">
-                    <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Compatibility</p>
-                    <div className="flex items-center gap-2">
-                      <div className="h-1.5 w-24 bg-white/10 rounded-full overflow-hidden"><div className="h-full w-[94%] bg-primary"></div></div>
-                      <span className="text-white font-bold text-sm">94%</span>
-                    </div>
-                  </div>
-                  <button className="flex-shrink-0 w-full lg:w-auto px-6 py-2.5 rounded-lg bg-primary/10 border border-primary/30 text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all">View Full Report</button>
+              {loadingHistory ? (
+                <div className="flex items-center justify-center py-16">
+                  <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
                 </div>
-
-                <div className="glass-panel p-5 rounded-xl flex flex-wrap lg:flex-nowrap items-center gap-6 group hover:bg-white/5 transition-all">
-                  <div className="w-16 h-16 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0"><span className="material-symbols-outlined text-white/30 text-3xl">psychology</span></div>
-                  <div className="flex-1 min-w-[200px]"><h3 className="text-white text-lg font-bold group-hover:text-primary transition-colors">Personality &amp; Leadership Style</h3><p className="text-white/40 text-sm flex items-center gap-2 mt-1"><span className="material-symbols-outlined text-sm">calendar_month</span> Sep 12, 2023</p></div>
-                  <div className="flex flex-col gap-1 items-start lg:items-center min-w-[140px]"><p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Top Match</p><span className="text-white font-bold bg-white/10 px-3 py-1 rounded-full border border-white/10">Product Manager</span></div>
-                  <div className="flex flex-col gap-1 items-start lg:items-center min-w-[120px]"><p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Compatibility</p><div className="flex items-center gap-2"><div className="h-1.5 w-24 bg-white/10 rounded-full overflow-hidden"><div className="h-full w-[82%] bg-white/40"></div></div><span className="text-white font-bold text-sm">82%</span></div></div>
-                  <button className="flex-shrink-0 w-full lg:w-auto px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/60 text-sm font-bold hover:bg-primary hover:text-white hover:border-primary transition-all">View Full Report</button>
+              ) : history.length === 0 ? (
+                <div className="glass-panel p-10 rounded-xl flex flex-col items-center justify-center gap-4 text-center">
+                  <span className="material-symbols-outlined text-5xl text-white/20">history</span>
+                  <p className="text-white/50 text-base">No assessments taken yet.</p>
+                  <button onClick={() => navigate('/assessments/quest')} className="mt-2 px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">
+                    Take Your First Assessment
+                  </button>
                 </div>
-
-                <div className="glass-panel p-5 rounded-xl flex flex-wrap lg:flex-nowrap items-center gap-6 group hover:bg-white/5 transition-all">
-                  <div className="w-16 h-16 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0"><span className="material-symbols-outlined text-white/30 text-3xl">architecture</span></div>
-                  <div className="flex-1 min-w-[200px]"><h3 className="text-white text-lg font-bold group-hover:text-primary transition-colors">Design Thinking &amp; Creativity</h3><p className="text-white/40 text-sm flex items-center gap-2 mt-1"><span className="material-symbols-outlined text-sm">calendar_month</span> Aug 05, 2023</p></div>
-                  <div className="flex flex-col gap-1 items-start lg:items-center min-w-[140px]"><p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Top Match</p><span className="text-white font-bold bg-white/10 px-3 py-1 rounded-full border border-white/10">UI/UX Designer</span></div>
-                  <div className="flex flex-col gap-1 items-start lg:items-center min-w-[120px]"><p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Compatibility</p><div className="flex items-center gap-2"><div className="h-1.5 w-24 bg-white/10 rounded-full overflow-hidden"><div className="h-full w-[89%] bg-white/40"></div></div><span className="text-white font-bold text-sm">89%</span></div></div>
-                  <button className="flex-shrink-0 w-full lg:w-auto px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/60 text-sm font-bold hover:bg-primary hover:text-white hover:border-primary transition-all">View Full Report</button>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  {history.slice(0, visibleCount).map((item, index) => {
+                    const key = item.recommendedCareer?.toLowerCase() || "business";
+                    const meta = careerIconMap[key] || careerIconMap.business;
+                    const label = careerLabelMap[key] || item.recommendedCareer;
+                    const match = item.matchPercentage || 85;
+                    const isLatest = index === 0;
+                    return (
+                      <div key={item._id || index} className={`glass-panel p-5 rounded-xl flex flex-wrap lg:flex-nowrap items-center gap-6 group hover:bg-white/5 transition-all ${isLatest ? "border border-primary/30" : ""}`}>
+                        <div className={`w-16 h-16 rounded-lg ${meta.bg} flex items-center justify-center flex-shrink-0 relative overflow-hidden`}>
+                          {isLatest && <div className="absolute inset-2 border-2 border-primary/40 rounded-sm border-dashed"></div>}
+                          <span className={`material-symbols-outlined ${meta.color} text-3xl`}>{meta.icon}</span>
+                        </div>
+                        <div className="flex-1 min-w-[200px]">
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-white text-lg font-bold group-hover:text-primary transition-colors capitalize">{key} Assessment</h3>
+                            {isLatest && <span className="text-[10px] font-bold bg-primary/20 text-primary px-2 py-0.5 rounded-full border border-primary/30">Latest</span>}
+                          </div>
+                          <p className="text-white/40 text-sm flex items-center gap-2 mt-1">
+                            <span className="material-symbols-outlined text-sm">calendar_month</span>
+                            {formatDate(item.takenAt)}
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-1 items-start lg:items-center min-w-[140px]">
+                          <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Top Match</p>
+                          <span className={`font-bold px-3 py-1 rounded-full border text-sm ${isLatest ? "text-primary bg-primary/10 border-primary/20" : "text-white bg-white/10 border-white/10"}`}>{label}</span>
+                        </div>
+                        <div className="flex flex-col gap-1 items-start lg:items-center min-w-[120px]">
+                          <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Compatibility</p>
+                          <div className="flex items-center gap-2">
+                            <div className="h-1.5 w-24 bg-white/10 rounded-full overflow-hidden">
+                              <div className={`h-full ${isLatest ? "bg-primary" : "bg-white/40"}`} style={{ width: `${match}%` }}></div>
+                            </div>
+                            <span className="text-white font-bold text-sm">{match}%</span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => navigate("/career-result", { state: { recommendedCareer: item.recommendedCareer, scores: item.scores } })}
+                          className={`flex-shrink-0 w-full lg:w-auto px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${
+                            isLatest
+                              ? "bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-white"
+                              : "bg-white/5 border border-white/10 text-white/60 hover:bg-primary hover:text-white hover:border-primary"
+                          }`}
+                        >
+                          View Report
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
+              )}
 
-              <div className="mt-8 flex justify-center">
-                <button className="text-primary hover:text-primary/80 text-sm font-bold flex items-center gap-2 px-6 py-2 rounded-full border border-primary/20 hover:bg-primary/5 transition-all">Load older assessments <span className="material-symbols-outlined text-lg">keyboard_arrow_down</span></button>
-              </div>
+              {history.length > visibleCount && (
+                <div className="mt-8 flex justify-center">
+                  <button
+                    onClick={() => setVisibleCount(v => v + 5)}
+                    className="text-primary hover:text-primary/80 text-sm font-bold flex items-center gap-2 px-6 py-2 rounded-full border border-primary/20 hover:bg-primary/5 transition-all"
+                  >
+                    Load older assessments <span className="material-symbols-outlined text-lg">keyboard_arrow_down</span>
+                  </button>
+                </div>
+              )}
             </section>
           </div>
         </div>

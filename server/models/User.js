@@ -40,7 +40,31 @@ const userSchema = new mongoose.Schema({
       government: Number
     },
     default: null
-  }
+  },
+  assessmentHistory: [
+    {
+      recommendedCareer: { type: String },
+      scores: {
+        engineering: Number,
+        medical: Number,
+        design: Number,
+        business: Number,
+        it: Number,
+        government: Number
+      },
+      matchPercentage: { type: Number },
+      takenAt: { type: Date, default: Date.now }
+    }
+  ],
+  careerPaths: [
+    {
+      careerName: { type: String, required: true },
+      education: { type: String },
+      stream: { type: String },
+      matchPercentage: { type: Number },
+      addedDate: { type: Date, default: Date.now }
+    }
+  ]
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

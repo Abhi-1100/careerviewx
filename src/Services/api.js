@@ -25,11 +25,15 @@ export const updateProfile = (profileData) =>
 export const getProfile = () => API.get('/profile');
 export const updateCareerSuggestions = (suggestions) => 
   API.put('/profile/career-suggestions', { careerSuggestions: suggestions });
+export const addCareerPath = (careerPathData) => 
+  API.post('/profile/career-path', careerPathData);
+export const getCareerPaths = () => API.get('/profile/career-paths');
 
 // Assessment API calls (protected)
 export const getAssessmentQuestions = () => API.get('/assessment/questions');
 export const submitAssessment = (answers) => 
   API.post('/assessment/submit', { answers });
+export const getAssessmentHistory = () => API.get('/assessment/history');
 
 // Career API calls (protected)
 export const getCareerByName = (careerName) => 

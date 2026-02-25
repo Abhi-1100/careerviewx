@@ -64,7 +64,10 @@ router.post("/signup", async (req, res) => {
         name: user.name,
         email: user.email,
         education: user.education,
-        stream: user.stream
+        stream: user.stream,
+        assessmentHistory: [],
+        careerPaths: [],
+        careerSuggestions: []
       }
     });
 
@@ -126,7 +129,10 @@ router.post("/login", async (req, res) => {
         email: user.email,
         education: user.education,
         stream: user.stream,
-        recommendedCareer: user.recommendedCareer
+        recommendedCareer: user.recommendedCareer,
+        assessmentHistory: user.assessmentHistory,
+        careerPaths: user.careerPaths,
+        careerSuggestions: user.careerSuggestions
       }
     });
 
@@ -185,7 +191,10 @@ router.put("/profile/update", require("../middleware/authMiddleware"), async (re
         name: user.name,
         email: user.email,
         education: user.education,
-        stream: user.stream
+        stream: user.stream,
+        assessmentHistory: user.assessmentHistory,
+        careerPaths: user.careerPaths,
+        careerSuggestions: user.careerSuggestions
       }
     });
 

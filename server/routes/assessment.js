@@ -124,23 +124,55 @@ router.post("/submit", authMiddleware, async (req, res) => {
       scores[a] > scores[b] ? a : b
     );
 
-    // Update user with recommendation
+    // Calculate match percentage (highest score normalized to 100)
+    const maxScore = Math.max(...Object.values(scores));
+    const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
+    const matchPercentage = totalScore > 0 ? Math.round((maxScore / totalScore) * 100 * 1.8) : 85;
+    const clampedMatch = Math.min(99, Math.max(60, matchPercentage));
+
+    // Update user with recommendation and push to history
     const user = await User.findById(userId);
     if (user) {
       user.recommendedCareer = recommendedCareer;
       user.assessmentScore = scores;
+      user.assessmentHistory.push({
+        recommendedCareer,
+        scores,
+        matchPercentage: clampedMatch,
+        takenAt: new Date()
+      });
       await user.save();
     }
 
     res.status(200).json({
       success: true,
       recommendedCareer: recommendedCareer,
-      scores: scores
+      scores: scores,
+      matchPercentage: clampedMatch
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Error submitting assessment",
+      error: error.message
+    });
+  }
+});
+
+// GET /api/assessment/history - Fetch logged-in user's assessment history
+router.get("/history", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("assessmentHistory");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    // Return newest first
+    const history = [...user.assessmentHistory].reverse();
+    res.status(200).json({ success: true, history });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching assessment history",
       error: error.message
     });
   }
