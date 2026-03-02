@@ -187,6 +187,287 @@ const careersData = [
       "Can complete postings in 30+ years of service"
     ],
     salaryRange: "₹2-5 LPA (entry level as Assistant/Officer to ₹2+ lakhs per month for senior officers)"
+  },
+  {
+    careerName: "architecture",
+    description: "Architects design buildings and structures that combine functionality, aesthetics, sustainability, and safety. They work on residential, commercial, and public projects, creating spaces that improve people's lives. Architecture blends creativity with technical expertise and understanding of materials, structures, and environmental considerations.",
+    skillsRequired: [
+      "Creative and spatial thinking",
+      "Technical drawing and CAD software skills (AutoCAD, Revit, SketchUp)",
+      "Knowledge of building codes and regulations",
+      "Strong visualization abilities",
+      "Understanding of structural engineering principles",
+      "Project management",
+      "Sustainability and environmental awareness",
+      "Communication and client management"
+    ],
+    exams: [
+      "NATA (National Aptitude Test in Architecture)",
+      "JEE Main Paper 2 (B.Arch)",
+      "State-level architecture entrance exams"
+    ],
+    roadmap: [
+      "Complete 12th with Physics, Chemistry, Mathematics",
+      "Take NATA or JEE Main Paper 2",
+      "Pursue 5-year B.Arch degree",
+      "Complete mandatory internships",
+      "Register with Council of Architecture",
+      "Work in architectural firms or start own practice",
+      "Consider specialization in landscape, urban design, sustainable architecture",
+      "Pursue M.Arch for advanced specialization"
+    ],
+    salaryRange: "₹3-8 LPA (freshers to ₹30+ LPA for established architects)"
+  },
+  {
+    careerName: "data_science",
+    description: "Data Scientists analyze complex data sets to extract insights and drive decision-making. They use statistical methods, machine learning, and programming to solve business problems. This field is in high demand across industries like finance, healthcare, e-commerce, and technology.",
+    skillsRequired: [
+      "Programming (Python, R, SQL)",
+      "Statistics and mathematics",
+      "Machine learning and AI knowledge",
+      "Data visualization (Tableau, Power BI)",
+      "Problem-solving and analytical thinking",
+      "Domain knowledge",
+      "Communication of technical insights",
+      "Big data technologies (Hadoop, Spark)"
+    ],
+    exams: [
+      "No specific exam - portfolio and skills matter",
+      "BTech entrance exams (JEE, BITSAT)",
+      "Certification courses (Google, IBM, AWS)"
+    ],
+    roadmap: [
+      "Complete 12th with Mathematics",
+      "Pursue BTech (CS/IT) or BSc (Statistics/Mathematics)",
+      "Learn programming (Python, R) and statistics",
+      "Master machine learning and data analysis libraries",
+      "Build portfolio with real-world projects",
+      "Internships in analytics companies",
+      "Start as Data Analyst or Junior Data Scientist",
+      "Progress to Senior Data Scientist, ML Engineer, or AI Specialist"
+    ],
+    salaryRange: "₹8-15 LPA (freshers to ₹50+ LPA for experienced professionals)"
+  },
+  {
+    careerName: "law",
+    description: "Legal professionals advocate for justice, represent clients, and interpret laws. Lawyers work in various domains including corporate law, criminal law, civil litigation, intellectual property, and more. This profession offers opportunities in private practice, corporate legal departments, judiciary, and public service.",
+    skillsRequired: [
+      "Strong analytical and logical reasoning",
+      "Excellent written and oral communication",
+      "Research skills",
+      "Attention to detail",
+      "Ethical values and integrity",
+      "Negotiation and persuasion",
+      "Time management",
+      "Understanding of legal procedures and precedents"
+    ],
+    exams: [
+      "CLAT (Common Law Admission Test)",
+      "AILET (for National Law University Delhi)",
+      "LSAT India",
+      "State-level law entrance exams",
+      "Judicial Services Examination (for judges)"
+    ],
+    roadmap: [
+      "Complete 12th with any stream",
+      "Prepare for CLAT or other law entrance exams",
+      "Pursue 5-year integrated BA LLB or 3-year LLB after graduation",
+      "Complete internships with law firms or judges",
+      "Clear Bar Council examination and enroll",
+      "Start practice or join law firm",
+      "Specialize in specific legal domain",
+      "Can pursue judiciary, corporate law, or independent practice"
+    ],
+    salaryRange: "₹3-10 LPA (freshers to ₹50+ LPA for senior lawyers and partners)"
+  },
+  {
+    careerName: "psychology",
+    description: "Psychologists study human behavior and mental processes to help people improve their lives. This field includes clinical psychology, counseling, organizational psychology, educational psychology, and research. Psychologists work in hospitals, schools, corporations, private practice, and research institutions.",
+    skillsRequired: [
+      "Empathy and active listening",
+      "Understanding of human behavior",
+      "Research and analytical skills",
+      "Communication and counseling techniques",
+      "Ethical conduct and confidentiality",
+      "Patience and emotional stability",
+      "Cultural sensitivity",
+      "Problem-solving abilities"
+    ],
+    exams: [
+      "University entrance exams for BA/BSc Psychology",
+      "NET/JRF for research and teaching",
+      "M.Phil entrance exams",
+      "RCI (Rehabilitation Council of India) certification"
+    ],
+    roadmap: [
+      "Complete 12th with any stream (Science/Arts/Commerce)",
+      "Pursue BA/BSc in Psychology (3 years)",
+      "Complete MA/MSc in Psychology (2 years)",
+      "Specialize through M.Phil in Clinical Psychology",
+      "Complete mandatory internships",
+      "Register with RCI for clinical practice",
+      "Work in hospitals, schools, NGOs, or start private practice",
+      "Can pursue PhD for research and teaching careers"
+    ],
+    salaryRange: "₹3-8 LPA (freshers to ₹20+ LPA for established practitioners)"
+  },
+  {
+    careerName: "teaching",
+    description: "Educators shape future generations by imparting knowledge and skills. Teachers work at various levels from primary to higher education, specializing in different subjects. This profession offers the satisfaction of making a lasting impact on students' lives and contributing to society's development.",
+    skillsRequired: [
+      "Subject matter expertise",
+      "Communication and presentation skills",
+      "Patience and understanding",
+      "Classroom management",
+      "Creativity in lesson planning",
+      "Empathy and mentoring abilities",
+      "Adaptability to different learning styles",
+      "Technology integration in teaching"
+    ],
+    exams: [
+      "CTET (Central Teacher Eligibility Test)",
+      "State TETs",
+      "NET/SET for college professors",
+      "B.Ed entrance exams",
+      "UPSC for KVS/NVS recruitment"
+    ],
+    roadmap: [
+      "Complete 12th and graduate in chosen subject",
+      "Pursue B.Ed (2 years) or integrated BA B.Ed",
+      "Clear CTET/TET for school teaching",
+      "Apply to schools (government or private)",
+      "For college teaching: Complete M.Phil/PhD and clear NET",
+      "Gain experience and professional development",
+      "Can specialize in educational administration",
+      "Progress to senior positions like Principal or Professor"
+    ],
+    salaryRange: "₹3-6 LPA (school teachers to ₹10-20 LPA for college professors)"
+  },
+  {
+    careerName: "digital_marketing",
+    description: "Digital marketers promote brands, products, and services through online channels. This dynamic field includes SEO, social media marketing, content marketing, email marketing, and analytics. Digital marketing professionals help businesses grow their online presence and reach target audiences effectively.",
+    skillsRequired: [
+      "Understanding of digital platforms",
+      "Content creation and copywriting",
+      "SEO and SEM knowledge",
+      "Social media management",
+      "Data analytics and interpretation",
+      "Creativity and innovation",
+      "Communication skills",
+      "Marketing automation tools"
+    ],
+    exams: [
+      "No specific exam - certifications matter",
+      "Google Ads Certification",
+      "Google Analytics Certification",
+      "HubSpot Content Marketing",
+      "Facebook Blueprint Certification"
+    ],
+    roadmap: [
+      "Complete 12th and pursue any bachelor's degree",
+      "Learn digital marketing through courses (online/offline)",
+      "Obtain industry certifications (Google, HubSpot, etc.)",
+      "Create portfolio showcasing campaigns",
+      "Start with internships in marketing agencies",
+      "Begin as Digital Marketing Executive",
+      "Specialize in SEO, SEM, Social Media, or Content",
+      "Progress to Manager, Strategy roles, or start agency"
+    ],
+    salaryRange: "₹3-7 LPA (freshers to ₹25+ LPA for experienced professionals)"
+  },
+  {
+    careerName: "arts",
+    description: "Arts and Media professionals work in journalism, film, photography, writing, performing arts, and creative industries. They tell stories, create content, and express ideas through various artistic mediums. This field offers diverse opportunities in media houses, production companies, publishing, and freelance work.",
+    skillsRequired: [
+      "Creativity and artistic expression",
+      "Strong communication skills",
+      "Storytelling abilities",
+      "Technical skills (camera, editing software, etc.)",
+      "Cultural awareness",
+      "Networking and collaboration",
+      "Research and investigation (for journalism)",
+      "Adaptability and resilience"
+    ],
+    exams: [
+      "University entrance exams for Mass Communication",
+      "IIMC entrance exam",
+      "FTII entrance for film studies",
+      "Portfolio-based admissions for fine arts"
+    ],
+    roadmap: [
+      "Complete 12th with any stream",
+      "Pursue degree in Journalism, Mass Communication, or Fine Arts",
+      "Build portfolio of creative work",
+      "Internships with media houses, production companies, or studios",
+      "Start as junior journalist, assistant, or freelancer",
+      "Specialize in specific medium (print, digital, video, photography)",
+      "Build network and reputation in industry",
+      "Progress to senior positions or establish independent practice"
+    ],
+    salaryRange: "₹2-6 LPA (freshers to ₹20+ LPA for established professionals)"
+  },
+  {
+    careerName: "aviation",
+    description: "Aviation professionals work in various roles including pilots, air traffic controllers, aircraft maintenance engineers, and aviation management. This exciting field offers opportunities to work in airlines, airports, aircraft manufacturing, and regulatory bodies. It combines technical expertise with operational excellence.",
+    skillsRequired: [
+      "Technical knowledge of aircraft systems",
+      "Excellent spatial awareness",
+      "Quick decision-making under pressure",
+      "Communication skills",
+      "Attention to detail and safety",
+      "Physical and mental fitness",
+      "Problem-solving abilities",
+      "Teamwork and coordination"
+    ],
+    exams: [
+      "CPL (Commercial Pilot License) exams",
+      "DGCA exams for pilots and engineers",
+      "AME CET (Aircraft Maintenance Engineering)",
+      "University entrance for aeronautical engineering",
+      "Air Traffic Controller exams"
+    ],
+    roadmap: [
+      "Complete 12th with Physics, Chemistry, Mathematics",
+      "For Pilot: Join flying school, complete CPL training",
+      "For AME: Pursue 4-year AME course and DGCA license",
+      "For Engineering: BTech in Aeronautical/Aerospace Engineering",
+      "Complete required flying hours/practical training",
+      "Obtain necessary licenses and certifications",
+      "Join airlines, airports, or aircraft companies",
+      "Progress through experience and additional type ratings"
+    ],
+    salaryRange: "₹6-12 LPA (freshers to ₹80+ LPA for experienced pilots)"
+  },
+  {
+    careerName: "hospitality",
+    description: "Hospitality professionals manage hotels, restaurants, events, and tourism services. This people-centric industry focuses on providing excellent guest experiences. Career opportunities exist in hotel management, culinary arts, event management, cruise lines, and tourism. It's a dynamic field with global opportunities.",
+    skillsRequired: [
+      "Customer service excellence",
+      "Communication and interpersonal skills",
+      "Leadership and team management",
+      "Problem-solving and crisis management",
+      "Attention to detail",
+      "Cultural sensitivity",
+      "Multitasking abilities",
+      "Financial management"
+    ],
+    exams: [
+      "NCHMCT JEE (for hotel management)",
+      "State-level hotel management entrance exams",
+      "University entrance tests",
+      "IHM entrance exams"
+    ],
+    roadmap: [
+      "Complete 12th with any stream",
+      "Prepare for hotel management entrance exams",
+      "Pursue degree/diploma in Hotel Management (3-4 years)",
+      "Complete mandatory industry training",
+      "Start in entry-level positions (Front Desk, F&B)",
+      "Gain experience across departments",
+      "Specialize in area of interest",
+      "Progress to managerial and leadership roles"
+    ],
+    salaryRange: "₹2.5-6 LPA (freshers to ₹25+ LPA for hotel/resort managers)"
   }
 ];
 

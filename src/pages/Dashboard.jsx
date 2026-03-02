@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { fetchCareerNews } from "../Services/newsService";
 
 import SectionHeader from "../components/cards/Dashboard/SectionHeader";
@@ -18,9 +18,61 @@ export default function CareerGuidanceDashboard() {
   const isActive = (path) => location.pathname === path; // helper to detect active link
   const [careerNews, setCareerNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef(null);
 
   // Get user data from localStorage
   const [user, setUser] = useState(null);
+
+  // Sample notifications data
+  const notifications = [
+    {
+      id: 1,
+      icon: "chat",
+      iconColor: "#8b5cf6",
+      iconBg: "rgba(139, 92, 246, 0.2)",
+      title: "Mentor Sarah Williams sent a message",
+      description: '"Hi Alex, I\'ve reviewed your latest UX portfolio pieces..."',
+      time: "2 mins ago",
+      isNew: true
+    },
+    {
+      id: 2,
+      icon: "work",
+      iconColor: "#3b82f6",
+      iconBg: "rgba(59, 130, 246, 0.2)",
+      title: "New Career Match: Product Manager",
+      description: "Based on your recent assessment, this role fits your profile.",
+      time: "1 hour ago",
+      isNew: true
+    },
+    {
+      id: 3,
+      icon: "fact_check",
+      iconColor: "#10b981",
+      iconBg: "rgba(16, 185, 129, 0.2)",
+      title: "Your assessment result is ready",
+      description: "Advanced Logic and Reasoning results have been posted.",
+      time: "3 hours ago",
+      isNew: true
+    }
+  ];
+
+  // Close notification dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    }
+
+    if (showNotifications) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [showNotifications]);
 
   useEffect(() => {
     const userData = getCurrentUser();
@@ -172,12 +224,76 @@ export default function CareerGuidanceDashboard() {
           </div>
           <div className="flex items-center gap-5">
             <div className="flex gap-3">
-              <button className="relative flex items-center justify-center size-10 rounded-xl bg-[#1a142e] border border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5 transition-all">
-                <span className="material-symbols-outlined text-[22px]">
-                  notifications
-                </span>
-                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#8b5cf6] rounded-full border border-[#0f0a1e]"></span>
-              </button>
+              <div className="relative" ref={notificationRef}>
+                <button 
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="relative flex items-center justify-center size-10 rounded-xl bg-[#8b5cf6]/20 border border-[#8b5cf6]/50 text-white transition-all shadow-lg shadow-[#8b5cf6]/20"
+                >
+                  <span className="material-symbols-outlined text-[22px]">
+                    notifications
+                  </span>
+                  <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#8b5cf6] rounded-full border border-[#0f0a1e]"></span>
+                </button>
+
+                {/* Notification Dropdown */}
+                {showNotifications && (
+                  <div className="absolute right-0 mt-3 w-80 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200 bg-[#1a142e]/95 backdrop-blur-xl border border-[#8b5cf6]/20">
+                    <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                      <h3 className="text-sm font-bold text-white">Notifications</h3>
+                      <span className="text-[10px] font-bold text-[#8b5cf6] px-2 py-0.5 bg-[#8b5cf6]/10 rounded-full uppercase">
+                        {notifications.filter(n => n.isNew).length} New
+                      </span>
+                    </div>
+
+                    <div className="max-h-[380px] overflow-y-auto custom-scrollbar">
+                      {notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className="p-4 hover:bg-white/5 border-b border-white/5 transition-colors cursor-pointer group"
+                        >
+                          <div className="flex gap-3">
+                            <div
+                              className="size-9 flex-shrink-0 rounded-lg flex items-center justify-center"
+                              style={{
+                                backgroundColor: notification.iconBg,
+                                color: notification.iconColor
+                              }}
+                            >
+                              <span className="material-symbols-outlined text-lg">
+                                {notification.icon}
+                              </span>
+                            </div>
+                            <div className="flex-1 space-y-1">
+                              <div className="flex items-center justify-between">
+                                <p className="text-xs font-semibold text-white group-hover:text-[#8b5cf6] transition-colors">
+                                  {notification.title}
+                                </p>
+                                {notification.isNew && (
+                                  <div className="size-2 bg-[#8b5cf6] rounded-full"></div>
+                                )}
+                              </div>
+                              <p className="text-[11px] text-[#a094b8] leading-tight">
+                                {notification.description}
+                              </p>
+                              <p className="text-[10px] text-white/40 pt-1">
+                                {notification.time}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      className="w-full p-3.5 text-center text-xs font-bold text-[#8b5cf6] hover:bg-[#8b5cf6]/10 transition-colors"
+                      onClick={() => setShowNotifications(false)}
+                    >
+                      View All Notifications
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <button className="flex items-center justify-center size-10 rounded-xl bg-[#1a142e] border border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5 transition-all">
                 <span className="material-symbols-outlined text-[22px]">
                   chat_bubble

@@ -21,7 +21,7 @@ const questionSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["logical", "analytical", "biology", "commerce", "creativity", "personality"],
+    enum: ["logical", "analytical", "biology", "commerce", "physics", "mathematics", "computer", "creativity", "social_science", "personality"],
     required: true
   },
   type: {
