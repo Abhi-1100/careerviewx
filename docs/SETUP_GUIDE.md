@@ -64,7 +64,7 @@ CareerViewX uses MongoDB Atlas (cloud database). Follow these steps:
 6. **Replace** `<username>` and `<password>` with your credentials
 7. **Add** database name before the query params:
    ```
-   mongodb+srv://careerviewx_user:yourpassword@cluster0.xxxxx.mongodb.net/careerviewx
+   
    ```
 
 ---
