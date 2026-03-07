@@ -10,6 +10,7 @@ import CareerNewsCard from "../components/cards/Dashboard/CareerNewsCard";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCurrentUser } from "../utils/auth";
 import { useAuth } from "../contexts/AuthContext";
+import SearchBar from "../components/SearchBar";
 
 export default function CareerGuidanceDashboard() {
   const navigate = useNavigate();
@@ -212,15 +213,7 @@ export default function CareerGuidanceDashboard() {
         {/* Header */}
         <header className="sticky top-0 z-30 flex items-center justify-between bg-[#0f0a1e]/80 backdrop-blur-xl border-b border-[#2d264a] px-8 py-4">
           <div className="flex items-center gap-6 flex-1">
-            <div className="flex w-full max-w-md items-center rounded-xl bg-[#1a142e] border border-[#2d264a] px-4 h-11">
-              <span className="material-symbols-outlined text-[#a094b8] text-[20px]">
-                search
-              </span>
-              <input
-                className="w-full border-none bg-transparent focus:ring-0 text-white placeholder:text-[#a094b8] px-3 text-sm"
-                placeholder="Search courses, mentors, or careers..."
-              />
-            </div>
+            <SearchBar />
           </div>
           <div className="flex items-center gap-5">
             <div className="flex gap-3">

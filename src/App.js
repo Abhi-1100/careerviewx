@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Assessment from "./pages/Assessment";
 import AssessmentsHub from "./pages/AssessmentsHub";
 import CareerResult from "./pages/CareerResult";
+import CareerPage from "./pages/CareerPage";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/assessments" element={<ProtectedRoute><AssessmentsHub /></ProtectedRoute>} />
           <Route path="/assessments/quest" element={<ProtectedRoute><Assessment /></ProtectedRoute>} />
           <Route path="/assessments/result" element={<ProtectedRoute><CareerResult /></ProtectedRoute>} />
+          <Route path="/career/:id" element={<ProtectedRoute><CareerPage /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           
           <Route path="*" element={<NotFound />} />

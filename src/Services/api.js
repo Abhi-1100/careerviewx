@@ -38,5 +38,9 @@ export const getAssessmentHistory = () => API.get('/assessment/history');
 // Career API calls (protected)
 export const getCareerByName = (careerName) => 
   API.get(`/careers/${careerName}`);
+export const searchCareers = (query) =>
+  API.get(`/careers/search?q=${encodeURIComponent(query)}`);
+export const getCareerById = (id) =>
+  API.get(`/careers/detail/${id}`);
 
 export default API;
