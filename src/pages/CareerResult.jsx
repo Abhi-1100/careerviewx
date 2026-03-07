@@ -129,6 +129,12 @@ const CareerResult = () => {
   const [career, setCareer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [toast, setToast] = useState({ visible: false, message: "", type: "success" });
+
+  const showToast = (message, type = "success") => {
+    setToast({ visible: true, message, type });
+    setTimeout(() => setToast({ visible: false, message: "", type: "success" }), 1000);
+  };
 
   useEffect(() => {
     if (!recommendedCareer) {
@@ -159,8 +165,10 @@ const CareerResult = () => {
     fetchCareerDetails();
   }, [recommendedCareer]);
 
-  const handleRetakeQuiz = () => {
-    navigate("/assessments/quest");
+  const handleMoreInfo = () => {
+    if (career?._id) {
+      navigate(`/career/${career._id}`);
+    }
   };
 
   const handleAddToCareerPath = async () => {
@@ -168,8 +176,8 @@ const CareerResult = () => {
       // Get current user data
       const userStr = localStorage.getItem('user');
       if (!userStr) {
-        alert('Please log in to add career paths.');
-        navigate("/login");
+        showToast('Please log in to add career paths.', 'error');
+        setTimeout(() => navigate("/login"), 1100);
         return;
       }
 
@@ -191,27 +199,27 @@ const CareerResult = () => {
         user.careerPaths = response.data.careerPaths;
         localStorage.setItem('user', JSON.stringify(user));
         
-        alert(`${career.careerName} has been added to your career path!`);
-        navigate("/profile");
+        showToast(`${career.careerName} has been added to your career path!`, 'success');
+        setTimeout(() => navigate("/profile"), 1100);
       } else {
-        alert(response.data.message || 'Failed to add career path.');
+        showToast(response.data.message || 'Failed to add career path.', 'error');
       }
     } catch (error) {
       console.error('Error adding career path:', error);
       
       if (error.response?.status === 400) {
-        alert(error.response.data.message || `${career.careerName} is already in your career path!`);
+        showToast(error.response.data.message || `${career.careerName} is already in your career path!`, 'error');
       } else if (error.response?.status === 401) {
-        alert('Session expired. Please log in again.');
-        navigate("/login");
+        showToast('Session expired. Please log in again.', 'error');
+        setTimeout(() => navigate("/login"), 1100);
       } else {
-        alert('Failed to add career path. Please try again.');
+        showToast('Failed to add career path. Please try again.', 'error');
       }
     }
   };
 
   const handleDownloadPDF = () => {
-    alert("PDF download feature coming soon!");
+    showToast("PDF download feature coming soon!", "info");
   };
 
   if (loading) {
@@ -256,6 +264,20 @@ const CareerResult = () => {
   return (
     <div className="min-h-screen bg-background-dark text-white font-display">
       <InternalNavbar />
+
+      {/* Toast Notification */}
+      {toast.visible && (
+        <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-3 rounded-xl shadow-2xl text-sm font-semibold transition-all animate-fade-in ${
+          toast.type === 'success' ? 'bg-green-600 text-white' :
+          toast.type === 'error' ? 'bg-red-600 text-white' :
+          'bg-primary text-white'
+        }`}>
+          <span className="material-symbols-outlined text-base">
+            {toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error' : 'info'}
+          </span>
+          {toast.message}
+        </div>
+      )}
 
       {/* Header Navigation */}
       
@@ -354,16 +376,16 @@ const CareerResult = () => {
                 Add to Career Path
               </button>
               <button 
-                onClick={handleRetakeQuiz}
+                onClick={handleMoreInfo}
                 className="w-full border-2 border-primary/30 hover:border-primary/60 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all"
               >
-                <span className="material-symbols-outlined">refresh</span>
-                Retake Quiz
+                <span className="material-symbols-outlined">info</span>
+                More Info
               </button>
               <div className="flex items-center justify-between px-2 pt-2">
-                <button className="text-sm font-medium text-slate-500 hover:text-primary flex items-center gap-1 transition-colors">
-                  <span className="material-symbols-outlined text-sm">share</span>
-                  Share Results
+                <button onClick={() => navigate('/dashboard')} className="text-sm font-medium text-slate-500 hover:text-primary flex items-center gap-1 transition-colors">
+                  <span className="material-symbols-outlined text-sm">dashboard</span>
+                  Back to Dashboard
                 </button>
                 <button 
                   onClick={handleDownloadPDF}
