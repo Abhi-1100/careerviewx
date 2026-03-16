@@ -7,9 +7,13 @@ module.exports = {
     extend: {
       colors: {
         "primary": "#8b5cf6",
-        "charcoal": "#0f0d15",
+        "charcoal": "#1e293b",
         "panel-dark": "#16131c",
         "surface-dark": "#0f0a1e",
+        "surface-light": "#f8fafc",
+        "sidebar-light": "#f1f5f9",
+        "card-white": "#ffffff",
+        "border-light": "#e2e8f0",
         "card-dark": "#1a142e",
         "border-dark": "#2d264a",
         "accent-blue": "#3b82f6",

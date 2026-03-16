@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import ProgressBar from "./ProgressBar";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 const CareerMatchCard = ({
   icon,
@@ -13,15 +14,17 @@ const CareerMatchCard = ({
   skillColor = "#8b5cf6",
   borderHoverColor = "#8b5cf6",
 }) => {
+  const { isDarkMode } = useContext(ThemeContext);
+
   return (
-    <div className="bg-[#1a142e] p-6 rounded-2xl border border-[#2d264a] card-elevation hover:border-opacity-50 transition-all"
+    <div className={`p-6 rounded-2xl border card-elevation hover:border-opacity-50 transition-all ${isDarkMode ? "bg-[#1a142e] border-[#2d264a]" : "bg-white border-border-light"}`}
       style={{ "--hover-color": borderHoverColor }}>
       <style>{`
         .hover\\:border-opacity-50:hover {
           border-color: var(--hover-color);
         }
       `}</style>
-      
+
       <div className="flex justify-between items-start mb-6">
         <div className="w-12 h-12 rounded-xl flex items-center justify-center text-[32px]"
           style={{ backgroundColor: `${skillColor}20`, color: skillColor }}>
@@ -37,8 +40,8 @@ const CareerMatchCard = ({
         </span>
       </div>
 
-      <h3 className="text-white font-bold text-xl mb-2">{title}</h3>
-      <p className="text-[#a094b8] text-sm mb-6 leading-relaxed">{description}</p>
+      <h3 className={`font-bold text-xl mb-2 ${isDarkMode ? "text-white" : "text-charcoal"}`}>{title}</h3>
+      <p className={`text-sm mb-6 leading-relaxed ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>{description}</p>
 
       <div className="space-y-4">
         <ProgressBar
