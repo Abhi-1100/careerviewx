@@ -122,7 +122,7 @@ touch .env
 Add the following content to `server/.env`:
 
 ```env
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/careerviewx
+MONGO_URI=mongodb+srv://<your-username>:<your-password>@<your-cluster>.mongodb.net/careerviewx
 JWT_SECRET=your_super_secret_random_string_here_make_it_long_and_complex
 PORT=5000
 ```
