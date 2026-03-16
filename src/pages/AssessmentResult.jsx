@@ -1,306 +1,372 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/InternalNavbar"
 
+// Career details mapping based on backend categories
+const careerDetails = {
+  engineering: {
+    title: "Software Engineer",
+    level: "Senior Level Potential",
+    matchPercentage: 92,
+    description: "You excel at logical problem-solving and systematic thinking. This career leverages your analytical abilities and attention to detail in building complex systems.",
+    skills: ["System Design", "Algorithms", "Problem Solving"],
+    salaryRange: "$90k - $140k",
+    marketDemand: "Very High",
+    growthRate: "+15% growth",
+    skillsToSharpen: "Advanced System Architecture",
+    reasons: [
+      {
+        icon: "build",
+        title: "Logical Problem Solving",
+        description: "Your high scores in logical reasoning make you a natural fit for engineering challenges."
+      },
+      {
+        icon: "schema",
+        title: "System Thinking",
+        description: "You demonstrated strong ability to break down complex problems into manageable components."
+      },
+      {
+        icon: "code",
+        title: "Technical Aptitude",
+        description: "Your responses show genuine interest and capability in technical domains."
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=500&fit=crop"
+  },
+  it: {
+    title: "IT Professional",
+    level: "Senior Level Potential",
+    matchPercentage: 89,
+    description: "You possess strong analytical and technical skills. This career path offers you the opportunity to manage complex technological infrastructure and drive digital transformation.",
+    skills: ["Network Management", "Data Security", "Cloud Architecture"],
+    salaryRange: "$85k - $135k",
+    marketDemand: "High",
+    growthRate: "+14% growth",
+    skillsToSharpen: "Cloud Computing",
+    reasons: [
+      {
+        icon: "cloud",
+        title: "Technical Infrastructure",
+        description: "Your analytical mindset is perfect for designing and maintaining robust IT systems."
+      },
+      {
+        icon: "security",
+        title: "Security Mindset",
+        description: "You scored highly in systematic thinking, crucial for cybersecurity and data protection."
+      },
+      {
+        icon: "trending_up",
+        title: "Growth Potential",
+        description: "The IT sector offers excellent growth prospects and emerging opportunities in emerging technologies."
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1553877905-d0306ba7371c?w=500&h=500&fit=crop"
+  },
+  medical: {
+    title: "Medical Professional",
+    level: "Senior Level Potential",
+    matchPercentage: 88,
+    description: "Your biological and scientific knowledge combined with your detail-oriented approach makes you an excellent fit for medical careers.",
+    skills: ["Diagnostic Skills", "Patient Care", "Research"],
+    salaryRange: "$95k - $180k",
+    marketDemand: "Very High",
+    growthRate: "+12% growth",
+    skillsToSharpen: "Advanced Clinical Practice",
+    reasons: [
+      {
+        icon: "health_and_safety",
+        title: "Scientific Foundation",
+        description: "Your strong biological knowledge provides an excellent foundation for medical practice."
+      },
+      {
+        icon: "favorite",
+        title: "Empathy & Care",
+        description: "Your responses indicate genuine concern for helping others, essential in healthcare."
+      },
+      {
+        icon: "science",
+        title: "Research Capability",
+        description: "You demonstrated analytical skills perfect for medical research and innovation."
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&h=500&fit=crop"
+  },
+  design: {
+    title: "UX/UI Designer",
+    level: "Senior Level Potential",
+    matchPercentage: 94,
+    description: "You possess a rare blend of analytical thinking and creative empathy. Your responses indicate a strong natural aptitude for solving complex user problems and designing intuitive digital experiences.",
+    skills: ["User Research", "Wireframing", "Visual Design"],
+    salaryRange: "$85k - $140k",
+    marketDemand: "High",
+    growthRate: "+12% growth",
+    skillsToSharpen: "Interaction Design",
+    reasons: [
+      {
+        icon: "groups",
+        title: "User Empathy",
+        description: "Your high emotional intelligence score translates perfectly to understanding user frustrations and needs."
+      },
+      {
+        icon: "lightbulb",
+        title: "Visual Problem Solving",
+        description: "You scored in the top 5% for spatial reasoning and pattern recognition in complex interfaces."
+      },
+      {
+        icon: "palette",
+        title: "Creative Expression",
+        description: "Your interest in creativity ensures you can bring innovative solutions to design challenges."
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=500&fit=crop"
+  },
+  business: {
+    title: "Business Analyst",
+    level: "Senior Level Potential",
+    matchPercentage: 87,
+    description: "You demonstrate strong strategic thinking and business acumen. Your analytical and communication skills make you ideal for driving business growth and innovation.",
+    skills: ["Business Strategy", "Data Analysis", "Project Management"],
+    salaryRange: "$80k - $130k",
+    marketDemand: "High",
+    growthRate: "+10% growth",
+    skillsToSharpen: "Advanced Analytics",
+    reasons: [
+      {
+        icon: "trending_up",
+        title: "Strategic Thinking",
+        description: "Your ability to see the bigger picture makes you excellent at business strategy and planning."
+      },
+      {
+        icon: "calculate",
+        title: "Data-Driven Decision Making",
+        description: "You scored highly in analytical skills, perfect for business intelligence and analytics."
+      },
+      {
+        icon: "handshake",
+        title: "Leadership Potential",
+        description: "Your communication skills and business sense position you well for leadership roles."
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+  },
+  government: {
+    title: "Civil Services Officer",
+    level: "Senior Level Potential",
+    matchPercentage: 85,
+    description: "Your commitment to public service and analytical mindset make you well-suited for government and policy roles where you can make meaningful societal impact.",
+    skills: ["Public Policy", "Administration", "Leadership"],
+    salaryRange: "$75k - $120k",
+    marketDemand: "Stable",
+    growthRate: "+5% growth",
+    skillsToSharpen: "Policy Analysis",
+    reasons: [
+      {
+        icon: "gavel",
+        title: "Policy Understanding",
+        description: "Your analytical skills are perfect for understanding and implementing government policies."
+      },
+      {
+        icon: "groups",
+        title: "Public Service Mindset",
+        description: "Your responses reflect commitment to public welfare and societal improvement."
+      },
+      {
+        icon: "shield",
+        title: "Integrity & Ethics",
+        description: "Your strong ethical foundation makes you ideal for roles of public trust and responsibility."
+      }
+    ],
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+  }
+};
 
 export default function AssessmentResult() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Get career name from location state
+  const careerName = location.state?.recommendedCareer || "design";
+  const scores = location.state?.scores || {};
+
+  // Get career details based on name
+  const recommendedCareer = careerDetails[careerName] || careerDetails.design;
+
+  const handleRetakeQuiz = () => {
+    navigate("/assessments");
+  };
+
+  const handleJobOpenings = () => {
+    // Navigate to job openings or careers page  
+    navigate("/careers");
+  };
+
+  const handleDownloadPDF = async () => {
+    setIsLoading(true);
+    try {
+      // Add PDF download logic here
+      setTimeout(() => setIsLoading(false), 1000);
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-white font-display">
-      <Navbar/>
+    <div className="min-h-screen bg-background-dark text-white font-display">
+      
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        <header className="text-center mb-16 relative">
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 blur-[120px] rounded-full -z-10"></div>
-          <span className="text-primary font-semibold tracking-widest uppercase text-xs">Analysis Finalized</span>
-          <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-6">Your Career Intelligence Report</h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg">We've synchronized your behavioral patterns with industry benchmarks to identify your optimal career trajectory.</p>
-        </header>
+      
+      
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
-          <div className="lg:col-span-6 space-y-8">
-            <div className="bg-card-dark border border-slate-800 rounded-2xl p-8 flex flex-col items-center justify-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-20">
-                <span className="material-symbols-outlined text-6xl text-primary">hub</span>
+      <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-12">
+        {/* Success Message */}
+        <div className="text-center mb-12">
+          <span className="inline-block px-4 py-1.5 bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase rounded-full mb-4">Assessment Complete</span>
+          <h1 className="text-5xl md:text-7xl font-black text-white mb-4 tracking-tighter" style={{ textShadow: "0 0 20px rgba(140, 43, 238, 0.4)" }}>MATCH FOUND!</h1>
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">We analyzed your skills, interests, and personality. Here's your perfect professional alignment.</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Hero Match Card */}
+          <div className="lg:col-span-7 bg-surface-dark rounded-xl border border-primary/10 p-8 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+              {/* Career Image with Progress Overlay */}
+              <div className="relative">
+                <div className="size-48 md:size-64 rounded-xl overflow-hidden border-4 border-primary/20 shadow-lg">
+                  <img 
+                    className="w-full h-full object-cover" 
+                    alt={recommendedCareer.title}
+                    src={recommendedCareer.image}
+                  />
+                </div>
+                {/* Circular Progress Overlay */}
+                <div className="absolute -bottom-6 -right-6 bg-background-dark border-4 border-surface-dark size-24 rounded-full flex items-center justify-center">
+                  <div className="relative size-full flex items-center justify-center">
+                    <svg className="size-20 transform -rotate-90">
+                      <circle className="text-slate-800" cx="40" cy="40" fill="transparent" r="34" stroke="currentColor" strokeWidth="6"></circle>
+                      <circle 
+                        className="text-primary" 
+                        cx="40" 
+                        cy="40" 
+                        fill="transparent" 
+                        r="34" 
+                        stroke="currentColor" 
+                        strokeDasharray="213.6" 
+                        strokeDashoffset={213.6 - (recommendedCareer.matchPercentage / 100 * 213.6)}
+                        strokeWidth="6"
+                      ></circle>
+                    </svg>
+                    <span className="absolute text-xl font-bold text-white">{recommendedCareer.matchPercentage}%</span>
+                  </div>
+                </div>
               </div>
 
-              <div className="relative w-72 h-72 md:w-[400px] md:h-[400px]">
-                {/* SVG ring visual */}
-                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                  <circle className="text-slate-800" cx="50" cy="50" fill="transparent" r="45" stroke="currentColor" strokeWidth="2"></circle>
-                  <circle cx="50" cy="50" fill="transparent" r="45" stroke="url(#gradient-95)" strokeDasharray="282.7" strokeDashoffset="14" strokeLinecap="round" strokeWidth="8"></circle>
-                  <circle className="text-slate-800" cx="50" cy="50" fill="transparent" r="35" stroke="currentColor" strokeWidth="2"></circle>
-                  <circle cx="50" cy="50" fill="transparent" r="35" stroke="url(#gradient-88)" strokeDasharray="219.9" strokeDashoffset="26.4" strokeLinecap="round" strokeWidth="8"></circle>
-                  <circle className="text-slate-800" cx="50" cy="50" fill="transparent" r="25" stroke="currentColor" strokeWidth="2"></circle>
-                  <circle cx="50" cy="50" fill="transparent" r="25" stroke="url(#gradient-75)" strokeDasharray="157" strokeDashoffset="39.2" strokeLinecap="round" strokeWidth="8"></circle>
-                  <defs>
-                    <linearGradient id="gradient-95" x1="0%" x2="100%" y1="0%" y2="0%">
-                      <stop offset="0%" stopColor="#8b5cf6"></stop>
-                      <stop offset="100%" stopColor="#c084fc"></stop>
-                    </linearGradient>
-                    <linearGradient id="gradient-88" x1="0%" x2="100%" y1="0%" y2="0%">
-                      <stop offset="0%" stopColor="#7c3aed"></stop>
-                      <stop offset="100%" stopColor="#8b5cf6"></stop>
-                    </linearGradient>
-                    <linearGradient id="gradient-75" x1="0%" x2="100%" y1="0%" y2="0%">
-                      <stop offset="0%" stopColor="#6d28d9"></stop>
-                      <stop offset="100%" stopColor="#7c3aed"></stop>
-                    </linearGradient>
-                  </defs>
-                </svg>
-
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span className="text-5xl font-bold">95<span className="text-2xl text-primary font-light">%</span></span>
-                  <span className="text-xs uppercase tracking-widest text-slate-500 font-bold mt-1">Match Accuracy</span>
-                </div>
-              </div>
-
-              <div className="mt-8 grid grid-cols-3 gap-4 w-full text-center">
-                <div>
-                  <div className="text-sm font-semibold text-slate-300">Data Science</div>
-                  <div className="text-xs text-primary font-bold">95%</div>
-                </div>
-                <div className="border-x border-slate-800">
-                  <div className="text-sm font-semibold text-slate-300">Engineering</div>
-                  <div className="text-xs text-primary font-bold">88%</div>
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-slate-300">Architecture</div>
-                  <div className="text-xs text-primary font-bold">75%</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-card-dark border border-slate-800 rounded-2xl p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="material-symbols-outlined text-primary">route</span>
-                <h2 className="text-xl font-bold">Personalized Career Roadmap</h2>
-              </div>
-
-              <div className="space-y-6 relative">
-                <div className="absolute left-[19px] top-2 bottom-2 w-0.5 bg-slate-800"></div>
-
-                <div className="relative flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center z-10 shrink-0">
-                    <span className="text-primary font-bold">1</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-200">Enrol in Advanced Python for Data Science</h4>
-                    <p className="text-sm text-slate-400 mt-1">Strengthen your technical foundation by completing the "Python for Analytics" certification this month.</p>
-                  </div>
-                </div>
-
-                <div className="relative flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center z-10 shrink-0">
-                    <span className="text-slate-400 font-bold">2</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-200">Build a Portfolio Project</h4>
-                    <p className="text-sm text-slate-400 mt-1">Apply your analytical skills to a real-world dataset. Focus on visualization and insight communication.</p>
-                  </div>
-                </div>
-
-                <div className="relative flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center z-10 shrink-0">
-                    <span className="text-slate-400 font-bold">3</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-200">Network with Industry Mentors</h4>
-                    <p className="text-sm text-slate-400 mt-1">Join the FuturePath Alumni network and schedule two 15-minute coffee chats with Senior Data Scientists.</p>
-                  </div>
+              {/* Career Details */}
+              <div className="flex-1 text-center md:text-left">
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">{recommendedCareer.title}</h2>
+                <p className="text-primary font-semibold text-lg mb-4">{recommendedCareer.level}</p>
+                <p className="text-slate-400 leading-relaxed">
+                  {recommendedCareer.description}
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3 justify-center md:justify-start">
+                  {recommendedCareer.skills.map((skill, index) => (
+                    <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded text-sm font-medium">
+                      {skill}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-6 space-y-6">
-            <div className="p-6 bg-card-dark rounded-2xl border border-slate-800 shadow-xl ring-1 ring-primary/20">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
-                    <span className="material-symbols-outlined text-white">analytics</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-xl">Data Scientist</h3>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded font-bold tracking-wider uppercase">95% Match</span>
-                      <span className="material-icons text-primary text-sm">verified</span>
+          {/* Analysis Sidebar */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-surface-dark rounded-xl border border-primary/10 p-6">
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">analytics</span>
+                Why it's a great fit
+              </h3>
+              <div className="space-y-6">
+                {recommendedCareer.reasons.map((reason, index) => (
+                  <div key={index} className="flex gap-4">
+                    <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-primary">{reason.icon}</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">{reason.title}</h4>
+                      <p className="text-sm text-slate-400">{reason.description}</p>
                     </div>
                   </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs text-slate-500 font-semibold uppercase">Avg. Salary</div>
-                  <div className="text-lg font-bold text-emerald-400">$124,000</div>
-                </div>
-              </div>
-
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">You excel at identifying patterns within noise. This career leverages your mathematical precision and curiosity.</p>
-
-              <div className="space-y-3">
-                <div className="text-xs font-bold text-slate-500 uppercase">Key Skills Required</div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-xs border border-slate-700">Machine Learning</span>
-                  <span className="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-xs border border-slate-700">Statistical Modeling</span>
-                  <span className="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-xs border border-slate-700">SQL/NoSQL</span>
-                  <span className="px-3 py-1 bg-slate-800 text-slate-300 rounded-full text-xs border border-slate-700">Big Data</span>
-                </div>
+                ))}
               </div>
             </div>
 
-            <div className="p-6 bg-card-dark rounded-2xl border border-slate-800">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary">code</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-xl text-slate-200">Software Engineer</h3>
-                    <span className="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-bold tracking-wider uppercase">88% Match</span>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs text-slate-500 font-semibold uppercase">Avg. Salary</div>
-                  <div className="text-lg font-bold text-emerald-400/80">$112,000</div>
-                </div>
-              </div>
-
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">Your logical workflow and ability to break down complex problems into atomic parts is highly valuable here.</p>
-
-              <div className="space-y-3">
-                <div className="text-xs font-bold text-slate-500 uppercase">Key Skills Required</div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-slate-800 text-slate-400 rounded-full text-xs border border-slate-700">System Design</span>
-                  <span className="px-3 py-1 bg-slate-800 text-slate-400 rounded-full text-xs border border-slate-700">Algorithms</span>
-                  <span className="px-3 py-1 bg-slate-800 text-slate-400 rounded-full text-xs border border-slate-700">Git/DevOps</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-6 bg-card-dark rounded-2xl border border-slate-800">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary">architecture</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-xl text-slate-200">Architect</h3>
-                    <span className="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-bold tracking-wider uppercase">75% Match</span>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs text-slate-500 font-semibold uppercase">Avg. Salary</div>
-                  <div className="text-lg font-bold text-emerald-400/80">$88,000</div>
-                </div>
-              </div>
-
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">Your spatial reasoning and aesthetic sense suggest a natural talent for physical structure design.</p>
-
-              <div className="space-y-3">
-                <div className="text-xs font-bold text-slate-500 uppercase">Key Skills Required</div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-slate-800 text-slate-400 rounded-full text-xs border border-slate-700">AutoCAD</span>
-                  <span className="px-3 py-1 bg-slate-800 text-slate-400 rounded-full text-xs border border-slate-700">3D Modeling</span>
-                  <span className="px-3 py-1 bg-slate-800 text-slate-400 rounded-full text-xs border border-slate-700">Urban Planning</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="material-symbols-outlined text-primary">psychology</span>
-                <h2 className="text-lg font-bold">Strengths Analysis</h2>
-              </div>
-
-              <div className="space-y-5">
-                <div>
-                  <div className="flex justify-between mb-1.5">
-                    <span className="text-sm font-medium text-slate-300">Analytical</span>
-                    <span className="text-sm font-bold text-primary">98%</span>
-                  </div>
-                  <div className="w-full bg-slate-800 rounded-full h-2">
-                    <div className="bg-primary h-2 rounded-full" style={{ width: `98%` }}></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1.5">
-                    <span className="text-sm font-medium text-slate-300">Creative Synthesis</span>
-                    <span className="text-sm font-bold text-primary">84%</span>
-                  </div>
-                  <div className="w-full bg-slate-800 rounded-full h-2">
-                    <div className="bg-primary/70 h-2 rounded-full" style={{ width: `84%` }}></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-1.5">
-                    <span className="text-sm font-medium text-slate-300">Empathetic Leadership</span>
-                    <span className="text-sm font-bold text-primary">76%</span>
-                  </div>
-                  <div className="w-full bg-slate-800 rounded-full h-2">
-                    <div className="bg-primary/40 h-2 rounded-full" style={{ width: `76%` }}></div>
-                  </div>
-                </div>
+            {/* Actions */}
+            <div className="flex flex-col gap-3">
+              <button 
+                onClick={handleJobOpenings}
+                className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-95"
+              >
+                <span className="material-symbols-outlined">work</span>
+                View Job Openings
+              </button>
+              <button 
+                onClick={handleRetakeQuiz}
+                className="w-full border-2 border-primary/30 hover:border-primary/60 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all"
+              >
+                <span className="material-symbols-outlined">refresh</span>
+                Retake Quiz
+              </button>
+              <div className="flex items-center justify-between px-2 pt-2">
+                <button className="text-sm font-medium text-slate-500 hover:text-primary flex items-center gap-1 transition-colors">
+                  <span className="material-symbols-outlined text-sm">share</span>
+                  Share Results
+                </button>
+                <button 
+                  onClick={handleDownloadPDF}
+                  className="text-sm font-medium text-slate-500 hover:text-primary flex items-center gap-1 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-sm">download</span>
+                  Download PDF
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          <div className="group p-8 rounded-2xl bg-primary text-white relative overflow-hidden transition-all hover:ring-4 hover:ring-primary/30">
-            <div className="relative z-10">
-              <h2 className="text-2xl font-bold mb-4">Unlock Full Potential</h2>
-              <p className="text-white/80 mb-8 max-w-sm">Access a detailed roadmap for Data Science including university rankings, online courses, and networking tools.</p>
-              <button className="bg-white text-primary font-bold py-3 px-8 rounded-lg flex items-center gap-2 hover:bg-slate-100 transition-colors">
-                Explore Career Path
-                <span className="material-icons text-sm">arrow_forward</span>
-              </button>
-            </div>
-            <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all"></div>
+        {/* Additional Insights */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
+            <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Salary Expectation</h5>
+            <p className="text-2xl font-bold text-white">{recommendedCareer.salaryRange}</p>
+            <p className="text-xs text-slate-500">Based on your experience level</p>
           </div>
-
-          <div className="p-8 rounded-2xl bg-card-dark border border-slate-800 flex flex-col justify-between">
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Export Full Results</h2>
-              <p className="text-slate-400 mb-8">Download your complete 24-page cognitive profile and career compatibility PDF report.</p>
+          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
+            <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Market Demand</h5>
+            <div className="flex items-center gap-2">
+              <p className="text-2xl font-bold text-white">{recommendedCareer.marketDemand}</p>
+              <span className="bg-green-500/20 text-green-500 px-2 py-0.5 rounded text-[10px] font-bold">{recommendedCareer.growthRate} growth</span>
             </div>
-            <button className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center gap-2 border border-slate-700 transition-colors">
-              <span className="material-icons text-sm">file_download</span>
-              Download PDF Report
-            </button>
+            <p className="text-xs text-slate-500">Industry projection for 2024-2026</p>
           </div>
-        </section>
-
-        <section className="bg-slate-900/40 rounded-3xl p-8 border border-slate-800/50">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div className="max-w-xl">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary text-sm">info</span>
-                Methodology &amp; Verification
-              </h3>
-              <p className="text-slate-500 text-sm leading-relaxed">Our proprietary AI model compared your responses against 5,000+ industry professional profiles and psychological benchmarks. We prioritized long-term fulfillment and growth potential in your specific region.</p>
+          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
+            <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Skills to Sharpen</h5>
+            <div className="flex gap-1 mt-1">
+              <span className="material-symbols-outlined text-primary text-sm">star</span>
+              <span className="material-symbols-outlined text-primary text-sm">star</span>
+              <span className="material-symbols-outlined text-primary text-sm">star</span>
+              <span className="material-symbols-outlined text-slate-700 text-sm">star</span>
+              <span className="material-symbols-outlined text-slate-700 text-sm">star</span>
             </div>
-
-            <div className="flex gap-4">
-              <div className="text-center p-4">
-                <div className="text-2xl font-bold text-primary">120+</div>
-                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Data Points</div>
-              </div>
-              <div className="h-10 w-[1px] bg-slate-800 self-center"></div>
-              <div className="text-center p-4">
-                <div className="text-2xl font-bold text-primary">92%</div>
-                <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Relatability</div>
-              </div>
-            </div>
+            <p className="text-xs text-slate-500 mt-2">Recommended: {recommendedCareer.skillsToSharpen}</p>
           </div>
-        </section>
+        </div>
       </main>
 
-      <footer className="mt-20 py-12 border-t border-slate-800 text-center">
-        <p className="text-slate-500 text-sm">© 2024 FuturePath Career Intelligence. Empowering the next generation of leaders.</p>
-        <div className="flex justify-center gap-6 mt-4">
-          <a className="text-xs text-slate-600 hover:text-primary transition-colors" href="#">Privacy Framework</a>
-          <a className="text-xs text-slate-600 hover:text-primary transition-colors" href="#">Terms of Analysis</a>
-          <a className="text-xs text-slate-600 hover:text-primary transition-colors" href="#">Support</a>
-        </div>
+      <footer className="mt-auto py-8 px-6 text-center border-t border-primary/5">
+        <p className="text-slate-500 text-xs font-medium">© 2024 CareerMatch AI. Helping you find your professional destiny.</p>
       </footer>
 
     </div>

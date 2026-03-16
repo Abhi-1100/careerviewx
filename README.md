@@ -1,70 +1,145 @@
-# Getting Started with Create React App
+# CareerViewX - AI-Powered Career Guidance Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack MERN application that helps students discover their ideal career paths through intelligent assessments and personalized recommendations.
 
-## Available Scripts
+## 🎯 Features
 
-In the project directory, you can run:
+- **AI-Powered Assessments**: Multi-category assessment system (Logical, Creative, Science, Business, Social)
+- **Personalized Career Recommendations**: Get top 3 career matches based on your assessment
+- **Comprehensive Career Database**: 15+ career paths with detailed roadmaps, exam requirements, and salary ranges
+- **User Authentication**: Secure JWT-based authentication with bcrypt password hashing
+- **Interactive Dashboard**: Track your progress and career insights
+- **Cloud Database**: MongoDB Atlas for scalable, cloud-based data storage
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 Quick Start
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+- Node.js (v14 or higher)
+- npm or yarn
+- MongoDB Atlas account (free tier available)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1. Install Dependencies
 
-### `npm run build`
+```bash
+# Install frontend dependencies
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Install backend dependencies
+cd server
+npm install
+cd ..
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 2. Configure Environment Variables
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create `server/.env` file:
 
-### `npm run eject`
+```env
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/careerviewx
+JWT_SECRET=your_secure_random_secret_key_here
+PORT=5000
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 3. Seed the Database
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+cd server
+node seeds/careers.js
+node seeds/questions.js
+cd ..
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 4. Start Development Servers
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Terminal 1 - Backend:**
+```bash
+cd server
+node server.js
+```
 
-## Learn More
+**Terminal 2 - Frontend:**
+```bash
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 5. Access the Application
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🛠️ Technology Stack
 
-### Analyzing the Bundle Size
+### Frontend
+- React 19.2.3
+- React Router 7.12.0
+- Axios 1.13.5
+- Tailwind CSS 3.4.19
+- Lucide React (Icons)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Backend
+- Node.js & Express
+- MongoDB & Mongoose
+- JWT Authentication
+- bcryptjs (Password Hashing)
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📁 Project Structure
 
-### Advanced Configuration
+```
+careerviewx/
+├── src/                    # Frontend React app
+│   ├── components/         # Reusable components
+│   ├── pages/              # Page components
+│   ├── contexts/           # React Context (Auth)
+│   └── Services/           # API services
+├── server/                 # Backend Node.js app
+│   ├── models/             # Mongoose models
+│   ├── routes/             # API routes
+│   ├── middleware/         # Auth middleware
+│   └── seeds/              # Database seeders
+└── docs/                   # Documentation
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## 📚 Documentation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- **[Setup Guide](docs/SETUP_GUIDE.md)** - Detailed installation steps
+- **[API Documentation](docs/API_REFERENCE.md)** - Complete API reference
+- **[Database Guide](docs/DATABASE.md)** - MongoDB setup and schema
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🎨 Available Career Paths
+
+Engineering • Medical • Design • Business • Law • Teaching • Arts • Science Research • Agriculture • Defense • Media & Journalism • Social Work • Sports • Aviation • Hospitality
+
+---
+
+## 🔧 Development Commands
+
+```bash
+# Frontend
+npm start              # Start dev server
+npm run build          # Build for production
+
+# Backend (in server/)
+node server.js         # Start backend
+node dbHelper.js       # Check database status
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+**Built with ❤️ using the MERN Stack**

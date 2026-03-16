@@ -1,0 +1,7 @@
+{
+  "mdb.connectionSaving.hideOptionToChooseWhereToSaveNewConnections": false,
+  "mdb.confirmRunAll": false,
+  "mdb.shell": "mongosh",
+  "mdb.defaultLimit": 10,
+  "mdb.sendTelemetry": false
+}

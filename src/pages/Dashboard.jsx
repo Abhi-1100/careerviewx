@@ -1,12 +1,10 @@
-import dashboard_i0 from "../assets/dashboard_i0.png";
-import dashboard_i1 from "../assets/dashboard_i1.png";
 import dashboard_i2 from "../assets/dashboard_i2.png";
 import dashboard_i3 from "../assets/dashboard_i3.png";
 import dashboard_i4 from "../assets/dashboard_i4.png";
 import dashboard_i5 from "../assets/dashboard_i5.png";
 import dashboard_i6 from "../assets/dashboard_i6.png";
 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { fetchCareerNews } from "../Services/newsService";
 
 import SectionHeader from "../components/cards/Dashboard/SectionHeader";
@@ -17,13 +15,78 @@ import CareerNewsCard from "../components/cards/Dashboard/CareerNewsCard";
 import { ThemeContext } from "../context/ThemeContext";
 
 import { useNavigate, useLocation } from "react-router-dom";
+import { getCurrentUser } from "../utils/auth";
+import { useAuth } from "../contexts/AuthContext";
+import SearchBar from "../components/SearchBar";
+
 export default function CareerGuidanceDashboard() {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const auth = useAuth();
   const isActive = (path) => location.pathname === path; // helper to detect active link
   const [careerNews, setCareerNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef(null);
+
+  // Get user data from localStorage
+  const [user, setUser] = useState(null);
+
+  // Sample notifications data
+  const notifications = [
+    {
+      id: 1,
+      icon: "chat",
+      iconColor: "#8b5cf6",
+      iconBg: "rgba(139, 92, 246, 0.2)",
+      title: "Mentor Sarah Williams sent a message",
+      description: '"Hi Alex, I\'ve reviewed your latest UX portfolio pieces..."',
+      time: "2 mins ago",
+      isNew: true
+    },
+    {
+      id: 2,
+      icon: "work",
+      iconColor: "#3b82f6",
+      iconBg: "rgba(59, 130, 246, 0.2)",
+      title: "New Career Match: Product Manager",
+      description: "Based on your recent assessment, this role fits your profile.",
+      time: "1 hour ago",
+      isNew: true
+    },
+    {
+      id: 3,
+      icon: "fact_check",
+      iconColor: "#10b981",
+      iconBg: "rgba(16, 185, 129, 0.2)",
+      title: "Your assessment result is ready",
+      description: "Advanced Logic and Reasoning results have been posted.",
+      time: "3 hours ago",
+      isNew: true
+    }
+  ];
+
+  // Close notification dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    }
+
+    if (showNotifications) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [showNotifications]);
+
+  useEffect(() => {
+    const userData = getCurrentUser();
+    setUser(userData);
+  }, []);
 
   useEffect(() => {
     fetchCareerNews()
@@ -40,6 +103,12 @@ export default function CareerGuidanceDashboard() {
         setNewsLoading(false);
       });
   }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/login");
+  };
 
   return (
     <div className={`flex h-screen ${isDarkMode ? "bg-[#0f0a1e] text-white" : "bg-surface-light text-charcoal"} font-display overflow-hidden transition-colors duration-300`}>
@@ -71,10 +140,10 @@ export default function CareerGuidanceDashboard() {
               ></div>
               <div className="flex flex-col overflow-hidden">
                 <h1 className={`text-sm font-semibold truncate ${isDarkMode ? "text-white" : "text-charcoal"}`}>
-                  Alex Johnson
+                  {user?.name || "User"}
                 </h1>
                 <p className={`text-xs font-normal ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>
-                  Career Explorer
+                  {user?.email || "Career Explorer"}
                 </p>
               </div>
             </div>
@@ -150,6 +219,14 @@ export default function CareerGuidanceDashboard() {
                 <span className="material-symbols-outlined">settings</span>
                 <p className="text-sm font-medium">Settings</p>
               </button>
+
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-all text-red-400 hover:text-red-300 hover:bg-red-500/10"
+              >
+                <span className="material-symbols-outlined">logout</span>
+                <p className="text-sm font-medium">Logout</p>
+              </button>
             </nav>
           </div>
 
@@ -174,30 +251,81 @@ export default function CareerGuidanceDashboard() {
         {/* Header */}
         <header className={`sticky top-0 z-30 flex items-center justify-between border-b backdrop-blur-xl px-8 py-4 transition-colors duration-300 ${isDarkMode ? "bg-[#0f0a1e]/80 border-[#2d264a]" : "bg-surface-light/80 border-border-light"}`}>
           <div className="flex items-center gap-6 flex-1">
-            <div className={`flex w-full max-w-md items-center rounded-xl border px-4 h-11 ${isDarkMode ? "bg-[#1a142e] border-[#2d264a]" : "bg-white border-border-light"}`}>
-              <span className={`material-symbols-outlined text-[20px] ${isDarkMode ? "text-[#a094b8]" : "text-slate-400"}`}>
-                search
-              </span>
-              <input
-                className={`w-full border-none bg-transparent focus:ring-0 px-3 text-sm placeholder:${isDarkMode ? "placeholder:text-[#a094b8]" : "placeholder:text-slate-400"} ${isDarkMode ? "text-white" : "text-charcoal"}`}
-                placeholder="Search courses, mentors, or careers..."
-              />
-            </div>
+            <SearchBar />
           </div>
           <div className="flex items-center gap-5">
             <div className="flex gap-3">
-              <button className={`relative flex items-center justify-center size-10 rounded-xl border transition-all ${isDarkMode ? "bg-[#1a142e] border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5" : "bg-white border-border-light text-slate-500 hover:text-primary hover:bg-slate-50"}`}>
-                <span className="material-symbols-outlined text-[22px]">
-                  notifications
-                </span>
-                <span className={`absolute top-2.5 right-2.5 w-2 h-2 rounded-full border ${isDarkMode ? "bg-[#8b5cf6] border-[#0f0a1e]" : "bg-primary border-white"}`}></span>
-              </button>
-              <button onClick={toggleTheme} className={`flex items-center justify-center size-10 rounded-xl border transition-all ${isDarkMode ? "bg-[#1a142e] border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5" : "bg-white border-border-light text-slate-500 hover:text-primary hover:bg-slate-50"}`}>
-                <span className="material-symbols-outlined text-[22px]">
-                  {isDarkMode ? "light_mode" : "dark_mode"}
-                </span>
-              </button>
-              <button className={`flex items-center justify-center size-10 rounded-xl border transition-all ${isDarkMode ? "bg-[#1a142e] border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5" : "bg-white border-border-light text-slate-500 hover:text-primary hover:bg-slate-50"}`}>
+              <div className="relative" ref={notificationRef}>
+                <button 
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="relative flex items-center justify-center size-10 rounded-xl bg-[#8b5cf6]/20 border border-[#8b5cf6]/50 text-white transition-all shadow-lg shadow-[#8b5cf6]/20"
+                >
+                  <span className="material-symbols-outlined text-[22px]">
+                    notifications
+                  </span>
+                  <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#8b5cf6] rounded-full border border-[#0f0a1e]"></span>
+                </button>
+
+                {/* Notification Dropdown */}
+                {showNotifications && (
+                  <div className="absolute right-0 mt-3 w-80 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200 bg-[#1a142e]/95 backdrop-blur-xl border border-[#8b5cf6]/20">
+                    <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                      <h3 className="text-sm font-bold text-white">Notifications</h3>
+                      <span className="text-[10px] font-bold text-[#8b5cf6] px-2 py-0.5 bg-[#8b5cf6]/10 rounded-full uppercase">
+                        {notifications.filter(n => n.isNew).length} New
+                      </span>
+                    </div>
+
+                    <div className="max-h-[380px] overflow-y-auto custom-scrollbar">
+                      {notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className="p-4 hover:bg-white/5 border-b border-white/5 transition-colors cursor-pointer group"
+                        >
+                          <div className="flex gap-3">
+                            <div
+                              className="size-9 flex-shrink-0 rounded-lg flex items-center justify-center"
+                              style={{
+                                backgroundColor: notification.iconBg,
+                                color: notification.iconColor
+                              }}
+                            >
+                              <span className="material-symbols-outlined text-lg">
+                                {notification.icon}
+                              </span>
+                            </div>
+                            <div className="flex-1 space-y-1">
+                              <div className="flex items-center justify-between">
+                                <p className="text-xs font-semibold text-white group-hover:text-[#8b5cf6] transition-colors">
+                                  {notification.title}
+                                </p>
+                                {notification.isNew && (
+                                  <div className="size-2 bg-[#8b5cf6] rounded-full"></div>
+                                )}
+                              </div>
+                              <p className="text-[11px] text-[#a094b8] leading-tight">
+                                {notification.description}
+                              </p>
+                              <p className="text-[10px] text-white/40 pt-1">
+                                {notification.time}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      className="w-full p-3.5 text-center text-xs font-bold text-[#8b5cf6] hover:bg-[#8b5cf6]/10 transition-colors"
+                      onClick={() => setShowNotifications(false)}
+                    >
+                      View All Notifications
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <button className="flex items-center justify-center size-10 rounded-xl bg-[#1a142e] border border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5 transition-all">
                 <span className="material-symbols-outlined text-[22px]">
                   chat_bubble
                 </span>
@@ -222,10 +350,12 @@ export default function CareerGuidanceDashboard() {
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="flex flex-col gap-2">
               <h1 className={`text-4xl font-extrabold tracking-tight ${isDarkMode ? "text-white" : "text-charcoal"}`}>
-                Welcome back, <span className={isDarkMode ? "text-[#8b5cf6]" : "text-primary"}>Alex!</span>
+                Welcome back, <span className={isDarkMode ? "text-[#8b5cf6]" : "text-primary"}>{user?.name?.split(' ')[0] || "User"}!</span>
               </h1>
               <p className={`text-lg font-normal ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>
-                You're making great progress towards your UX Designer goal.
+                {user?.careerSuggestions && user.careerSuggestions.length > 0
+                  ? `You're making great progress towards your ${user.careerSuggestions[0]} goal.`
+                  : "Start your career journey by taking an assessment."}
               </p>
             </div>
             <button onClick={() => navigate('/assessments')} className={`flex items-center gap-2 px-6 py-3.5 text-white text-sm font-bold rounded-xl transition-all shadow-lg ${isDarkMode ? "bg-[#8b5cf6] hover:bg-[#8b5cf6]/90 shadow-[#8b5cf6]/30" : "bg-primary hover:bg-primary/90 shadow-primary/20"}`}>

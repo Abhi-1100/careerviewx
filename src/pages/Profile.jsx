@@ -1,52 +1,112 @@
-import profile_i0 from "../assets/profile_i0.png";
-import profile_i1 from "../assets/profile_i1.png";
-import profile_i2 from "../assets/profile_i2.png";
-
-import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import InternalNavbar from "../components/InternalNavbar";
 import ListItem from "../components/ListItem";
 import InfoRow from "../components/InfoRow";
 import Button from "../components/Button";
 import Footer from "../components/internalfooter";
-import { ThemeContext } from "../context/ThemeContext";
+import { getCurrentUser } from "../utils/auth";
+import { getProfile } from "../Services/api";
 
 const Profile = () => {
-  const navigate = useNavigate();
-  const { isDarkMode } = useContext(ThemeContext);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Fetch user data from backend
+    const loadUserData = async () => {
+      try {
+        setLoading(true);
+        const response = await getProfile();
+        const userData = response.data;
+        
+        console.log('Profile loaded from backend:', userData);
+        console.log('Assessment History:', userData.assessmentHistory);
+        console.log('Career Paths:', userData.careerPaths);
+        
+        // Update both state and localStorage
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        setError(null);
+      } catch (err) {
+        console.error('Error loading profile:', err);
+        setError('Failed to load profile data');
+        
+        // Fallback to localStorage if backend fails
+        const localUser = getCurrentUser();
+        if (localUser) {
+          console.log('Using localStorage fallback:', localUser);
+          setUser(localUser);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUserData();
+
+    // Listen for storage changes
+    const handleStorageChange = (e) => {
+      if (e.key === 'user') {
+        loadUserData();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', loadUserData);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', loadUserData);
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background-dark text-white font-display">
+        <InternalNavbar />
+        <main className="flex flex-1 justify-center items-center py-12 px-4 h-screen">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+            <p className="text-white text-lg">Loading your profile...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background-dark text-white font-display">
       <InternalNavbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-4 p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
+            <p className="text-red-400 text-sm">{error}</p>
+          </div>
+        )}
+
         <div className="relative mb-12">
           <div className="h-48 w-full rounded-2xl bg-gradient-to-r from-primary via-[#a881ff] to-primary overflow-hidden" />
           <div className="absolute -bottom-12 left-8 flex items-end gap-6">
             <div
               className="h-32 w-32 rounded-full border-4 border-background-dark bg-slate-800 bg-cover bg-center shadow-xl"
-              style={{
-               backgroundImage: `url(${profile_i0})`
-                }}
             ></div>
             <div className="mb-2 pb-1">
               <h2 className="mt-4 text-3xl font-bold text-white leading-none">
-                Alex Johnson
+                {user?.name || "User"}
               </h2>
               <p className="mt-2 mb-5 text-slate-200 font-medium mt-1">
-                12th Grade - Science | Aspiring Software Architect
+                {user?.education || "Student"} {user?.stream ? `- ${user.stream}` : ""} | {user?.careerSuggestions?.[0] || "Career Explorer"}
               </p>
               <p className="text-slate-500 text-sm flex items-center gap-1 mt-1">
                 <span className="material-symbols-outlined text-sm">
-                  location_on
+                  mail
                 </span>{" "}
-                San Francisco, CA
+                {user?.email || "email@example.com"}
               </p>
             </div>
           </div>
-          <button onClick={() => navigate('/settings')} className="absolute top-6 right-6 px-6 py-2 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-2 shadow-lg shadow-primary/30">
-            <span className="material-symbols-outlined text-lg">edit</span>
-            Edit Profile
-          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-20">
@@ -60,11 +120,12 @@ const Profile = () => {
                   My Career Goals
                 </h3>
                 <span className="text-xs font-semibold px-2.5 py-1 bg-primary/20 text-primary rounded-full">
-                  On Track
+                  {user?.careerPaths?.length || 0} Path{user?.careerPaths?.length !== 1 ? 's' : ''}
                 </span>
               </div>
               <div className="space-y-0 relative">
                 <div className="grid grid-cols-[48px_1fr] gap-x-4">
+                  {/* Current Education Level */}
                   <div className="flex flex-col items-center">
                     <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
                       <span className="material-symbols-outlined text-white text-xl">
@@ -75,53 +136,60 @@ const Profile = () => {
                   </div>
                   <div className="pb-8">
                     <p className="text-white font-semibold">
-                      12th Grade Science
+                      {user?.education || "12th Grade"} {user?.stream ? `- ${user.stream}` : ""}
                     </p>
                     <p className="text-gray-400 text-sm">
-                      Current Focus: Physics &amp; Calculus
+                      Current Education Level
                     </p>
                     <span className="text-[10px] uppercase tracking-wider text-primary font-bold mt-1 block">
                       Active
                     </span>
                   </div>
-                  <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-full bg-glass border border-glass-border flex items-center justify-center z-10 text-slate-400">
-                      <span className="material-symbols-outlined text-xl">
-                        history_edu
-                      </span>
-                    </div>
-                    <div className="w-0.5 bg-primary/30 h-16"></div>
-                  </div>
-                  <div className="pb-8">
-                    <p className="text-gray-300 font-semibold">
-                      University - Computer Science
-                    </p>
-                    <p className="text-gray-400 text-sm">
-                      Target: Stanford or UC Berkeley
-                    </p>
-                    <span className="text-[10px] uppercase tracking-wider text-gray-500 font-bold mt-1 block">
-                      Upcoming 2024
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-full bg-glass border border-glass-border flex items-center justify-center z-10 text-slate-400">
-                      <span className="material-symbols-outlined text-xl">
-                        work
-                      </span>
-                    </div>
-                    <div className="w-0.5 bg-primary/30 h-16"></div>
-                  </div>
-                  <div className="pb-8">
-                    <p className="text-gray-300 font-semibold">
-                      Software Engineering Internship
-                    </p>
-                    <p className="text-gray-400 text-sm">
-                      Focus: Cloud Infrastructure &amp; DevOps
-                    </p>
-                    <span className="text-[10px] uppercase tracking-wider text-gray-500 font-bold mt-1 block">
-                      Goal 2026
-                    </span>
-                  </div>
+                  
+                  {/* Dynamic Career Paths */}
+                  {user?.careerPaths && user.careerPaths.length > 0 ? (
+                    user.careerPaths.map((careerPath, index) => (
+                      <React.Fragment key={index}>
+                        <div className="flex flex-col items-center">
+                          <div className="w-10 h-10 rounded-full bg-glass border border-primary/60 flex items-center justify-center z-10 text-primary">
+                            <span className="material-symbols-outlined text-xl">
+                              {index === 0 ? 'work' : 'trending_up'}
+                            </span>
+                          </div>
+                          {index < user.careerPaths.length - 1 ? <div className="w-0.5 bg-primary/30 h-16"></div> : <div className="h-4"></div>}
+                        </div>
+                        <div className="pb-8">
+                          <p className="text-white font-semibold">
+                            {careerPath.careerName}
+                          </p>
+                          <p className="text-gray-400 text-sm">
+                            {careerPath.matchPercentage ? `Match: ${careerPath.matchPercentage}%` : 'Career Goal'} • Added {new Date(careerPath.addedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                          </p>
+                          <span className="text-[10px] uppercase tracking-wider text-primary font-bold mt-1 block">
+                            Target Career
+                          </span>
+                        </div>
+                      </React.Fragment>
+                    ))
+                  ) : (
+                    <>
+                      <div className="flex flex-col items-center">
+                        <div className="w-10 h-10 rounded-full bg-glass border border-glass-border flex items-center justify-center z-10 text-slate-400">
+                          <span className="material-symbols-outlined text-xl">
+                            explore
+                          </span>
+                        </div>
+                      </div>
+                      <div className="pb-8">
+                        <p className="text-gray-400 font-semibold">
+                          No career paths added yet
+                        </p>
+                        <p className="text-gray-500 text-sm">
+                          Complete an assessment to discover your ideal career
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </section>
@@ -140,13 +208,11 @@ const Profile = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ListItem
-                  avatarStyle={{ backgroundImage: `url(${profile_i1})` }}
                   title="Sarah Chen"
                   subtitle="Senior Architect at Google"
                 />
 
                 <ListItem
-                  avatarStyle={{ backgroundImage: `url(${profile_i2})` }}
                   title="Marcus Thorne"
                   subtitle="Engineering Manager at Stripe"
                 />
@@ -221,31 +287,56 @@ const Profile = () => {
                   analytics
                 </span>{" "}
                 Assessment History
+                <span className="ml-auto text-xs font-semibold px-2.5 py-1 bg-primary/20 text-primary rounded-full">
+                  {user?.assessmentHistory?.length || 0} Record{user?.assessmentHistory?.length !== 1 ? 's' : ''}
+                </span>
               </h3>
               <div className="space-y-4">
-                <InfoRow
-                  title="Logic &amp; Reasoning"
-                  subtitle="Oct 12, 2023"
-                  right={<><p className="text-sm font-bold text-primary">95%</p><p className="text-[10px] text-green-500 font-bold">Excellent</p></>}
-                  variant="primary"
-                />
-                <InfoRow
-                  title="Aptitude Test"
-                  subtitle="Sep 28, 2023"
-                  right={<><p className="text-sm font-bold text-gray-300">88%</p><p className="text-[10px] text-gray-400 font-bold">Completed</p></>}
-                />
-                <InfoRow
-                  title="Personality (INTJ)"
-                  subtitle="Aug 15, 2023"
-                  right={<span className="material-symbols-outlined text-gray-500 text-sm">verified</span>}
-                />
+                {user?.assessmentHistory && user.assessmentHistory.length > 0 ? (
+                  [...user.assessmentHistory].reverse().slice(0, 5).map((assessment, index) => {
+                    const date = new Date(assessment.takenAt);
+                    const formattedDate = date.toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'short', 
+                      day: 'numeric' 
+                    });
+                    
+                    return (
+                      <InfoRow
+                        key={index}
+                        title={`${assessment.recommendedCareer?.charAt(0).toUpperCase() + assessment.recommendedCareer?.slice(1)} Assessment`}
+                        subtitle={formattedDate}
+                        right={
+                          <>
+                            <p className="text-sm font-bold text-primary">
+                              {assessment.matchPercentage}%
+                            </p>
+                            <p className="text-[10px] text-green-500 font-bold">
+                              {assessment.matchPercentage >= 90 ? 'Excellent' : 
+                               assessment.matchPercentage >= 75 ? 'Good' : 'Completed'}
+                            </p>
+                          </>
+                        }
+                        variant={index === 0 ? "primary" : undefined}
+                      />
+                    );
+                  })
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+                      <span className="material-symbols-outlined text-primary text-3xl">quiz</span>
+                    </div>
+                    <p className="text-gray-400 text-sm mb-2">No assessment history yet</p>
+                    <p className="text-gray-500 text-xs">Take an assessment to discover your ideal career path!</p>
+                  </div>
+                )}
               </div>
             </section>
           </div>
         </div>
       </main>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };

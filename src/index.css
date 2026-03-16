@@ -15,6 +15,24 @@ body {
               radial-gradient(circle at 10% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
 }
 
+/* Custom Scrollbar Styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #0f0a1e;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #2d264a;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3d3458;
+}
+
 @layer utilities {
   .glass-panel {
     background: rgba(22, 19, 28, 0.7);
