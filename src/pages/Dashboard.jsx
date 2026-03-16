@@ -1,3 +1,5 @@
+import dashboard_i0 from "../assets/dashboard_i0.png";
+import dashboard_i1 from "../assets/dashboard_i1.png";
 import dashboard_i2 from "../assets/dashboard_i2.png";
 import dashboard_i3 from "../assets/dashboard_i3.png";
 import dashboard_i4 from "../assets/dashboard_i4.png";
