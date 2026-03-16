@@ -20,7 +20,8 @@ const connectDB = async () => {
     console.error("   2. Verify MONGO_URI credentials are correct");
     console.error("   3. Ensure the database user has proper permissions");
     console.error("   4. Check if MongoDB service is running (if using local MongoDB)\n");
-    process.exit(1);
+    // Throw error so the caller can handle it instead of exiting the process
+    throw error;
   }
 };
 
