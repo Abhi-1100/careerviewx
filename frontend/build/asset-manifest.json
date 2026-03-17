@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ce38de3e.css",
+    "main.js": "/static/js/main.ce3dc3f4.js",
+    "static/media/Hero_i3.png": "/static/media/Hero_i3.ff110bb97003bf3da1eb.png",
+    "static/media/Hero_i2.png": "/static/media/Hero_i2.188dc82ac0899123b0a5.png",
+    "static/media/Hero_i0.png": "/static/media/Hero_i0.9154f921d8ac07113c13.png",
+    "static/media/Hero_i1.png": "/static/media/Hero_i1.dd770933e3b9538777d4.png",
+    "static/media/dashboard_i5.png": "/static/media/dashboard_i5.43b0341dfa50fe4ea225.png",
+    "static/media/dashboard_i4.png": "/static/media/dashboard_i4.b440d8407198da1d8a1a.png",
+    "static/media/dashboard_i6.png": "/static/media/dashboard_i6.3c8fdf460e08186030ea.png",
+    "static/media/dashboard_i3.png": "/static/media/dashboard_i3.9b1d14b3b7ff882e12fa.png",
+    "static/media/Loginimg.png": "/static/media/Loginimg.42d8fd8c1b96cfa2a6ee.png",
+    "static/media/dashboard_i1.png": "/static/media/dashboard_i1.fe89f5627e9604e12dc2.png",
+    "static/media/dashboard_i2.png": "/static/media/dashboard_i2.8d4c597837d38817fa38.png",
+    "static/media/dashboard_i0.png": "/static/media/dashboard_i0.a931dda2d5250d6ad125.png",
+    "static/media/home_i2.png": "/static/media/home_i2.807cf52fe8762f25d3b6.png",
+    "static/media/home_i1.png": "/static/media/home_i1.a51d11141b210dbfa0c3.png",
+    "static/media/Testimonials_i0.png": "/static/media/Testimonials_i0.34f5b367b739bdab51e0.png",
+    "static/media/Testimonials_i1.png": "/static/media/Testimonials_i1.be6a00c005837321245a.png",
+    "static/media/home_i0.png": "/static/media/home_i0.6224b06a331a24160347.png",
+    "index.html": "/index.html",
+    "main.ce38de3e.css.map": "/static/css/main.ce38de3e.css.map",
+    "main.ce3dc3f4.js.map": "/static/js/main.ce3dc3f4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ce38de3e.css",
+    "static/js/main.ce3dc3f4.js"
+  ]
+}
