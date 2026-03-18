@@ -9,9 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to Database
-connectDB();
-
 // Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/profile", require("./routes/profileRoutes"));
@@ -25,12 +22,16 @@ app.get("/", (req, res) => {
 
 // Start Server
 const PORT = process.env.PORT || 5000;
-
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () =>
-    console.log(`🚀 Server running on port ${PORT}`)
-  );
-}
+connectDB()
+  .then(() => {
+    app.listen(PORT, "0.0.0.0", () =>
+      console.log(`Server running on port ${PORT}`)
+    );
+  })
+  .catch((error) => {
+    console.error("Failed to start server due to database connection error:", error.message);
+    process.exit(1);
+  });
 
 // Export for Vercel Serverless
 module.exports = app;
