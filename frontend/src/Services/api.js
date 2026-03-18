@@ -1,8 +1,14 @@
 import axios from 'axios';
 
+const normalizeApiBaseUrl = (url) => {
+  const cleanedUrl = (url || '').trim().replace(/\/+$/, '');
+  if (!cleanedUrl) return 'https://careerviewx.onrender.com/api';
+  return cleanedUrl.endsWith('/api') ? cleanedUrl : `${cleanedUrl}/api`;
+};
+
 // Create axios instance with base URL
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://careerviewx.onrender.com/api'
+  baseURL: normalizeApiBaseUrl(process.env.REACT_APP_API_URL)
 });
 
 // Add token to every request automatically

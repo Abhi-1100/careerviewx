@@ -309,6 +309,94 @@ Ensure your `.env` file is configured on your server with production MongoDB URI
 
 ---
 
+## ☁️ Deployment Guide (Render + Vercel)
+
+This section captures the exact deployment path and fixes used for CareerViewX.
+
+### Final Architecture
+
+- Frontend: Vercel
+- Backend API: Render
+- Database: MongoDB Atlas
+
+### Backend Deployment on Render
+
+1. Create a new Web Service in Render.
+2. Connect your GitHub repository.
+3. Set these service values:
+   - Root Directory: `backend`
+   - Build Command: `npm install`
+   - Start Command: `npm run start`
+4. Add environment variables in Render:
+   - `MONGO_URI`
+   - `JWT_SECRET`
+   - `NODE_ENV=production`
+
+### Critical Render Port Binding Fix
+
+If Render logs show `No open ports detected`, bind Express to all interfaces:
+
+```js
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+The `0.0.0.0` host binding is required by Render for port detection.
+
+### Known Render Build Issue and Fix
+
+If Render builds from project root with Yarn and fails with workspace-related errors:
+
+- Set Root Directory to `backend`
+- Use `npm install` instead of `yarn`
+
+### Frontend Deployment on Vercel
+
+1. In Vercel project settings, set:
+   - Root Directory: `frontend`
+2. Add environment variable:
+   - `REACT_APP_API_URL=https://careerviewx.onrender.com`
+3. Redeploy frontend from Vercel Deployments to apply env changes.
+
+### Vercel Build Error Fix
+
+If Vercel fails with:
+
+`Could not find a required file. Name: index.html Searched in: /vercel/path0/public`
+
+Set Vercel Root Directory to `frontend` and redeploy.
+
+### CORS Configuration for Frontend + Local Dev
+
+Allow your deployed frontend and local frontend in backend CORS:
+
+```js
+app.use(cors({
+  origin: [
+    "https://careerviewx.vercel.app",
+    "http://localhost:3000"
+  ],
+  credentials: true
+}));
+```
+
+### Production URLs
+
+- Backend Health Check: `https://careerviewx.onrender.com`
+- Frontend: `https://careerviewx.vercel.app`
+
+### Deployment Verification Checklist
+
+1. Open backend health URL and confirm API response:
+   `{"message": "CareerViewX API is running"}`
+2. Confirm MongoDB Atlas is connected from Render logs.
+3. Login from deployed frontend and verify API calls succeed.
+4. If latest changes are not visible, manually redeploy both Render and Vercel.
+
+---
+
 ## 🎉 Success!
 
 You should now have:
@@ -323,6 +411,7 @@ Visit `http://localhost:3000` to start using CareerViewX!
 
 ## 📚 Next Steps
 
+- [Deployment Guide](DEPLOYMENT.md) - Render and Vercel production deployment
 - [API Reference](API_REFERENCE.md) - Learn about available API endpoints
 - [Database Guide](DATABASE.md) - Understand the database schema
 - Start building and testing features!

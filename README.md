@@ -111,6 +111,7 @@ careerviewx/
 ## 📚 Documentation
 
 - **[Setup Guide](docs/SETUP_GUIDE.md)** - Detailed installation steps
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Full Render + Vercel deployment journey, fixes, and final config
 - **[API Documentation](docs/API_REFERENCE.md)** - Complete API reference
 - **[Database Guide](docs/DATABASE.md)** - MongoDB setup and schema
 
