@@ -258,7 +258,7 @@ export default function CareerGuidanceDashboard() {
           <div className="flex items-center gap-5">
             <div className="flex gap-3">
               <div className="relative" ref={notificationRef}>
-                <button 
+                <button
                   onClick={() => setShowNotifications(!showNotifications)}
                   className="relative flex items-center justify-center size-10 rounded-xl bg-[#8b5cf6]/20 border border-[#8b5cf6]/50 text-white transition-all shadow-lg shadow-[#8b5cf6]/20"
                 >
@@ -327,9 +327,19 @@ export default function CareerGuidanceDashboard() {
                 )}
               </div>
 
-              <button className="flex items-center justify-center size-10 rounded-xl bg-[#1a142e] border border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5 transition-all">
+              <button className={`flex items-center justify-center size-10 rounded-xl border transition-all ${isDarkMode ? "bg-[#1a142e] border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5" : "bg-white border-border-light text-slate-500 hover:text-charcoal hover:bg-slate-50"}`}>
                 <span className="material-symbols-outlined text-[22px]">
                   chat_bubble
+                </span>
+              </button>
+
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className={`flex items-center justify-center size-10 rounded-xl border transition-all ${isDarkMode ? "bg-[#1a142e] border-[#2d264a] text-[#a094b8] hover:text-white hover:bg-white/5" : "bg-white border-border-light text-slate-500 hover:text-charcoal hover:bg-slate-50"}`}
+              >
+                <span className="material-symbols-outlined text-[22px]">
+                  {isDarkMode ? "light_mode" : "dark_mode"}
                 </span>
               </button>
             </div>

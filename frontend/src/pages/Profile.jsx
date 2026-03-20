@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import InternalNavbar from "../components/InternalNavbar";
 import ListItem from "../components/ListItem";
 import InfoRow from "../components/InfoRow";
@@ -6,11 +6,13 @@ import Button from "../components/Button";
 import Footer from "../components/internalfooter";
 import { getCurrentUser } from "../utils/auth";
 import { getProfile } from "../Services/api";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { isDarkMode } = useContext(ThemeContext);
 
   useEffect(() => {
     // Fetch user data from backend
@@ -63,7 +65,7 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background-dark text-white font-display">
+      <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
         <InternalNavbar />
         <main className="flex flex-1 justify-center items-center py-12 px-4 h-screen">
           <div className="flex flex-col items-center gap-4">
@@ -76,12 +78,12 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background-dark text-white font-display">
+    <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
       <InternalNavbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {error && (
-          <div className="mb-4 p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
+          <div className={`mb-4 p-4 rounded-lg ${isDarkMode ? "bg-red-500/10 border border-red-500/50" : "bg-red-50 border border-red-200"}`}>
             <p className="text-red-400 text-sm">{error}</p>
           </div>
         )}
@@ -90,13 +92,13 @@ const Profile = () => {
           <div className="h-48 w-full rounded-2xl bg-gradient-to-r from-primary via-[#a881ff] to-primary overflow-hidden" />
           <div className="absolute -bottom-12 left-8 flex items-end gap-6">
             <div
-              className="h-32 w-32 rounded-full border-4 border-background-dark bg-slate-800 bg-cover bg-center shadow-xl"
+              className={`h-32 w-32 rounded-full border-4 bg-cover bg-center shadow-xl ${isDarkMode ? "border-background-dark bg-slate-800" : "border-surface-light bg-slate-200"}`}
             ></div>
             <div className="mb-2 pb-1">
-              <h2 className="mt-4 text-3xl font-bold text-white leading-none">
+              <h2 className={`mt-4 text-3xl font-bold leading-none ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                 {user?.name || "User"}
               </h2>
-              <p className="mt-2 mb-5 text-slate-200 font-medium mt-1">
+              <p className={`mt-2 mb-5 font-medium mt-1 ${isDarkMode ? "text-slate-200" : "text-slate-600"}`}>
                 {user?.education || "Student"} {user?.stream ? `- ${user.stream}` : ""} | {user?.careerSuggestions?.[0] || "Career Explorer"}
               </p>
               <p className="text-slate-500 text-sm flex items-center gap-1 mt-1">
@@ -111,7 +113,7 @@ const Profile = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-20">
           <div className="lg:col-span-2 space-y-8">
-            <section className="bg-card-dark rounded-xl p-6">
+            <section className={`rounded-xl p-6 ${isDarkMode ? "bg-card-dark" : "bg-white border border-border-light shadow-sm"}`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-bold flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary">
@@ -135,10 +137,10 @@ const Profile = () => {
                     <div className="w-0.5 bg-primary/30 h-16"></div>
                   </div>
                   <div className="pb-8">
-                    <p className="text-white font-semibold">
+                    <p className={`font-semibold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                       {user?.education || "12th Grade"} {user?.stream ? `- ${user.stream}` : ""}
                     </p>
-                    <p className="text-gray-400 text-sm">
+                    <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                       Current Education Level
                     </p>
                     <span className="text-[10px] uppercase tracking-wider text-primary font-bold mt-1 block">
@@ -159,10 +161,10 @@ const Profile = () => {
                           {index < user.careerPaths.length - 1 ? <div className="w-0.5 bg-primary/30 h-16"></div> : <div className="h-4"></div>}
                         </div>
                         <div className="pb-8">
-                          <p className="text-white font-semibold">
+                          <p className={`font-semibold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                             {careerPath.careerName}
                           </p>
-                          <p className="text-gray-400 text-sm">
+                          <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                             {careerPath.matchPercentage ? `Match: ${careerPath.matchPercentage}%` : 'Career Goal'} • Added {new Date(careerPath.addedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                           </p>
                           <span className="text-[10px] uppercase tracking-wider text-primary font-bold mt-1 block">
@@ -194,7 +196,7 @@ const Profile = () => {
               </div>
             </section>
 
-            <section className="bg-card-dark rounded-xl p-6">
+            <section className={`rounded-xl p-6 ${isDarkMode ? "bg-card-dark" : "bg-white border border-border-light shadow-sm"}`}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-bold flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary">
@@ -221,7 +223,7 @@ const Profile = () => {
           </div>
 
           <div className="space-y-8">
-            <section className="bg-card-dark rounded-xl p-6">
+            <section className={`rounded-xl p-6 ${isDarkMode ? "bg-card-dark" : "bg-white border border-border-light shadow-sm"}`}>
               <h3 className="text-lg font-bold flex items-center gap-2 mb-6">
                 <span className="material-symbols-outlined text-primary">
                   bolt
@@ -234,7 +236,7 @@ const Profile = () => {
                     <span className="font-medium">Python Programming</span>
                     <span className="text-primary font-bold">85%</span>
                   </div>
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div className={`h-2 w-full rounded-full overflow-hidden ${isDarkMode ? "bg-white/10" : "bg-slate-200"}`}>
                     <div
                       className="h-full bg-primary rounded-full"
                       style={{ width: "85%" }}
@@ -246,7 +248,7 @@ const Profile = () => {
                     <span className="font-medium">Critical Thinking</span>
                     <span className="text-primary font-bold">92%</span>
                   </div>
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div className={`h-2 w-full rounded-full overflow-hidden ${isDarkMode ? "bg-white/10" : "bg-slate-200"}`}>
                     <div
                       className="h-full bg-primary rounded-full"
                       style={{ width: "92%" }}
@@ -258,7 +260,7 @@ const Profile = () => {
                     <span className="font-medium">Public Speaking</span>
                     <span className="text-primary font-bold">70%</span>
                   </div>
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div className={`h-2 w-full rounded-full overflow-hidden ${isDarkMode ? "bg-white/10" : "bg-slate-200"}`}>
                     <div
                       className="h-full bg-primary rounded-full"
                       style={{ width: "70%" }}
@@ -281,7 +283,7 @@ const Profile = () => {
               <Button variant="card">Add New Skill</Button>
             </section>
 
-            <section className="bg-card-dark rounded-xl p-6">
+            <section className={`rounded-xl p-6 ${isDarkMode ? "bg-card-dark" : "bg-white border border-border-light shadow-sm"}`}>
               <h3 className="text-lg font-bold flex items-center gap-2 mb-6">
                 <span className="material-symbols-outlined text-primary">
                   analytics
@@ -313,7 +315,7 @@ const Profile = () => {
                             </p>
                             <p className="text-[10px] text-green-500 font-bold">
                               {assessment.matchPercentage >= 90 ? 'Excellent' :
-                               assessment.matchPercentage >= 75 ? 'Good' : 'Completed'}
+                                assessment.matchPercentage >= 75 ? 'Good' : 'Completed'}
                             </p>
                           </>
                         }

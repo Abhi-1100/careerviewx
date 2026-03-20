@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchCareers } from "../Services/api";
+import { ThemeContext } from "../context/ThemeContext";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -9,6 +10,7 @@ export default function SearchBar() {
   const [loading, setLoading] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const navigate = useNavigate();
+  const { isDarkMode } = useContext(ThemeContext);
   const wrapperRef = useRef(null);
   const debounceRef = useRef(null);
 
@@ -77,12 +79,12 @@ export default function SearchBar() {
 
   return (
     <div className="relative w-full max-w-md" ref={wrapperRef}>
-      <div className="flex w-full items-center rounded-xl bg-[#1a142e] border border-[#2d264a] px-4 h-11 focus-within:border-[#8b5cf6]/50 transition-colors">
-        <span className="material-symbols-outlined text-[#a094b8] text-[20px]">
+      <div className={`flex w-full items-center rounded-xl border px-4 h-11 transition-colors ${isDarkMode ? "bg-[#1a142e] border-[#2d264a] focus-within:border-[#8b5cf6]/50" : "bg-white border-border-light focus-within:border-primary/50"}`}>
+        <span className={`material-symbols-outlined text-[20px] ${isDarkMode ? "text-[#a094b8]" : "text-slate-400"}`}>
           search
         </span>
         <input
-          className="w-full border-none bg-transparent focus:ring-0 text-white placeholder:text-[#a094b8] px-3 text-sm"
+          className={`w-full border-none bg-transparent focus:ring-0 px-3 text-sm ${isDarkMode ? "text-white placeholder:text-[#a094b8]" : "text-charcoal placeholder:text-slate-400"}`}
           placeholder="Search careers..."
           value={query}
           onChange={handleInputChange}
@@ -98,7 +100,7 @@ export default function SearchBar() {
 
       {/* Dropdown Results */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-[#1a142e]/95 backdrop-blur-xl border border-[#2d264a] rounded-xl shadow-2xl shadow-black/40 z-50 overflow-hidden max-h-[360px] overflow-y-auto custom-scrollbar">
+        <div className={`absolute top-full left-0 right-0 mt-2 backdrop-blur-xl border rounded-xl shadow-2xl z-50 overflow-hidden max-h-[360px] overflow-y-auto custom-scrollbar ${isDarkMode ? "bg-[#1a142e]/95 border-[#2d264a] shadow-black/40" : "bg-white/95 border-border-light shadow-slate-200/60"}`}>
           {noResults && !loading && (
             <div className="flex flex-col items-center justify-center p-6 gap-2">
               <span className="material-symbols-outlined text-[#a094b8] text-3xl">
@@ -117,7 +119,7 @@ export default function SearchBar() {
             <div
               key={career._id}
               onClick={() => handleResultClick(career)}
-              className="flex items-center gap-3 px-4 py-3 hover:bg-[#8b5cf6]/10 cursor-pointer transition-colors border-b border-[#2d264a]/50 last:border-b-0 group"
+              className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors last:border-b-0 group ${isDarkMode ? "hover:bg-[#8b5cf6]/10 border-b border-[#2d264a]/50" : "hover:bg-primary/5 border-b border-slate-100"}`}
             >
               <div className="size-10 rounded-lg bg-[#8b5cf6]/10 text-[#8b5cf6] flex items-center justify-center shrink-0 group-hover:bg-[#8b5cf6] group-hover:text-white transition-all">
                 <span className="material-symbols-outlined text-xl">
@@ -125,10 +127,10 @@ export default function SearchBar() {
                 </span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-semibold truncate group-hover:text-[#8b5cf6] transition-colors">
+                <p className={`text-sm font-semibold truncate group-hover:text-[#8b5cf6] transition-colors ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                   {career.title || career.careerName}
                 </p>
-                <p className="text-[#a094b8] text-xs truncate">
+                <p className={`text-xs truncate ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>
                   {career.category || "General"}
                   {career.shortDescription && ` · ${career.shortDescription}`}
                 </p>
