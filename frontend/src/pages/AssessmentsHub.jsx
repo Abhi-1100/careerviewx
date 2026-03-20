@@ -55,7 +55,7 @@ export default function AssessmentsHub() {
     <div className={`min-h-screen font-display flex flex-col transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
       <InternalNavbar />
 
-      <main className="flex-1 px-4 lg:px-40 py-8">
+      <main className="flex-1 px-4 sm:px-6 lg:px-40 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
           <aside className="w-full lg:w-64 flex flex-col gap-6">
@@ -149,37 +149,37 @@ export default function AssessmentsHub() {
                     const match = item.matchPercentage || 85;
                     const isLatest = index === 0;
                     return (
-                      <div key={item._id || index} className={`p-5 rounded-xl flex flex-wrap lg:flex-nowrap items-center gap-6 group transition-all ${isDarkMode ? "glass-panel hover:bg-white/5" : "bg-white border border-border-light shadow-sm hover:bg-slate-50"} ${isLatest ? "border border-primary/30" : ""}`}>
-                        <div className={`w-16 h-16 rounded-lg ${meta.bg} flex items-center justify-center flex-shrink-0 relative overflow-hidden`}>
-                          {isLatest && <div className="absolute inset-2 border-2 border-primary/40 rounded-sm border-dashed"></div>}
-                          <span className={`material-symbols-outlined ${meta.color} text-3xl`}>{meta.icon}</span>
+                      <div key={item._id || index} className={`p-4 sm:p-5 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 group transition-all ${isDarkMode ? "glass-panel hover:bg-white/5" : "bg-white border border-border-light shadow-sm hover:bg-slate-50"} ${isLatest ? "border border-primary/30" : ""}`}>
+                        <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl ${meta.bg} flex items-center justify-center flex-shrink-0 relative overflow-hidden`}>
+                          {isLatest && <div className="absolute inset-1.5 border-2 border-primary/40 rounded-lg border-dashed"></div>}
+                          <span className={`material-symbols-outlined ${meta.color} text-2xl sm:text-3xl`}>{meta.icon}</span>
                         </div>
-                        <div className="flex-1 min-w-[200px]">
+                        <div className="flex-1 min-w-0 w-full">
                           <div className="flex items-center gap-2">
-                            <h3 className={`text-lg font-bold group-hover:text-primary transition-colors capitalize ${isDarkMode ? "text-white" : "text-charcoal"}`}>{key} Assessment</h3>
+                            <h3 className={`text-base sm:text-lg font-bold group-hover:text-primary transition-colors capitalize truncate ${isDarkMode ? "text-white" : "text-charcoal"}`}>{key} Assessment</h3>
                             {isLatest && <span className="text-[10px] font-bold bg-primary/20 text-primary px-2 py-0.5 rounded-full border border-primary/30">Latest</span>}
                           </div>
-                          <p className={`text-sm flex items-center gap-2 mt-1 ${isDarkMode ? "text-white/40" : "text-slate-500"}`}>
+                          <p className={`text-xs sm:text-sm flex items-center gap-2 mt-1 ${isDarkMode ? "text-white/40" : "text-slate-500"}`}>
                             <span className="material-symbols-outlined text-sm">calendar_month</span>
                             {formatDate(item.takenAt)}
                           </p>
                         </div>
-                        <div className="flex flex-col gap-1 items-start lg:items-center min-w-[140px]">
+                        <div className="flex flex-row sm:flex-col gap-4 sm:gap-1 items-center sm:items-center min-w-[120px] w-full sm:w-auto justify-between sm:justify-start">
                           <p className={`text-[10px] uppercase font-bold tracking-widest ${isDarkMode ? "text-white/40" : "text-slate-500"}`}>Top Match</p>
-                          <span className={`font-bold px-3 py-1 rounded-full border text-sm ${isLatest ? "text-primary bg-primary/10 border-primary/20" : isDarkMode ? "text-white bg-white/10 border-white/10" : "text-charcoal bg-slate-100 border-slate-200"}`}>{label}</span>
+                          <span className={`font-bold px-3 py-1 rounded-full border text-[11px] sm:text-sm ${isLatest ? "text-primary bg-primary/10 border-primary/20" : isDarkMode ? "text-white bg-white/10 border-white/10" : "text-charcoal bg-slate-100 border-slate-200"}`}>{label}</span>
                         </div>
-                        <div className="flex flex-col gap-1 items-start lg:items-center min-w-[120px]">
+                        <div className="flex flex-row sm:flex-col gap-4 sm:gap-1 items-center sm:items-center min-w-[110px] w-full sm:w-auto justify-between sm:justify-start">
                           <p className={`text-[10px] uppercase font-bold tracking-widest ${isDarkMode ? "text-white/40" : "text-slate-500"}`}>Compatibility</p>
                           <div className="flex items-center gap-2">
-                            <div className={`h-1.5 w-24 rounded-full overflow-hidden ${isDarkMode ? "bg-white/10" : "bg-slate-200"}`}>
+                            <div className={`h-1.5 w-16 sm:w-20 rounded-full overflow-hidden ${isDarkMode ? "bg-white/10" : "bg-slate-200"}`}>
                               <div className={`h-full ${isLatest ? "bg-primary" : isDarkMode ? "bg-white/40" : "bg-slate-400"}`} style={{ width: `${match}%` }}></div>
                             </div>
-                            <span className={`font-bold text-sm ${isDarkMode ? "text-white" : "text-charcoal"}`}>{match}%</span>
+                            <span className={`font-bold text-xs sm:text-sm ${isDarkMode ? "text-white" : "text-charcoal"}`}>{match}%</span>
                           </div>
                         </div>
                         <button
                           onClick={() => navigate("/career-result", { state: { recommendedCareer: item.recommendedCareer, scores: item.scores } })}
-                          className={`flex-shrink-0 w-full lg:w-auto px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${isLatest
+                          className={`flex-shrink-0 w-full sm:w-auto px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-all ${isLatest
                             ? "bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-white"
                             : "bg-white/5 border border-white/10 text-white/60 hover:bg-primary hover:text-white hover:border-primary"
                             }`}

@@ -30,6 +30,7 @@ export default function CareerGuidanceDashboard() {
   const [careerNews, setCareerNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const notificationRef = useRef(null);
 
   // Get user data from localStorage
@@ -251,7 +252,7 @@ export default function CareerGuidanceDashboard() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
         {/* Header */}
-        <header className={`sticky top-0 z-30 flex items-center justify-between border-b backdrop-blur-xl px-8 py-4 transition-colors duration-300 ${isDarkMode ? "bg-background-dark/80 border-[#2d264a]" : "bg-surface-light/80 border-border-light"}`}>
+        <header className={`sticky top-0 z-30 flex items-center gap-4 border-b backdrop-blur-xl px-4 sm:px-6 md:px-8 py-4 transition-colors duration-300 ${isDarkMode ? "bg-background-dark/80 border-[#2d264a]" : "bg-surface-light/80 border-border-light"}`}>
           <div className="flex items-center gap-6 flex-1">
             <SearchBar />
           </div>
@@ -353,11 +354,19 @@ export default function CareerGuidanceDashboard() {
 
               ></div>
             </div>
+            <div className="flex items-center gap-3 lg:hidden">
+              <button
+                onClick={() => setMenuOpen(true)}
+                className={`p-2 rounded-lg transition-colors ${isDarkMode ? "text-white hover:bg-white/10" : "text-charcoal hover:bg-slate-100"}`}
+              >
+                <span className="material-symbols-outlined text-2xl">menu</span>
+              </button>
+            </div>
           </div>
         </header>
 
         {/* Content */}
-        <div className="p-8 max-w-[1200px] mx-auto w-full space-y-10">
+        <div className="p-4 sm:p-6 lg:p-8 max-w-[1200px] mx-auto w-full space-y-10">
           {/* Welcome Section */}
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="flex flex-col gap-2">
@@ -537,6 +546,73 @@ export default function CareerGuidanceDashboard() {
         </div>
       </main>
 
+      {/* Mobile Drawer */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-[60] lg:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setMenuOpen(false)}
+          />
+
+          {/* Drawer Content */}
+          <aside className={`absolute right-0 top-0 h-full w-72 shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col ${isDarkMode ? "bg-[#140f26] border-l border-[#2d264a]" : "bg-sidebar-light border-l border-border-light"}`}>
+            <div className="p-6 flex flex-col h-full">
+              <div className="flex items-center justify-between mb-8">
+                {/* Logo */}
+                <div className={`flex items-center gap-3 ${isDarkMode ? "text-[#8b5cf6]" : "text-primary"}`}>
+                  <div className={`size-8 rounded-lg flex items-center justify-center text-white shadow-lg shadow-purple-500/30 ${isDarkMode ? "bg-[#8b5cf6]" : "bg-primary"}`}>
+                    <span className="material-symbols-outlined text-lg">rocket_launch</span>
+                  </div>
+                  <h2 className={`text-lg font-bold tracking-tight ${isDarkMode ? "text-white" : "text-charcoal"}`}>
+                    CareerPath
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className={`p-2 rounded-lg ${isDarkMode ? "text-white/70 hover:bg-white/10" : "text-slate-500 hover:bg-slate-100"}`}
+                >
+                  <span className="material-symbols-outlined">close</span>
+                </button>
+              </div>
+
+              {/* Navigation */}
+              <nav className="flex flex-col gap-1.5 flex-1">
+                {[
+                  { path: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
+                  { path: '/career-paths', label: 'Career Paths', icon: 'explore' },
+                  { path: '/assessments', label: 'Assessments', icon: 'quiz' },
+                  { path: '/mentors', label: 'Mentors', icon: 'groups' },
+                  { path: '/settings', label: 'Settings', icon: 'settings' }
+                ].map((item) => (
+                  <button
+                    key={item.path}
+                    onClick={() => { navigate(item.path); setMenuOpen(false); }}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${isActive(item.path)
+                      ? isDarkMode
+                        ? 'bg-[#8b5cf6]/10 text-white border-l-2 border-[#8b5cf6]'
+                        : 'bg-primary/10 text-primary border-l-2 border-primary'
+                      : isDarkMode
+                        ? 'text-[#a094b8] hover:text-white hover:bg-white/5'
+                        : 'text-gray-600 hover:text-primary hover:bg-slate-100'}`}
+                  >
+                    <span className={`material-symbols-outlined text-xl ${isActive(item.path) ? (isDarkMode ? "text-[#8b5cf6]" : "text-primary") : ""}`}>{item.icon}</span>
+                    <p className="text-sm font-medium">{item.label}</p>
+                  </button>
+                ))}
+              </nav>
+
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-500/10 mt-auto"
+              >
+                <span className="material-symbols-outlined">logout</span>
+                <p className="text-sm font-medium">Logout</p>
+              </button>
+            </div>
+          </aside>
+        </div>
+      )}
     </div>
   );
 }
