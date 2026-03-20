@@ -11,8 +11,8 @@ body {
 }
 
 .hero-gradient {
-  background: radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 10% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+  background: radial-gradient(circle at 80% 20%, rgba(140, 43, 238, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 10% 80%, rgba(140, 43, 238, 0.08) 0%, transparent 40%);
 }
 
 /* Custom Scrollbar Styles */
@@ -21,35 +21,35 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #0f0a1e;
+  background: #191022;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #2d264a;
+  background: #3a2a54;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #3d3458;
+  background: #4a386b;
 }
 
 @layer utilities {
   .glass-panel {
-    background: rgba(22, 19, 28, 0.7);
+    background: rgba(25, 16, 34, 0.7);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
   .glow-button {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 20px rgba(140, 43, 238, 0.3);
   }
   .glow-button:hover {
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 30px rgba(140, 43, 238, 0.5);
   }
   .neon-glow {
-    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3), 0 0 40px rgba(139, 92, 246, 0.2);
+    text-shadow: 0 0 10px rgba(140, 43, 238, 0.5), 0 0 20px rgba(140, 43, 238, 0.3), 0 0 40px rgba(140, 43, 238, 0.2);
   }
   .button-glow {
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 15px rgba(140, 43, 238, 0.4);
   }
 }
 

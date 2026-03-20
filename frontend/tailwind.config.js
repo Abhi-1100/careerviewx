@@ -6,16 +6,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "primary": "#8b5cf6",
-        "charcoal": "#1e293b",
-        "panel-dark": "#16131c",
-        "surface-dark": "#0f0a1e",
-        "surface-light": "#f8fafc",
-        "sidebar-light": "#f1f5f9",
+        "primary": "#8c2bee",
+        "charcoal": "#191022",
+        "panel-dark": "#191022",
+        "surface-dark": "#191022",
+        "surface-light": "#f7f6f8",
+        "sidebar-light": "#f7f6f8",
         "card-white": "#ffffff",
         "border-light": "#e2e8f0",
-        "card-dark": "#1a142e",
-        "border-dark": "#2d264a",
+        "card-dark": "#231236",
+        "border-dark": "#3a2a54",
+        "background-light": "#f7f6f8",
+        "background-dark": "#191022",
         "accent-blue": "#3b82f6",
         "accent-green": "#10b981",
         "accent-yellow": "#f59e0b"

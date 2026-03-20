@@ -23,7 +23,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? "bg-charcoal text-white" : "bg-surface-light text-charcoal"}`}>
+      <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-slate-100" : "bg-background-light text-slate-900"}`}>
         <Suspense fallback={<LoadingScreen message="Loading page..." />}>
           <Routes>
             <Route path="/" element={<Home />} />

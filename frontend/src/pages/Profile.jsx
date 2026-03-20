@@ -19,11 +19,11 @@ const Profile = () => {
         setLoading(true);
         const response = await getProfile();
         const userData = response.data;
-        
+
         console.log('Profile loaded from backend:', userData);
         console.log('Assessment History:', userData.assessmentHistory);
         console.log('Career Paths:', userData.careerPaths);
-        
+
         // Update both state and localStorage
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
@@ -31,7 +31,7 @@ const Profile = () => {
       } catch (err) {
         console.error('Error loading profile:', err);
         setError('Failed to load profile data');
-        
+
         // Fallback to localStorage if backend fails
         const localUser = getCurrentUser();
         if (localUser) {
@@ -145,7 +145,7 @@ const Profile = () => {
                       Active
                     </span>
                   </div>
-                  
+
                   {/* Dynamic Career Paths */}
                   {user?.careerPaths && user.careerPaths.length > 0 ? (
                     user.careerPaths.map((careerPath, index) => (
@@ -295,12 +295,12 @@ const Profile = () => {
                 {user?.assessmentHistory && user.assessmentHistory.length > 0 ? (
                   [...user.assessmentHistory].reverse().slice(0, 5).map((assessment, index) => {
                     const date = new Date(assessment.takenAt);
-                    const formattedDate = date.toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'short', 
-                      day: 'numeric' 
+                    const formattedDate = date.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
                     });
-                    
+
                     return (
                       <InfoRow
                         key={index}
@@ -312,7 +312,7 @@ const Profile = () => {
                               {assessment.matchPercentage}%
                             </p>
                             <p className="text-[10px] text-green-500 font-bold">
-                              {assessment.matchPercentage >= 90 ? 'Excellent' : 
+                              {assessment.matchPercentage >= 90 ? 'Excellent' :
                                assessment.matchPercentage >= 75 ? 'Good' : 'Completed'}
                             </p>
                           </>
