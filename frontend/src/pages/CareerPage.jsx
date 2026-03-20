@@ -55,20 +55,20 @@ export default function CareerPage() {
 
   /* ========= HEADER (matches design) ========= */
   const renderHeader = () => (
-      
-      <InternalNavbar/>
-      
+
+    <InternalNavbar />
+
   );
-  
+
   /* ========= FOOTER (matches design) ========= */
   const renderFooter = () => (
-    <Footer/>
+    <Footer />
   );
 
   /* ========= LOADING STATE ========= */
   if (loading) {
     return (
-      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#0a0910] text-white font-display selection:bg-[#8b5cf6]/30">
+      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark text-white font-display selection:bg-[#8b5cf6]/30">
         {renderHeader()}
         <div className="flex items-center justify-center h-[60vh]">
           <div className="flex flex-col items-center gap-4">
@@ -86,7 +86,7 @@ export default function CareerPage() {
   /* ========= ERROR STATE ========= */
   if (error) {
     return (
-      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#0a0910] text-white font-display selection:bg-[#8b5cf6]/30">
+      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark text-white font-display selection:bg-[#8b5cf6]/30">
         {renderHeader()}
         <div className="flex items-center justify-center h-[60vh]">
           <div className="flex flex-col items-center gap-4 max-w-md text-center">
@@ -111,7 +111,7 @@ export default function CareerPage() {
 
   /* ========= MAIN PAGE ========= */
   return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#0a0910] text-white font-display selection:bg-[#8b5cf6]/30">
+    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark text-white font-display selection:bg-[#8b5cf6]/30">
       {renderHeader()}
 
       <main className="flex flex-1 justify-center py-8">
@@ -371,9 +371,8 @@ export default function CareerPage() {
                     {career.roadmap.map((step, index) => (
                       <div
                         key={index}
-                        className={`flex items-start gap-4 p-5 hover:bg-[#1c1a2e] transition-colors group ${
-                          index > 0 ? "border-t border-[#2d2845]" : ""
-                        }`}
+                        className={`flex items-start gap-4 p-5 hover:bg-[#1c1a2e] transition-colors group ${index > 0 ? "border-t border-[#2d2845]" : ""
+                          }`}
                       >
                         <div className="size-10 rounded-lg bg-[#8b5cf6]/10 text-[#8b5cf6] flex items-center justify-center shrink-0 group-hover:bg-[#8b5cf6] group-hover:text-white transition-all">
                           <span className="material-symbols-outlined">

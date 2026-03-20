@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getCareerByName, addCareerPath } from "../Services/api";
 import InternalNavbar from "../components/InternalNavbar";
+import Footer from "../components/internalfooter";
 
 // Career image mapping
 const careerImages = {
@@ -125,7 +126,7 @@ const CareerResult = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { recommendedCareer, scores } = location.state || {};
-  
+
   const [career, setCareer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -147,7 +148,7 @@ const CareerResult = () => {
       try {
         setLoading(true);
         const response = await getCareerByName(recommendedCareer);
-        
+
         if (response.data.success) {
           setCareer(response.data.career);
           setError(null);
@@ -182,7 +183,7 @@ const CareerResult = () => {
       }
 
       const user = JSON.parse(userStr);
-      
+
       // Prepare career path data
       const careerPathData = {
         careerName: career.careerName,
@@ -193,12 +194,12 @@ const CareerResult = () => {
 
       // Save to backend
       const response = await addCareerPath(careerPathData);
-      
+
       if (response.data.success) {
         // Update localStorage with latest career paths
         user.careerPaths = response.data.careerPaths;
         localStorage.setItem('user', JSON.stringify(user));
-        
+
         showToast(`${career.careerName} has been added to your career path!`, 'success');
         setTimeout(() => navigate("/profile"), 1100);
       } else {
@@ -206,7 +207,7 @@ const CareerResult = () => {
       }
     } catch (error) {
       console.error('Error adding career path:', error);
-      
+
       if (error.response?.status === 400) {
         showToast(error.response.data.message || `${career.careerName} is already in your career path!`, 'error');
       } else if (error.response?.status === 401) {
@@ -267,11 +268,10 @@ const CareerResult = () => {
 
       {/* Toast Notification */}
       {toast.visible && (
-        <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-3 rounded-xl shadow-2xl text-sm font-semibold transition-all animate-fade-in ${
-          toast.type === 'success' ? 'bg-green-600 text-white' :
-          toast.type === 'error' ? 'bg-red-600 text-white' :
-          'bg-primary text-white'
-        }`}>
+        <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-3 rounded-xl shadow-2xl text-sm font-semibold transition-all animate-fade-in ${toast.type === 'success' ? 'bg-green-600 text-white' :
+            toast.type === 'error' ? 'bg-red-600 text-white' :
+              'bg-primary text-white'
+          }`}>
           <span className="material-symbols-outlined text-base">
             {toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error' : 'info'}
           </span>
@@ -280,7 +280,7 @@ const CareerResult = () => {
       )}
 
       {/* Header Navigation */}
-      
+
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-12">
         {/* Success Message */}
@@ -298,8 +298,8 @@ const CareerResult = () => {
               {/* Career Image with Progress Overlay */}
               <div className="relative shrink-0">
                 <div className="size-48 md:size-56 rounded-xl overflow-hidden border-4 border-primary/20 shadow-lg">
-                  <img 
-                    className="w-full h-full object-cover" 
+                  <img
+                    className="w-full h-full object-cover"
                     alt={career.careerName}
                     src={imageUrl}
                   />
@@ -309,13 +309,13 @@ const CareerResult = () => {
                   <div className="relative size-full flex items-center justify-center">
                     <svg className="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 80 80">
                       <circle cx="40" cy="40" fill="transparent" r="32" stroke="#2d2d4e" strokeWidth="6"></circle>
-                      <circle 
-                        cx="40" 
-                        cy="40" 
-                        fill="transparent" 
-                        r="32" 
+                      <circle
+                        cx="40"
+                        cy="40"
+                        fill="transparent"
+                        r="32"
                         stroke="#8c2bee"
-                        strokeDasharray="201.1" 
+                        strokeDasharray="201.1"
                         strokeDashoffset={201.1 - (metadata.match / 100 * 201.1)}
                         strokeWidth="6"
                         strokeLinecap="round"
@@ -368,14 +368,14 @@ const CareerResult = () => {
 
             {/* Actions */}
             <div className="flex flex-col gap-3">
-              <button 
+              <button
                 onClick={handleAddToCareerPath}
                 className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-95"
               >
                 <span className="material-symbols-outlined">add_circle</span>
                 Add to Career Path
               </button>
-              <button 
+              <button
                 onClick={handleMoreInfo}
                 className="w-full border-2 border-primary/30 hover:border-primary/60 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all"
               >
@@ -387,7 +387,7 @@ const CareerResult = () => {
                   <span className="material-symbols-outlined text-sm">dashboard</span>
                   Back to Dashboard
                 </button>
-                <button 
+                <button
                   onClick={handleDownloadPDF}
                   className="text-sm font-medium text-slate-500 hover:text-primary flex items-center gap-1 transition-colors"
                 >
@@ -467,9 +467,7 @@ const CareerResult = () => {
         </div>
       </main>
 
-      <footer className="mt-auto py-8 px-6 text-center border-t border-primary/5">
-        <p className="text-slate-500 text-xs font-medium">© 2024 CareerViewX. Empowering careers with data-driven insights.</p>
-      </footer>
+      <Footer />
 
     </div>
   );

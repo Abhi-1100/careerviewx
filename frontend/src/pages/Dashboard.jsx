@@ -113,7 +113,7 @@ export default function CareerGuidanceDashboard() {
   };
 
   return (
-    <div className={`flex h-screen ${isDarkMode ? "bg-[#0f0a1e] text-white" : "bg-surface-light text-charcoal"} font-display overflow-hidden transition-colors duration-300`}>
+    <div className={`flex h-screen ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"} font-display overflow-hidden transition-colors duration-300`}>
       {/* Sidebar */}
       <aside className={`w-64 flex-shrink-0 border-r hidden lg:flex flex-col ${isDarkMode ? "border-[#2d264a] bg-[#140f26]" : "border-border-light bg-sidebar-light"}`}>
         <div className="p-6 flex flex-col h-full justify-between">
@@ -251,7 +251,7 @@ export default function CareerGuidanceDashboard() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
         {/* Header */}
-        <header className={`sticky top-0 z-30 flex items-center justify-between border-b backdrop-blur-xl px-8 py-4 transition-colors duration-300 ${isDarkMode ? "bg-[#0f0a1e]/80 border-[#2d264a]" : "bg-surface-light/80 border-border-light"}`}>
+        <header className={`sticky top-0 z-30 flex items-center justify-between border-b backdrop-blur-xl px-8 py-4 transition-colors duration-300 ${isDarkMode ? "bg-background-dark/80 border-[#2d264a]" : "bg-surface-light/80 border-border-light"}`}>
           <div className="flex items-center gap-6 flex-1">
             <SearchBar />
           </div>

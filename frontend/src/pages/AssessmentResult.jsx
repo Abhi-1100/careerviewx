@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/InternalNavbar"
+import Footer from "../components/internalfooter";
 
 // Career details mapping based on backend categories
 const careerDetails = {
@@ -197,7 +198,7 @@ export default function AssessmentResult() {
   };
 
   const handleJobOpenings = () => {
-    // Navigate to job openings or careers page  
+    // Navigate to job openings or careers page
     navigate("/careers");
   };
 
@@ -214,10 +215,10 @@ export default function AssessmentResult() {
 
   return (
     <div className="min-h-screen bg-background-dark text-white font-display">
-      
 
-      
-      
+
+
+
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-12">
         {/* Success Message */}
@@ -235,8 +236,8 @@ export default function AssessmentResult() {
               {/* Career Image with Progress Overlay */}
               <div className="relative">
                 <div className="size-48 md:size-64 rounded-xl overflow-hidden border-4 border-primary/20 shadow-lg">
-                  <img 
-                    className="w-full h-full object-cover" 
+                  <img
+                    className="w-full h-full object-cover"
                     alt={recommendedCareer.title}
                     src={recommendedCareer.image}
                   />
@@ -246,14 +247,14 @@ export default function AssessmentResult() {
                   <div className="relative size-full flex items-center justify-center">
                     <svg className="size-20 transform -rotate-90">
                       <circle className="text-slate-800" cx="40" cy="40" fill="transparent" r="34" stroke="currentColor" strokeWidth="6"></circle>
-                      <circle 
-                        className="text-primary" 
-                        cx="40" 
-                        cy="40" 
-                        fill="transparent" 
-                        r="34" 
-                        stroke="currentColor" 
-                        strokeDasharray="213.6" 
+                      <circle
+                        className="text-primary"
+                        cx="40"
+                        cy="40"
+                        fill="transparent"
+                        r="34"
+                        stroke="currentColor"
+                        strokeDasharray="213.6"
                         strokeDashoffset={213.6 - (recommendedCareer.matchPercentage / 100 * 213.6)}
                         strokeWidth="6"
                       ></circle>
@@ -305,14 +306,14 @@ export default function AssessmentResult() {
 
             {/* Actions */}
             <div className="flex flex-col gap-3">
-              <button 
+              <button
                 onClick={handleJobOpenings}
                 className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-95"
               >
                 <span className="material-symbols-outlined">work</span>
                 View Job Openings
               </button>
-              <button 
+              <button
                 onClick={handleRetakeQuiz}
                 className="w-full border-2 border-primary/30 hover:border-primary/60 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all"
               >
@@ -324,7 +325,7 @@ export default function AssessmentResult() {
                   <span className="material-symbols-outlined text-sm">share</span>
                   Share Results
                 </button>
-                <button 
+                <button
                   onClick={handleDownloadPDF}
                   className="text-sm font-medium text-slate-500 hover:text-primary flex items-center gap-1 transition-colors"
                 >
@@ -365,9 +366,7 @@ export default function AssessmentResult() {
         </div>
       </main>
 
-      <footer className="mt-auto py-8 px-6 text-center border-t border-primary/5">
-        <p className="text-slate-500 text-xs font-medium">© 2024 CareerMatch AI. Helping you find your professional destiny.</p>
-      </footer>
+      <Footer />
 
     </div>
   );

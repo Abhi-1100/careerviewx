@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import InternalNavbar from "../components/InternalNavbar";
-import Footer from "../components/Home/Footer";
+import Footer from "../components/internalfooter";
 
 const CareerPaths = () => {
   const { isDarkMode } = useContext(ThemeContext);
 
   return (
-    <div className={`min-h-screen font-display flex flex-col transition-colors duration-300 ${isDarkMode ? "bg-[#0f0a1e] text-white" : "bg-surface-light text-charcoal"}`}>
+    <div className={`min-h-screen font-display flex flex-col transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
       <InternalNavbar />
       <div className="flex-1 flex items-center justify-center p-4">
         <div className={`max-w-3xl p-12 rounded-2xl border transition-colors duration-300 ${isDarkMode ? "bg-[#121018]/60 border-[#2d264a]" : "bg-white border-border-light shadow-sm"}`}>

@@ -163,7 +163,7 @@ const Login = () => {
   // ============= LOGIN VIEW =============
   if (!isSignup) {
     return (
-      <div className="bg-charcoal font-display text-white min-h-screen overflow-hidden">
+      <div className="bg-background-dark font-display text-white min-h-screen overflow-hidden">
         <div className="flex min-h-screen w-full">
           {/* LEFT IMAGE SECTION */}
           <div className="relative hidden lg:block w-1/2 overflow-hidden">
@@ -310,7 +310,7 @@ const Login = () => {
 
   // ============= SIGNUP VIEW =============
   return (
-    <div className="bg-charcoal font-display text-white min-h-screen overflow-hidden">
+    <div className="bg-background-dark font-display text-white min-h-screen overflow-hidden">
       <div className="flex min-h-screen w-full">
         {/* LEFT IMAGE SECTION */}
         <div className="relative hidden lg:block w-1/2 overflow-hidden">

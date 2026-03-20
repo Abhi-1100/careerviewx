@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import InternalNavbar from "../components/InternalNavbar";
-import Footer from "../components/Home/Footer";
+import Footer from "../components/internalfooter";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 
@@ -119,7 +119,7 @@ const Mentors = () => {
             {/* Repeat card examples - kept static to match design */}
             <div className={`rounded-xl border p-6 flex flex-col gap-6 transition-all duration-300 group relative overflow-hidden ${isDarkMode ? "bg-card-dark border-border-dark hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10" : "bg-white border-border-light hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10"}`}>
               <div className="flex items-start gap-4">
-                <div className={`size-16 rounded-xl bg-center bg-cover border-2 transition-colors duration-300 ${isDarkMode ? "border-primary/20" : "border-primary/20"}`} style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBbRvQFEZhhuLMCh3UlYIqMpIJDKEkLtGHbc0tvCGJRVRd3ESnjpkwIi0arspkpz6yYONUdkhrjVAqaHu1bGbT48wbJjitw_dPyu6_p10A9iLB_LpxZMXJizUha_dkOERZmzAATvCnaMZnZ3dVUr4uL8IJ10cXzLHCc4c5D7Ovoj8qAy4l9zN1_fO0gpWa4qW2T6ge2H_v9q-szHR3ZKUcO3qxRo7Uo5MX7kJjYH-fThTEXYULqkCRwlkPYN2lpWOHigkaxfD-7Wjo")'}}></div>
+                <div className={`size-16 rounded-xl bg-center bg-cover border-2 transition-colors duration-300 ${isDarkMode ? "border-primary/20" : "border-primary/20"}`} style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBbRvQFEZhhuLMCh3UlYIqMpIJDKEkLtGHbc0tvCGJRVRd3ESnjpkwIi0arspkpz6yYONUdkhrjVAqaHu1bGbT48wbJjitw_dPyu6_p10A9iLB_LpxZMXJizUha_dkOERZmzAATvCnaMZnZ3dVUr4uL8IJ10cXzLHCc4c5D7Ovoj8qAy4l9zN1_fO0gpWa4qW2T6ge2H_v9q-szHR3ZKUcO3qxRo7Uo5MX7kJjYH-fThTEXYULqkCRwlkPYN2lpWOHigkaxfD-7Wjo")' }}></div>
                 <div className="flex-1">
                   <div className="flex justify-between items-start">
                     <h3 className={`font-bold text-lg transition-colors duration-300 group-hover:text-primary ${isDarkMode ? "text-white" : "text-charcoal"}`}>Sarah Jenkins</h3>

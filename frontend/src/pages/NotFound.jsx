@@ -1,13 +1,14 @@
 import React from "react";
 import InternalNavbar from "../components/InternalNavbar";
+import Footer from "../components/internalfooter";
 import { useNavigate } from "react-router-dom";
 
 export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-deep-charcoal font-display min-h-screen flex flex-col selection:bg-primary/30 selection:text-white">
-      <InternalNavbar/>
+    <div className="bg-background-dark font-display min-h-screen flex flex-col selection:bg-primary/30 selection:text-white">
+      <InternalNavbar />
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -16,7 +17,7 @@ export default function NotFound() {
           <div className="w-full max-w-lg mb-4">
             <div className="relative group">
               <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full opacity-50 group-hover:opacity-70 transition-opacity"></div>
-              <div className="w-full bg-center bg-no-repeat bg-contain flex flex-col justify-end overflow-hidden min-h-[320px] filter brightness-75 contrast-125" data-alt="Playful illustration of a student looking at a map and signpost" style={{backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuD9c6kx2N5d0o-JIaR2i7N5L1DtFZCQVWus3UfYUauGHpNCRpbQeTnELOTom52BOJuc0DzHQzUF9uahzWNpxv2ItjcHpBICmfQ-hZM_uPWd85C4URBl8YlZWSpjH7TK6AO8dRiEfg0YBv2wZU8nB2djHE0z39eMfP3hHSRETim5CKAzz42neXFHfYzOUtzqtaksKnuA2RA9etEe89JqD8miw5MVb0W0jdYwQ3uqaUDyTGzi6IAKyCgvu-WYGWZdkI-An5QiVXnLL4c')`}}>
+              <div className="w-full bg-center bg-no-repeat bg-contain flex flex-col justify-end overflow-hidden min-h-[320px] filter brightness-75 contrast-125" data-alt="Playful illustration of a student looking at a map and signpost" style={{ backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuD9c6kx2N5d0o-JIaR2i7N5L1DtFZCQVWus3UfYUauGHpNCRpbQeTnELOTom52BOJuc0DzHQzUF9uahzWNpxv2ItjcHpBICmfQ-hZM_uPWd85C4URBl8YlZWSpjH7TK6AO8dRiEfg0YBv2wZU8nB2djHE0z39eMfP3hHSRETim5CKAzz42neXFHfYzOUtzqtaksKnuA2RA9etEe89JqD8miw5MVb0W0jdYwQ3uqaUDyTGzi6IAKyCgvu-WYGWZdkI-An5QiVXnLL4c')` }}>
               </div>
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>
@@ -49,9 +50,7 @@ export default function NotFound() {
         </div>
       </main>
 
-      <footer className="py-10 text-center text-white/30 text-sm">
-        <p>© 2024 PathFinder Career Guidance. Stay on track!</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

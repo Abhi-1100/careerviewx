@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import InternalNavbar from "../components/InternalNavbar";
 import { getAssessmentHistory } from "../Services/api";
 import { ThemeContext } from "../context/ThemeContext";
-import Footer from "../components/Home/Footer";
+import Footer from "../components/internalfooter";
 
 const careerIconMap = {
   engineering: { icon: "engineering", color: "text-orange-400", bg: "bg-orange-400/10" },
@@ -180,8 +180,8 @@ export default function AssessmentsHub() {
                         <button
                           onClick={() => navigate("/career-result", { state: { recommendedCareer: item.recommendedCareer, scores: item.scores } })}
                           className={`flex-shrink-0 w-full lg:w-auto px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${isLatest
-                              ? "bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-white"
-                              : "bg-white/5 border border-white/10 text-white/60 hover:bg-primary hover:text-white hover:border-primary"
+                            ? "bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-white"
+                            : "bg-white/5 border border-white/10 text-white/60 hover:bg-primary hover:text-white hover:border-primary"
                             }`}
                         >
                           View Report
