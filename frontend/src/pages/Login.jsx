@@ -13,6 +13,7 @@ const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
 
   // ============= SIGNUP STATE =============
   const [firstName, setFirstName] = useState("");
@@ -28,7 +29,7 @@ const Login = () => {
 
   // ============= UI STATE =============
   const [isSignup, setIsSignup] = useState(false);
-  const [step, setStep] = useState(1); // 1 = signup account, 2 = profile setup
+  const [step, setStep] = useState(1); // 1 = account info, 2 = education, 3 = stream
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -37,6 +38,7 @@ const Login = () => {
     setIsSignup(!isSignup);
     setLoginEmail("");
     setLoginPassword("");
+    setRememberMe(true);
     setFirstName("");
     setLastName("");
     setSignupEmail("");
@@ -61,10 +63,14 @@ const Login = () => {
         return;
       }
 
-      const response = await loginAPI({ email: loginEmail, password: loginPassword });
+      const response = await loginAPI({
+        email: loginEmail,
+        password: loginPassword,
+        rememberMe: rememberMe
+      });
 
       if (response.data.success) {
-        auth.login(response.data.token, response.data.user);
+        auth.login(response.data.token, response.data.user, rememberMe);
         navigate("/dashboard");
       } else {
         setError(response.data.message || "Login failed");
@@ -78,7 +84,7 @@ const Login = () => {
     }
   };
 
-  // ============= SIGNUP STEP 1: CREATE ACCOUNT =============
+  // ============= SIGNUP STEP 1: VALIDATE ACCOUNT INFO =============
   const handleSignupStep1 = async (e) => {
     e.preventDefault();
     setError("");
@@ -103,17 +109,66 @@ const Login = () => {
         return;
       }
 
+      // Move to step 2 (education selection)
+      setStep(2);
+      setError("");
+
+    } catch (err) {
+      const errorMsg = err.message || "Validation failed. Please try again.";
+      setError(errorMsg);
+      console.error("Signup validation error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ============= SIGNUP STEP 2: SELECT EDUCATION =============
+  const handleSignupStep2 = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      if (!education) {
+        setError("Please select your education level");
+        setLoading(false);
+        return;
+      }
+
+      // Move to step 3 (stream selection)
+      setStep(3);
+      setError("");
+
+    } catch (err) {
+      const errorMsg = err.message || "Please select your education level.";
+      setError(errorMsg);
+      console.error("Education selection error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ============= SIGNUP STEP 3: CREATE ACCOUNT =============
+  const handleSignupStep3 = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
       const fullName = `${firstName.trim()} ${lastName.trim()}`;
 
       const response = await signupAPI({
         name: fullName,
         email: signupEmail,
-        password: signupPassword
+        password: signupPassword,
+        education: education,
+        stream: stream || null, // Allow null stream for "not sure yet"
+        rememberMe: rememberMe
       });
 
       if (response.data.success) {
-        auth.login(response.data.token, response.data.user);
-        setStep(2); // Move to profile setup
+        auth.login(response.data.token, response.data.user, rememberMe);
+        navigate("/dashboard");
       } else {
         setError(response.data.message || "Signup failed");
       }
@@ -126,38 +181,37 @@ const Login = () => {
     }
   };
 
-  // ============= SIGNUP STEP 2: PROFILE SETUP =============
-  const handleProfileSetup = async (e) => {
-    e.preventDefault();
+  // ============= HANDLE "NOT SURE YET" OPTION =============
+  const handleNotSureYet = async () => {
+    setStream(null);
     setError("");
     setLoading(true);
 
     try {
-      if (!education || !stream) {
-        setError("Please select both education level and stream");
-        setLoading(false);
-        return;
-      }
+      const fullName = `${firstName.trim()} ${lastName.trim()}`;
 
-      const response = await updateProfile({ education, stream });
+      const response = await signupAPI({
+        name: fullName,
+        email: signupEmail,
+        password: signupPassword,
+        education: education,
+        stream: null,
+        rememberMe: rememberMe
+      });
 
       if (response.data.success) {
-        auth.login(auth.token, response.data.user);
+        auth.login(response.data.token, response.data.user, rememberMe);
         navigate("/dashboard");
       } else {
-        setError(response.data.message || "Failed to update profile");
+        setError(response.data.message || "Signup failed");
       }
     } catch (err) {
-      const errorMsg = err.response?.data?.message || err.message || "Failed to update profile. Please try again.";
+      const errorMsg = err.response?.data?.message || err.message || "Signup failed. Please try again.";
       setError(errorMsg);
-      console.error("Profile update error:", err);
+      console.error("Signup error:", err);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSkipProfileSetup = () => {
-    navigate("/dashboard");
   };
 
   // ============= LOGIN VIEW =============
@@ -347,10 +401,11 @@ const Login = () => {
               <div className="space-y-6">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-semibold tracking-widest text-primary uppercase">Step 1 of 2</span>
+                    <span className="text-xs font-semibold tracking-widest text-primary uppercase">Step 1 of 3</span>
                     <div className="flex gap-1">
-                      <div className="h-1 w-8 rounded-full bg-primary"></div>
-                      <div className="h-1 w-8 rounded-full bg-white/10"></div>
+                      <div className="h-1 w-6 rounded-full bg-primary"></div>
+                      <div className="h-1 w-6 rounded-full bg-white/10"></div>
+                      <div className="h-1 w-6 rounded-full bg-white/10"></div>
                     </div>
                   </div>
                   <h1 className="text-3xl font-bold text-white">Create your account</h1>
@@ -481,22 +536,23 @@ const Login = () => {
               </div>
             )}
 
-            {/* STEP 2: PROFILE SETUP */}
+            {/* STEP 2: EDUCATION SELECTION */}
             {step === 2 && (
               <div className="space-y-6">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-semibold tracking-widest text-primary uppercase">Step 2 of 2</span>
+                    <span className="text-xs font-semibold tracking-widest text-primary uppercase">Step 2 of 3</span>
                     <div className="flex gap-1">
-                      <div className="h-1 w-8 rounded-full bg-primary"></div>
-                      <div className="h-1 w-8 rounded-full bg-primary"></div>
+                      <div className="h-1 w-6 rounded-full bg-primary"></div>
+                      <div className="h-1 w-6 rounded-full bg-primary"></div>
+                      <div className="h-1 w-6 rounded-full bg-white/10"></div>
                     </div>
                   </div>
-                  <h1 className="text-3xl font-bold text-white">Tell us about yourself</h1>
-                  <p className="text-gray-400 text-sm">This helps us personalize your career guidance (optional).</p>
+                  <h1 className="text-3xl font-bold text-white">Choose your education level</h1>
+                  <p className="text-gray-400 text-sm">Select your current education qualification.</p>
                 </div>
 
-                <form onSubmit={handleProfileSetup} className="space-y-6">
+                <form onSubmit={handleSignupStep2} className="space-y-6">
                   <div className="space-y-3">
                     <label className="block text-sm font-bold text-gray-300">Education Level</label>
                     <div className="space-y-2">
@@ -521,6 +577,53 @@ const Login = () => {
                     </div>
                   </div>
 
+                  {error && (
+                    <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-400 text-xs flex items-center gap-2">
+                      <span className="material-symbols-outlined text-sm">error</span>
+                      {error}
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    <button
+                      type="submit"
+                      disabled={!education || loading}
+                      className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {loading ? "Proceeding..." : "Continue"}
+                      {!loading && <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setStep(1)}
+                      className="w-full py-3 bg-gray-500/20 hover:bg-gray-500/30 text-gray-300 hover:text-white font-medium rounded-xl transition-all text-sm border border-gray-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-sm">arrow_back</span>
+                      Back
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {/* STEP 3: STREAM SELECTION */}
+            {step === 3 && (
+              <div className="space-y-6">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-semibold tracking-widest text-primary uppercase">Step 3 of 3</span>
+                    <div className="flex gap-1">
+                      <div className="h-1 w-6 rounded-full bg-primary"></div>
+                      <div className="h-1 w-6 rounded-full bg-primary"></div>
+                      <div className="h-1 w-6 rounded-full bg-primary"></div>
+                    </div>
+                  </div>
+                  <h1 className="text-3xl font-bold text-white">Choose your stream</h1>
+                  <p className="text-gray-400 text-sm">Select your academic stream or skip if you're not sure yet.</p>
+                </div>
+
+                <form onSubmit={handleSignupStep3} className="space-y-6">
                   <div className="space-y-3">
                     <label className="block text-sm font-bold text-gray-300">Academic Stream</label>
                     <div className="space-y-2">
@@ -554,20 +657,33 @@ const Login = () => {
                   <div className="space-y-3">
                     <button
                       type="submit"
-                      disabled={!education || !stream || loading}
+                      disabled={loading}
                       className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {loading ? "Completing setup..." : "Finish Setup"}
+                      {loading ? "Creating account..." : "Create Account"}
                       {!loading && <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>}
                     </button>
 
-                    <button
-                      type="button"
-                      onClick={handleSkipProfileSetup}
-                      className="w-full py-3 text-primary font-semibold hover:text-primary/80 transition-colors text-sm"
-                    >
-                      Skip for now
-                    </button>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setStep(2)}
+                        className="w-full py-3 bg-gray-500/20 hover:bg-gray-500/30 text-gray-300 hover:text-white font-medium rounded-xl transition-all text-sm border border-gray-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-sm">arrow_back</span>
+                        Back
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleNotSureYet}
+                        disabled={loading}
+                        className="w-full py-3 bg-gray-500/20 hover:bg-gray-500/30 text-gray-300 hover:text-white font-medium rounded-xl transition-all text-sm border border-gray-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-sm">help</span>
+                        {loading ? "Creating..." : "Not sure yet"}
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>

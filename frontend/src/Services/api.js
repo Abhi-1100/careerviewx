@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '../utils/auth';
 
 const normalizeApiBaseUrl = (url) => {
   const cleanedUrl = (url || '').trim().replace(/\/+$/, '');
@@ -13,7 +14,7 @@ const API = axios.create({
 
 // Add token to every request automatically
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = getToken(); // Use our storage abstraction
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

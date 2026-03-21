@@ -7,7 +7,7 @@ const User = require("../models/User");
 
 // SIGNUP - Register new user
 router.post("/signup", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, education = "", stream = "", rememberMe = true } = req.body;
 
   try {
     // Validation
@@ -42,17 +42,18 @@ router.post("/signup", async (req, res) => {
       name,
       email: email.toLowerCase(),
       password: hashedPassword,
-      education: "",
-      stream: ""
+      education: education,
+      stream: stream
     });
 
     await user.save();
 
-    // Generate JWT token
+    // Generate JWT token with variable expiration based on rememberMe
+    const tokenExpiration = rememberMe ? "30d" : "24h";
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: tokenExpiration }
     );
 
     res.status(201).json({ 
