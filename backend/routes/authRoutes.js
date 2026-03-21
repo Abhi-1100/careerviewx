@@ -84,7 +84,7 @@ router.post("/signup", async (req, res) => {
 
 // LOGIN - Authenticate user
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe = false } = req.body;
 
   try {
     // Validation
@@ -113,11 +113,12 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    // Generate JWT token
+    // Generate JWT token with variable expiration based on rememberMe
+    const tokenExpiration = rememberMe ? "30d" : "24h";
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: tokenExpiration }
     );
 
     res.status(200).json({

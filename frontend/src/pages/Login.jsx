@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import loginBg from "../assets/Loginimg.png";
 import OptionCard from "../components/OptionCard";
 import { signup as signupAPI, login as loginAPI, updateProfile } from "../Services/api";
 import { useAuth } from "../contexts/AuthContext";
+import { wasRemembered } from "../utils/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,12 +34,17 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Initialize rememberMe based on previous user preference
+  useEffect(() => {
+    setRememberMe(wasRemembered());
+  }, []);
+
   // ============= HELPER FUNCTIONS =============
   const toggleAuthMode = () => {
     setIsSignup(!isSignup);
     setLoginEmail("");
     setLoginPassword("");
-    setRememberMe(true);
+    setRememberMe(wasRemembered()); // Reset to previous user preference
     setFirstName("");
     setLastName("");
     setSignupEmail("");
@@ -300,6 +306,20 @@ const Login = () => {
                         </span>
                       </button>
                     </div>
+                  </div>
+
+                  {/* REMEMBER ME CHECKBOX */}
+                  <div className="flex items-center justify-between">
+                    <label className="flex items-center gap-2 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="w-4 h-4 bg-white/5 border border-white/20 rounded focus:outline-none focus:ring-2 focus:ring-primary/50 checked:bg-primary checked:border-primary transition-colors"
+                      />
+                      <span className="text-sm text-gray-300">Remember me</span>
+                    </label>
+                    <div></div>
                   </div>
 
                   {/* ERROR MESSAGE */}

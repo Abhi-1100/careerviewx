@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getToken, getCurrentUser, saveUserData, clearUserData } from '../utils/auth';
+import { getToken, getCurrentUser, saveUserData, clearUserData, wasRemembered } from '../utils/auth';
 
 const AuthContext = createContext(null);
 
@@ -19,9 +19,9 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (t, u) => {
-    // persist and update state
-    saveUserData(t, u);
+  const login = (t, u, rememberMe = false) => {
+    // persist and update state with remember me option
+    saveUserData(t, u, rememberMe);
     setToken(t);
     setUser(u);
   };
