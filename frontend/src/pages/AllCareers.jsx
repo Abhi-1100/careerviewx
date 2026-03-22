@@ -90,10 +90,8 @@ export default function AllCareers() {
           <div className="flex flex-col gap-8">
             {/* Logo */}
             <div className={`flex items-center gap-3 ${isDarkMode ? "text-[#8b5cf6]" : "text-primary"}`}>
-              <div className={`size-9 rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-500/30 ${isDarkMode ? "bg-[#8b5cf6]" : "bg-primary"}`}>
-                <span className="material-symbols-outlined">rocket_launch</span>
-              </div>
-              <h2 className={`text-xl font-bold tracking-tight ${isDarkMode ? "text-white" : "text-charcoal"}`}>CareerPath</h2>
+              <img src="/logo.png" alt="CareerviewX Logo" className="size-9 rounded-xl shadow-lg shadow-purple-500/30" />
+              <h2 className={`text-xl font-bold tracking-tight ${isDarkMode ? "text-white" : "text-charcoal"}`}>CareerviewX</h2>
             </div>
 
             {/* Profile */}
@@ -325,10 +323,8 @@ export default function AllCareers() {
             <div className="p-6 flex flex-col h-full">
               <div className="flex items-center justify-between mb-8">
                 <div className={`flex items-center gap-3 ${isDarkMode ? "text-[#8b5cf6]" : "text-primary"}`}>
-                  <div className={`size-8 rounded-lg flex items-center justify-center text-white ${isDarkMode ? "bg-[#8b5cf6]" : "bg-primary"}`}>
-                    <span className="material-symbols-outlined text-lg">rocket_launch</span>
-                  </div>
-                  <h2 className={`text-lg font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>CareerPath</h2>
+                  <img src="/logo.png" alt="CareerviewX Logo" className="size-8 rounded-lg" />
+                  <h2 className={`text-lg font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>CareerviewX</h2>
                 </div>
                 <button onClick={() => setMenuOpen(false)} className={`p-2 rounded-lg ${isDarkMode ? "text-white/70 hover:bg-white/10" : "text-slate-500 hover:bg-slate-100"}`}>
                   <span className="material-symbols-outlined">close</span>

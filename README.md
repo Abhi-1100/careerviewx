@@ -1,4 +1,4 @@
-# CareerViewX - AI-Powered Career Guidance Platform
+# CareerviewX - AI-Powered Career Guidance Platform
 
 A full-stack MERN application that helps students discover their ideal career paths through intelligent assessments and personalized recommendations.
 

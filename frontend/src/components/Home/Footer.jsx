@@ -32,17 +32,12 @@ const Footer = () => {
             className={`flex items-center gap-3 ${isDarkMode ? "text-primary" : "text-primary"
               }`}
           >
-            <div
-              className={`size-8 flex items-center justify-center rounded-lg text-white ${isDarkMode ? "bg-primary" : "bg-primary"
-                }`}
-            >
-              <span className="material-symbols-outlined">explore</span>
-            </div>
+            <img src="/logo.png" alt="CareerviewX Logo" className="size-8 rounded-lg" />
             <h2
               className={`text-xl sm:text-2xl font-bold transition-colors duration-300 ${isDarkMode ? "text-white" : "text-charcoal"
                 }`}
             >
-              CareerPath
+              CareerviewX
             </h2>
           </div>
           <p
@@ -159,7 +154,7 @@ const Footer = () => {
           className={`text-xs sm:text-sm text-center sm:text-left transition-colors duration-300 ${isDarkMode ? "text-gray-500" : "text-gray-600"
             }`}
         >
-          © 2026 CareerPath Career Solutions Inc. Built with passion for the
+          © 2026 CareerviewX Career Solutions Inc. Built with passion for the
           future.
         </p>
         <div

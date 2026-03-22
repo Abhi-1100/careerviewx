@@ -30,7 +30,7 @@ const LoadingScreen = ({ message = "Loading your career experience...", fullScre
           <span className="absolute inset-0 rounded-full border-4 border-primary/30" />
           <span className="absolute inset-1 rounded-full border-4 border-transparent border-t-primary animate-spin" />
           <span className="absolute inset-3 rounded-full border-2 border-transparent border-r-accent-blue animate-spin [animation-direction:reverse] [animation-duration:1.3s]" />
-          <span className="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-primary">rocket_launch</span>
+          <img src="/logo.png" alt="Loading" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-lg" />
         </div>
 
         <p className="font-display text-base md:text-lg">{message}</p>

@@ -167,11 +167,9 @@ export default function CareerGuidanceDashboard() {
           <div className="flex flex-col gap-8">
             {/* Logo */}
             <div className={`flex items-center gap-3 ${isDarkMode ? "text-[#8b5cf6]" : "text-primary"}`}>
-              <div className={`size-9 rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-500/30 ${isDarkMode ? "bg-[#8b5cf6]" : "bg-primary"}`}>
-                <span className="material-symbols-outlined">rocket_launch</span>
-              </div>
+              <img src="/logo.png" alt="CareerviewX Logo" className="size-9 rounded-xl shadow-lg shadow-purple-500/30" />
               <h2 className={`text-xl font-bold tracking-tight ${isDarkMode ? "text-white" : "text-charcoal"}`}>
-                CareerPath
+                CareerviewX
               </h2>
             </div>
 
@@ -622,11 +620,9 @@ export default function CareerGuidanceDashboard() {
               <div className="flex items-center justify-between mb-8">
                 {/* Logo */}
                 <div className={`flex items-center gap-3 ${isDarkMode ? "text-[#8b5cf6]" : "text-primary"}`}>
-                  <div className={`size-8 rounded-lg flex items-center justify-center text-white shadow-lg shadow-purple-500/30 ${isDarkMode ? "bg-[#8b5cf6]" : "bg-primary"}`}>
-                    <span className="material-symbols-outlined text-lg">rocket_launch</span>
-                  </div>
+                  <img src="/logo.png" alt="CareerviewX Logo" className="size-8 rounded-lg shadow-lg shadow-purple-500/30" />
                   <h2 className={`text-lg font-bold tracking-tight ${isDarkMode ? "text-white" : "text-charcoal"}`}>
-                    CareerPath
+                    CareerviewX
                   </h2>
                 </div>
                 <button

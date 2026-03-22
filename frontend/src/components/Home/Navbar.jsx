@@ -47,19 +47,12 @@ const Navbar = () => {
           className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${isDarkMode ? "text-primary" : "text-primary"}`}
           onClick={() => navigate("/")}
         >
-          <div
-            className={`size-8 sm:size-9 flex items-center justify-center rounded-xl text-white shadow-lg shadow-purple-500/30 ${isDarkMode
-              ? "bg-gradient-to-br from-purple-600 to-purple-700"
-              : "bg-gradient-to-br from-purple-500 to-purple-600"
-              }`}
-          >
-            <span className="material-symbols-outlined text-base sm:text-xl">rocket_launch</span>
-          </div>
+          <img src="/logo.png" alt="CareerviewX Logo" className="size-8 sm:size-9 rounded-xl" />
           <h2
             className={`text-base sm:text-lg md:text-xl font-extrabold leading-tight tracking-tight ${isDarkMode ? "text-white" : "text-charcoal"
               }`}
           >
-            CareerPath
+            CareerviewX
           </h2>
         </div>
 
@@ -173,13 +166,11 @@ const Navbar = () => {
             }`}
         >
           <div className="flex items-center gap-2">
-            <div className="size-8 flex items-center justify-center rounded-xl text-white bg-gradient-to-br from-purple-600 to-purple-700">
-              <span className="material-symbols-outlined text-base">rocket_launch</span>
-            </div>
+            <img src="/logo.png" alt="CareerviewX Logo" className="size-8 rounded-xl" />
             <span
               className={`font-extrabold text-base ${isDarkMode ? "text-white" : "text-charcoal"}`}
             >
-              CareerPath
+              CareerviewX
             </span>
           </div>
           <button
