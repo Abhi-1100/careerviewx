@@ -24,18 +24,6 @@ const Settings = () => {
               <span className="material-symbols-outlined">person</span>
               <span>General</span>
             </a>
-            <a className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer ${isDarkMode ? "text-slate-400 hover:bg-primary/10 hover:text-primary" : "text-slate-600 hover:bg-primary/10 hover:text-primary"}`}>
-              <span className="material-symbols-outlined">security</span>
-              <span>Security</span>
-            </a>
-            <a className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer ${isDarkMode ? "text-slate-400 hover:bg-primary/10 hover:text-primary" : "text-slate-600 hover:bg-primary/10 hover:text-primary"}`}>
-              <span className="material-symbols-outlined">notifications</span>
-              <span>Notifications</span>
-            </a>
-            <a className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer ${isDarkMode ? "text-slate-400 hover:bg-primary/10 hover:text-primary" : "text-slate-600 hover:bg-primary/10 hover:text-primary"}`}>
-              <span className="material-symbols-outlined">payments</span>
-              <span>Billing</span>
-            </a>
           </nav>
         </aside>
 

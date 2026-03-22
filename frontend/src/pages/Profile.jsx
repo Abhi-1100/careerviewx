@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import InternalNavbar from "../components/InternalNavbar";
 import ListItem from "../components/ListItem";
 import InfoRow from "../components/InfoRow";
@@ -9,6 +10,7 @@ import { getProfile } from "../Services/api";
 import { ThemeContext } from "../context/ThemeContext";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -90,6 +92,16 @@ const Profile = () => {
 
         <div className="relative mb-12">
           <div className="h-48 w-full rounded-2xl bg-gradient-to-r from-primary via-[#a881ff] to-primary overflow-hidden" />
+          <Button
+            variant="ghost"
+            className="absolute top-4 right-4 z-10 backdrop-blur-md border-white/30 text-white hover:bg-white/20"
+            onClick={() => navigate('/settings')}
+          >
+            <span className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-base">edit</span>
+              Edit Profile
+            </span>
+          </Button>
           <div className="absolute -bottom-12 left-8 flex items-end gap-6">
             <div
               className={`h-32 w-32 rounded-full border-4 bg-cover bg-center shadow-xl ${isDarkMode ? "border-background-dark bg-slate-800" : "border-surface-light bg-slate-200"}`}

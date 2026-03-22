@@ -256,20 +256,6 @@ export default function CareerGuidanceDashboard() {
               </button>
 
               <button
-                onClick={() => navigate('/settings')}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-all ${isActive('/settings')
-                  ? isDarkMode
-                    ? 'bg-white/5 text-white'
-                    : 'bg-slate-100 text-charcoal'
-                  : isDarkMode
-                    ? 'text-[#a094b8] hover:text-white hover:bg-white/5'
-                    : 'text-gray-600 hover:text-charcoal hover:bg-slate-100'}`}
-              >
-                <span className="material-symbols-outlined">settings</span>
-                <p className="text-sm font-medium">Settings</p>
-              </button>
-
-              <button
                 onClick={handleLogout}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-lg group transition-all text-red-400 hover:text-red-300 hover:bg-red-500/10"
               >

@@ -269,8 +269,8 @@ const CareerResult = () => {
       {/* Toast Notification */}
       {toast.visible && (
         <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-3 rounded-xl shadow-2xl text-sm font-semibold transition-all animate-fade-in ${toast.type === 'success' ? 'bg-green-600 text-white' :
-            toast.type === 'error' ? 'bg-red-600 text-white' :
-              'bg-primary text-white'
+          toast.type === 'error' ? 'bg-red-600 text-white' :
+            'bg-primary text-white'
           }`}>
           <span className="material-symbols-outlined text-base">
             {toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error' : 'info'}
