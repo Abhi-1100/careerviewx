@@ -3,6 +3,23 @@ const router = express.Router();
 const Career = require("../models/Career");
 const authMiddleware = require("../middleware/authMiddleware");
 
+// GET /api/careers - Fetch all careers (for All Careers page)
+router.get("/", authMiddleware, async (req, res) => {
+  try {
+    const careers = await Career.find({})
+      .select("_id careerName title category shortDescription icon")
+      .sort({ careerName: 1 });
+
+    res.status(200).json({ success: true, careers });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching careers",
+      error: error.message
+    });
+  }
+});
+
 // GET /api/careers/search?q=<query> - Search careers by name (live search bar)
 router.get("/search", authMiddleware, async (req, res) => {
   try {

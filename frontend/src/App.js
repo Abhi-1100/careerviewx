@@ -16,6 +16,7 @@ const Assessment = lazy(() => import("./pages/Assessment"));
 const AssessmentsHub = lazy(() => import("./pages/AssessmentsHub"));
 const CareerResult = lazy(() => import("./pages/CareerResult"));
 const CareerPage = lazy(() => import("./pages/CareerPage"));
+const AllCareers = lazy(() => import("./pages/AllCareers"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route path="/assessments/quest" element={<ProtectedRoute><Assessment /></ProtectedRoute>} />
             <Route path="/assessments/result" element={<ProtectedRoute><CareerResult /></ProtectedRoute>} />
             <Route path="/career/:id" element={<ProtectedRoute><CareerPage /></ProtectedRoute>} />
+            <Route path="/all-careers" element={<ProtectedRoute><AllCareers /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
 
             <Route path="*" element={<NotFound />} />

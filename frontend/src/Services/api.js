@@ -49,5 +49,7 @@ export const searchCareers = (query) =>
   API.get(`/careers/search?q=${encodeURIComponent(query)}`);
 export const getCareerById = (id) =>
   API.get(`/careers/detail/${id}`);
+export const getAllCareers = () =>
+  API.get('/careers');
 
 export default API;

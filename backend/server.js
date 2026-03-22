@@ -5,14 +5,31 @@ const connectDB = require("./config/db");
 
 const app = express();
 
+// Allowed origins for CORS
+const allowedOrigins = [
+  "https://careerviewx.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:3001"
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+
 // Middleware
-app.use(cors({
-  origin: [
-    "https://careerviewx.vercel.app",
-    "http://localhost:3000"
-  ],
-  credentials: true
-}));
+app.use(cors(corsOptions));
+// Handle preflight OPTIONS requests for all routes
+app.options("/{*splat}", cors(corsOptions));
 app.use(express.json());
 
 // Routes

@@ -8,6 +8,7 @@ import dashboard_i6 from "../assets/dashboard_i6.png";
 
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { fetchCareerNews } from "../Services/newsService";
+import { getAssessmentHistory, getCareerByName } from "../Services/api";
 
 import SectionHeader from "../components/cards/Dashboard/SectionHeader";
 import CareerMatchCard from "../components/cards/Dashboard/CareerMatchCard";
@@ -32,6 +33,20 @@ export default function CareerGuidanceDashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const notificationRef = useRef(null);
+
+  // Assessment history for "Top Career Matches"
+  const [topMatches, setTopMatches] = useState([]);
+  const [matchesLoading, setMatchesLoading] = useState(true);
+
+  // Career domain → icon + colors
+  const careerDomainMeta = {
+    engineering: { icon: "engineering", skillColor: "#3b82f6", matchColor: "#10b981" },
+    it:          { icon: "computer",    skillColor: "#8b5cf6", matchColor: "#8b5cf6" },
+    medical:     { icon: "health_and_safety", skillColor: "#10b981", matchColor: "#10b981" },
+    design:      { icon: "draw",        skillColor: "#f59e0b", matchColor: "#f59e0b" },
+    business:    { icon: "business_center", skillColor: "#ef4444", matchColor: "#ef4444" },
+    government:  { icon: "account_balance", skillColor: "#6366f1", matchColor: "#6366f1" },
+  };
 
   // Get user data from localStorage
   const [user, setUser] = useState(null);
@@ -89,6 +104,37 @@ export default function CareerGuidanceDashboard() {
   useEffect(() => {
     const userData = getCurrentUser();
     setUser(userData);
+  }, []);
+
+  // Fetch last 2 assessment history entries and enrich with career data
+  useEffect(() => {
+    const loadTopMatches = async () => {
+      try {
+        setMatchesLoading(true);
+        const res = await getAssessmentHistory();
+        const history = res.data?.history || [];
+        const last2 = history.slice(0, 2); // already newest-first from backend
+        // Enrich each entry with career details from DB
+        const enriched = await Promise.all(
+          last2.map(async (entry) => {
+            try {
+              const careerRes = await getCareerByName(entry.recommendedCareer);
+              const career = careerRes.data?.career;
+              return { ...entry, career };
+            } catch {
+              return { ...entry, career: null };
+            }
+          })
+        );
+        setTopMatches(enriched);
+      } catch (err) {
+        console.error("Failed to load assessment history:", err);
+        setTopMatches([]);
+      } finally {
+        setMatchesLoading(false);
+      }
+    };
+    loadTopMatches();
   }, []);
 
   useEffect(() => {
@@ -395,32 +441,61 @@ export default function CareerGuidanceDashboard() {
               <section>
                 <SectionHeader
                   title="Top Career Matches"
-                  onViewAll={() => { }}
+                  onViewAll={() => navigate('/all-careers')}
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <CareerMatchCard
-                    icon="draw"
-                    title="UX Designer"
-                    description="Focus on user research and interface psychology for digital products."
-                    matchPercentage={85}
-                    matchLabel="Match"
-                    skillPercentage={85}
-                    skillColor="#8b5cf6"
-                    matchColor="#10b981"
-                    borderHoverColor="#8b5cf6"
-                  />
-                  <CareerMatchCard
-                    icon="database"
-                    title="Data Scientist"
-                    description="Apply statistical models to derive complex insights from data sets."
-                    matchPercentage={72}
-                    matchLabel="Match"
-                    skillPercentage={72}
-                    skillColor="#3b82f6"
-                    matchColor="#f59e0b"
-                    borderHoverColor="#3b82f6"
-                  />
-                </div>
+                {matchesLoading ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {[0, 1].map((i) => (
+                      <div key={i} className={`p-6 rounded-2xl border animate-pulse ${isDarkMode ? "bg-[#1a142e] border-[#2d264a]" : "bg-white border-border-light"}`}>
+                        <div className={`w-12 h-12 rounded-xl mb-6 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
+                        <div className={`h-5 w-2/3 rounded mb-3 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
+                        <div className={`h-3 w-full rounded mb-2 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
+                        <div className={`h-3 w-4/5 rounded ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
+                      </div>
+                    ))}
+                  </div>
+                ) : topMatches.length === 0 ? (
+                  <div className={`flex flex-col items-center justify-center py-12 px-6 rounded-2xl border border-dashed text-center ${isDarkMode ? "border-[#2d264a] bg-[#1a142e]/50" : "border-border-light bg-slate-50"}`}>
+                    <div className={`size-14 rounded-2xl flex items-center justify-center mb-4 ${isDarkMode ? "bg-[#8b5cf6]/10" : "bg-primary/10"}`}>
+                      <span className={`material-symbols-outlined text-3xl ${isDarkMode ? "text-[#8b5cf6]" : "text-primary"}`}>quiz</span>
+                    </div>
+                    <h3 className={`font-bold text-lg mb-1 ${isDarkMode ? "text-white" : "text-charcoal"}`}>No Assessments Yet</h3>
+                    <p className={`text-sm mb-5 ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>Take your first assessment to discover your top career matches.</p>
+                    <button
+                      onClick={() => navigate('/assessments')}
+                      className={`px-5 py-2.5 text-white text-sm font-bold rounded-xl transition-all shadow-lg ${isDarkMode ? "bg-[#8b5cf6] hover:bg-[#8b5cf6]/90 shadow-[#8b5cf6]/30" : "bg-primary hover:bg-primary/90 shadow-primary/20"}`}
+                    >
+                      Take Assessment
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {topMatches.map((entry, idx) => {
+                      const domain = (entry.recommendedCareer || '').toLowerCase();
+                      const meta = careerDomainMeta[domain] || { icon: "work", skillColor: "#8b5cf6", matchColor: "#10b981" };
+                      const career = entry.career;
+                      const title = career?.title || career?.careerName
+                        ? (career.title || career.careerName.charAt(0).toUpperCase() + career.careerName.slice(1))
+                        : (domain.charAt(0).toUpperCase() + domain.slice(1));
+                      const description = career?.shortDescription || career?.description?.slice(0, 120) || `Career path in ${domain}.`;
+                      return (
+                        <CareerMatchCard
+                          key={idx}
+                          icon={meta.icon}
+                          title={title}
+                          description={description}
+                          matchPercentage={entry.matchPercentage || 80}
+                          matchLabel="Match"
+                          skillPercentage={entry.matchPercentage || 80}
+                          skillColor={meta.skillColor}
+                          matchColor={meta.matchColor}
+                          borderHoverColor={meta.skillColor}
+                          onClick={() => career?._id && navigate(`/career/${career._id}`)}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
               </section>
 
               {/* Recommended Learning */}
