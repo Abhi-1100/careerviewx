@@ -103,22 +103,22 @@ export default function AssessmentsHub() {
           <div className="flex-1 flex flex-col gap-8">
             <div className="@container">
               <div className="relative overflow-hidden rounded-2xl">
-                <div className="flex min-h-[320px] lg:min-h-[400px] flex-col gap-6 items-start justify-end p-8 lg:p-12 relative z-10 text-white">
+                <div className={`flex min-h-[320px] lg:min-h-[400px] flex-col gap-6 items-start justify-end p-8 lg:p-12 relative z-10 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                   <div className="flex flex-col gap-4 max-w-2xl">
-                    <div className="inline-flex items-center px-3 py-1 rounded-full backdrop-blur-md border text-xs font-bold uppercase tracking-widest mb-2 bg-white/20 border-white/30 text-white">
+                    <div className={`inline-flex items-center px-3 py-1 rounded-full backdrop-blur-md border text-xs font-bold uppercase tracking-widest mb-2 ${isDarkMode ? "bg-white/20 border-white/30 text-white" : "bg-primary/10 border-primary/20 text-primary"}`}>
                       Personalized Guidance
                     </div>
-                    <h1 className="text-white text-4xl lg:text-6xl font-black leading-[1.1] tracking-tight">Unlock Your <br /><span className="text-primary-light">Future Potential</span></h1>
-                    <p className="text-white/80 text-base lg:text-lg font-medium leading-relaxed max-w-lg">Take our scientifically-backed assessments to discover the career path that fits your personality and skills perfectly.</p>
+                    <h1 className="text-4xl lg:text-6xl font-black leading-[1.1] tracking-tight">Unlock Your <br /><span className={isDarkMode ? "text-primary-light" : "text-primary"}>Future Potential</span></h1>
+                    <p className={`text-base lg:text-lg font-medium leading-relaxed max-w-lg ${isDarkMode ? "text-white/80" : "text-slate-600"}`}>Take our scientifically-backed assessments to discover the career path that fits your personality and skills perfectly.</p>
                   </div>
                   <button onClick={() => navigate('/assessments/quest')} className="mt-4 flex items-center justify-center gap-3 rounded-xl h-14 px-8 bg-primary text-base font-bold shadow-2xl shadow-primary/40 hover:scale-[1.02] transition-all active:scale-95 text-charcoal">
                     <span className="material-symbols-outlined">add_task</span>
                     <span>Start New Assessment</span>
                   </button>
                 </div>
-                <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary via-[#151022] to-[#2e2249]"></div>
+                <div className={`absolute inset-0 z-0 ${isDarkMode ? "bg-gradient-to-br from-primary via-[#151022] to-[#2e2249]" : "bg-gradient-to-br from-[#f3e8ff] via-[#e9d5ff] to-[#f8fafc]"}`}></div>
                 <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-primary/20 to-transparent opacity-50 blur-3xl pointer-events-none"></div>
-                <div className="absolute -top-24 -left-24 h-64 w-64 bg-primary/30 rounded-full blur-[100px] pointer-events-none"></div>
+                <div className={`absolute -top-24 -left-24 h-64 w-64 rounded-full blur-[100px] pointer-events-none ${isDarkMode ? "bg-primary/30" : "bg-primary/20"}`}></div>
               </div>
             </div>
 

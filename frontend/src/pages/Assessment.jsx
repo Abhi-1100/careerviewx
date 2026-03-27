@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAssessmentQuestions, submitAssessment } from "../Services/api";
 import InternalNavbar from "../components/InternalNavbar";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Assessment = () => {
   const navigate = useNavigate();
+  const { isDarkMode } = useContext(ThemeContext);
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -76,7 +78,7 @@ const Assessment = () => {
     if (currentIndex > 0) {
       const previousQuestion = questions[currentIndex - 1];
       setCurrentIndex(currentIndex - 1);
-      
+
       // Find and restore the answer for this question if it exists
       const existingAnswer = answers.find(a => a.questionId === previousQuestion._id);
       if (existingAnswer) {
@@ -117,12 +119,12 @@ const Assessment = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background-dark text-white font-display">
+      <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
         <InternalNavbar />
         <main className="flex flex-1 justify-center items-center py-12 px-4 h-screen">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-            <p className="text-white text-lg">Loading assessment...</p>
+            <p className={`text-lg ${isDarkMode ? "text-white" : "text-charcoal"}`}>Loading assessment...</p>
           </div>
         </main>
       </div>
@@ -131,11 +133,11 @@ const Assessment = () => {
 
   if (!currentQuestion) {
     return (
-      <div className="min-h-screen bg-background-dark text-white font-display">
+      <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
         <InternalNavbar />
         <main className="flex flex-1 justify-center items-center py-12 px-4 h-screen">
           <div className="text-center">
-            <p className="text-white text-lg">No questions available</p>
+            <p className={`text-lg ${isDarkMode ? "text-white" : "text-charcoal"}`}>No questions available</p>
             <button
               onClick={() => navigate("/dashboard")}
               className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition"
@@ -149,36 +151,36 @@ const Assessment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background-dark text-white font-display">
+    <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
       <InternalNavbar />
 
       <main className="flex flex-1 justify-center py-12 px-4 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
 
         <div className="layout-content-container flex flex-col max-w-[800px] flex-1">
-          <div className="glass-card rounded-xl p-8 flex flex-col gap-8">
+          <div className={`rounded-xl p-8 flex flex-col gap-8 shadow-2xl backdrop-blur-xl border ${isDarkMode ? "glass-card" : "bg-white/80 border-slate-200"}`}>
             {/* Progress Bar */}
             <div className="flex flex-col gap-3">
               <div className="flex gap-6 justify-between items-center">
-                <p className="text-white text-base font-semibold leading-normal">Assessment Progress</p>
+                <p className={`text-base font-semibold leading-normal ${isDarkMode ? "text-white" : "text-charcoal"}`}>Assessment Progress</p>
                 <p className="text-primary text-sm font-bold leading-normal">{progress}%</p>
               </div>
 
-              <div className="rounded-full bg-[#423b54] h-2.5 overflow-hidden">
+              <div className={`rounded-full h-2.5 overflow-hidden border ${isDarkMode ? "bg-[#423b54] border-transparent" : "bg-slate-100 border-slate-200"}`}>
                 <div
                   className="h-full rounded-full bg-primary glow-accent transition-all duration-500"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
 
-              <p className="text-[#a59cba] text-xs font-medium leading-normal tracking-wide">
+              <p className={`text-xs font-medium leading-normal tracking-wide ${isDarkMode ? "text-[#a59cba]" : "text-slate-500"}`}>
                 QUESTION {currentIndex + 1} OF {questions.length}
               </p>
             </div>
 
             {/* Question */}
             <div className="flex flex-col gap-8">
-              <h2 className="text-white tracking-tight text-[28px] font-bold leading-tight text-center px-4">
+              <h2 className={`tracking-tight text-[28px] font-bold leading-tight text-center px-4 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                 {currentQuestion.question}
               </h2>
 
@@ -188,11 +190,12 @@ const Assessment = () => {
                   <button
                     key={index}
                     onClick={() => handleOptionSelect(index, option)}
-                    className={`w-full p-4 rounded-lg border-2 transition-all text-left font-medium ${
-                      selectedAnswer === option
+                    className={`w-full p-4 rounded-lg border-2 transition-all text-left font-medium ${selectedAnswer === option
                         ? "bg-primary border-primary text-white glow-accent"
-                        : "bg-[#2d2839]/50 border-transparent text-[#a59cba] hover:border-primary/50 hover:bg-primary/10"
-                    }`}
+                        : isDarkMode
+                          ? "bg-[#2d2839]/50 border-transparent text-[#a59cba] hover:border-primary/50 hover:bg-primary/10"
+                          : "bg-slate-50 border-slate-200 text-slate-600 hover:border-primary/30 hover:bg-slate-100 hover:text-charcoal"
+                      }`}
                   >
                     {option}
                   </button>
@@ -200,10 +203,10 @@ const Assessment = () => {
               </div>
 
               {/* Navigation Buttons */}
-              <div className="flex justify-between items-center pt-4 border-t border-white/10">
+              <div className={`flex justify-between items-center pt-4 border-t ${isDarkMode ? "border-white/10" : "border-slate-200"}`}>
                 <button
                   onClick={handlePrevious}
-                  className="flex min-w-[120px] items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-[#2d2839] text-white text-base font-bold transition-all hover:bg-white/10"
+                  className={`flex min-w-[120px] items-center justify-center overflow-hidden rounded-lg h-12 px-6 text-base font-bold transition-all ${isDarkMode ? "bg-[#2d2839] text-white hover:bg-white/10" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"}`}
                 >
                   <span className="truncate">Previous</span>
                 </button>
@@ -211,11 +214,10 @@ const Assessment = () => {
                 <button
                   onClick={handleNext}
                   disabled={selectedAnswer === null || submitting}
-                  className={`flex min-w-[160px] items-center justify-center overflow-hidden rounded-lg h-12 px-8 text-white text-base font-bold shadow-lg transition-all ${
-                    selectedAnswer === null || submitting
+                  className={`flex min-w-[160px] items-center justify-center overflow-hidden rounded-lg h-12 px-8 text-white text-base font-bold shadow-lg transition-all ${selectedAnswer === null || submitting
                       ? "bg-primary/50 cursor-not-allowed"
                       : "bg-primary shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02]"
-                  }`}
+                    }`}
                 >
                   {submitting ? (
                     <span className="flex items-center gap-2">
@@ -234,7 +236,7 @@ const Assessment = () => {
 
           {/* Auto-saving indicator */}
           <div className="mt-8 flex justify-center gap-4">
-            <div className="flex items-center gap-2 text-[#a59cba] text-sm">
+            <div className={`flex items-center gap-2 text-sm ${isDarkMode ? "text-[#a59cba]" : "text-slate-500"}`}>
               <span className="material-symbols-outlined text-lg">bolt</span>
               <span>Auto-saving responses</span>
             </div>

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getCareerByName, addCareerPath } from "../Services/api";
 import InternalNavbar from "../components/InternalNavbar";
 import Footer from "../components/internalfooter";
+import { ThemeContext } from "../context/ThemeContext";
 
 // Career image mapping
 const careerImages = {
@@ -125,6 +126,7 @@ const careerReasons = {
 const CareerResult = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isDarkMode } = React.useContext(ThemeContext);
   const { recommendedCareer, scores } = location.state || {};
 
   const [career, setCareer] = useState(null);
@@ -225,7 +227,7 @@ const CareerResult = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background-dark text-white font-display">
+      <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
         <InternalNavbar />
         <main className="flex flex-1 justify-center items-center py-12 px-4 h-screen">
           <div className="flex flex-col items-center gap-4">
@@ -239,7 +241,7 @@ const CareerResult = () => {
 
   if (error || !career) {
     return (
-      <div className="min-h-screen bg-background-dark text-white font-display">
+      <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
         <InternalNavbar />
         <main className="flex flex-1 justify-center items-center py-12 px-4 h-screen">
           <div className="text-center">
@@ -263,7 +265,7 @@ const CareerResult = () => {
   const roadmap = careerRoadmaps[careerKey] || careerRoadmaps.business;
 
   return (
-    <div className="min-h-screen bg-background-dark text-white font-display">
+    <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
       <InternalNavbar />
 
       {/* Toast Notification */}
@@ -286,13 +288,13 @@ const CareerResult = () => {
         {/* Success Message */}
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-1.5 bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase rounded-full mb-4">Assessment Complete</span>
-          <h1 className="text-5xl md:text-7xl font-black text-white mb-4 tracking-tighter" style={{ textShadow: "0 0 20px rgba(140, 43, 238, 0.4)" }}>MATCH FOUND!</h1>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">We've analyzed your skills, interests, and personality. Here's your perfect professional alignment.</p>
+          <h1 className={`text-5xl md:text-7xl font-black mb-4 tracking-tighter ${isDarkMode ? "text-white" : "text-charcoal"}`} style={{ textShadow: "0 0 20px rgba(140, 43, 238, 0.4)" }}>MATCH FOUND!</h1>
+          <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>We've analyzed your skills, interests, and personality. Here's your perfect professional alignment.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Hero Match Card */}
-          <div className="lg:col-span-7 bg-surface-dark rounded-xl border border-primary/10 p-8 shadow-2xl relative overflow-hidden">
+          <div className={`lg:col-span-7 rounded-xl border border-primary/10 p-8 shadow-2xl relative overflow-hidden ${isDarkMode ? "bg-surface-dark" : "bg-white"}`}>
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
             <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
               {/* Career Image with Progress Overlay */}
@@ -328,9 +330,9 @@ const CareerResult = () => {
 
               {/* Career Details */}
               <div className="flex-1 text-center md:text-left">
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 capitalize">{career.careerName}</h2>
+                <h2 className={`text-3xl md:text-5xl font-bold mb-2 capitalize ${isDarkMode ? "text-white" : "text-charcoal"}`}>{career.careerName}</h2>
                 <p className="text-primary font-semibold text-lg mb-4">{metadata.level}</p>
-                <p className="text-slate-400 leading-relaxed">
+                <p className={`leading-relaxed ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>
                   {career.description}
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3 justify-center md:justify-start">
@@ -346,8 +348,8 @@ const CareerResult = () => {
 
           {/* Analysis Sidebar */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-surface-dark rounded-xl border border-primary/10 p-6">
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <div className={`rounded-xl border border-primary/10 p-6 ${isDarkMode ? "bg-surface-dark" : "bg-white"}`}>
+              <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                 <span className="material-symbols-outlined text-primary">analytics</span>
                 Why it's a great fit
               </h3>
@@ -358,8 +360,8 @@ const CareerResult = () => {
                       <span className="material-symbols-outlined text-primary">{reason.icon}</span>
                     </div>
                     <div>
-                      <h4 className="font-bold text-white">{reason.title}</h4>
-                      <p className="text-sm text-slate-400">{reason.description}</p>
+                      <h4 className={`font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>{reason.title}</h4>
+                      <p className={`text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>{reason.description}</p>
                     </div>
                   </div>
                 ))}
@@ -401,20 +403,20 @@ const CareerResult = () => {
 
         {/* Additional Insights */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
+          <div className={`border border-primary/10 p-5 rounded-lg ${isDarkMode ? "bg-surface-dark/50" : "bg-white"}`}>
             <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Salary Range</h5>
-            <p className="text-2xl font-bold text-white">{career.averageSalary || "$70k - $120k"}</p>
+            <p className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>{career.averageSalary || "$70k - $120k"}</p>
             <p className="text-xs text-slate-500">Based on your experience level</p>
           </div>
-          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
+          <div className={`border border-primary/10 p-5 rounded-lg ${isDarkMode ? "bg-surface-dark/50" : "bg-white"}`}>
             <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Job Market</h5>
             <div className="flex items-center gap-2">
-              <p className="text-2xl font-bold text-white">High Demand</p>
+              <p className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>High Demand</p>
               <span className="bg-green-500/20 text-green-500 px-2 py-0.5 rounded text-[10px] font-bold">+10% growth</span>
             </div>
             <p className="text-xs text-slate-500">Industry projection for 2024-2026</p>
           </div>
-          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
+          <div className={`border border-primary/10 p-5 rounded-lg ${isDarkMode ? "bg-surface-dark/50" : "bg-white"}`}>
             <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Top Skills</h5>
             <div className="flex gap-1 mt-1">
               <span className="material-symbols-outlined text-primary text-sm">star</span>
@@ -430,8 +432,8 @@ const CareerResult = () => {
         {/* Skills & Roadmap Section */}
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Skills */}
-          <div className="bg-surface-dark rounded-xl border border-primary/10 p-8">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+          <div className={`rounded-xl border border-primary/10 p-8 ${isDarkMode ? "bg-surface-dark" : "bg-white"}`}>
+            <h2 className={`text-2xl font-bold mb-6 flex items-center gap-3 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
               <span className="material-symbols-outlined text-primary">manage_accounts</span>
               Essential Skills
             </h2>
@@ -448,18 +450,18 @@ const CareerResult = () => {
           </div>
 
           {/* Roadmap */}
-          <div className="bg-surface-dark rounded-xl border border-primary/10 p-8">
-            <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+          <div className={`rounded-xl border border-primary/10 p-8 ${isDarkMode ? "bg-surface-dark" : "bg-white"}`}>
+            <h2 className={`text-2xl font-bold mb-8 flex items-center gap-3 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
               <span className="material-symbols-outlined text-primary text-2xl">alt_route</span>
               Career Roadmap
             </h2>
             <div className="space-y-5">
               {roadmap.map((step, index) => (
                 <div key={index} className="flex items-center gap-5">
-                  <div className="flex-shrink-0 w-9 h-9 rounded-full bg-primary/15 border border-primary/60 flex items-center justify-center text-primary font-bold text-sm">
+                  <div className={`flex-shrink-0 w-9 h-9 rounded-full bg-primary/15 border border-primary/60 flex items-center justify-center font-bold text-sm ${isDarkMode ? "text-primary" : "text-[#7c3aed]"}`}>
                     {index + 1}
                   </div>
-                  <p className="text-white text-[15px] leading-snug">{step}</p>
+                  <p className={`text-[15px] leading-snug ${isDarkMode ? "text-white" : "text-slate-600"}`}>{step}</p>
                 </div>
               ))}
             </div>

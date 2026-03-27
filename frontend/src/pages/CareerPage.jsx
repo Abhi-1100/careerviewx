@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getCareerById } from "../Services/api";
 import SearchBar from "../components/SearchBar";
 import InternalNavbar from "../components/InternalNavbar";
 import Footer from "../components/internalfooter";
+import { ThemeContext } from "../context/ThemeContext";
 
 // Roadmap step icons cycling
 const roadmapIcons = [
@@ -24,6 +25,7 @@ export default function CareerPage() {
   const [career, setCareer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { isDarkMode } = useContext(ThemeContext);
 
   const isActive = (path) =>
     location.pathname === path || location.pathname.startsWith(path);
@@ -68,12 +70,12 @@ export default function CareerPage() {
   /* ========= LOADING STATE ========= */
   if (loading) {
     return (
-      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark text-white font-display selection:bg-[#8b5cf6]/30">
+      <div className={`relative flex min-h-screen w-full flex-col overflow-x-hidden font-display selection:bg-[#8b5cf6]/30 transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
         {renderHeader()}
         <div className="flex items-center justify-center h-[60vh]">
           <div className="flex flex-col items-center gap-4">
             <div className="animate-spin size-12 border-4 border-[#8b5cf6]/20 border-t-[#8b5cf6] rounded-full"></div>
-            <p className="text-[#a094b8] text-sm font-medium">
+            <p className={`text-sm font-medium ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>
               Loading career details...
             </p>
           </div>
@@ -86,7 +88,7 @@ export default function CareerPage() {
   /* ========= ERROR STATE ========= */
   if (error) {
     return (
-      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark text-white font-display selection:bg-[#8b5cf6]/30">
+      <div className={`relative flex min-h-screen w-full flex-col overflow-x-hidden font-display selection:bg-[#8b5cf6]/30 transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
         {renderHeader()}
         <div className="flex items-center justify-center h-[60vh]">
           <div className="flex flex-col items-center gap-4 max-w-md text-center">
@@ -95,7 +97,7 @@ export default function CareerPage() {
                 error
               </span>
             </div>
-            <h2 className="text-white text-xl font-bold">{error}</h2>
+            <h2 className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>{error}</h2>
             <button
               onClick={() => navigate("/dashboard")}
               className="px-6 py-3 bg-[#8b5cf6] text-white text-sm font-bold rounded-lg hover:brightness-110 transition-all shadow-lg shadow-[#8b5cf6]/40"
@@ -111,7 +113,7 @@ export default function CareerPage() {
 
   /* ========= MAIN PAGE ========= */
   return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark text-white font-display selection:bg-[#8b5cf6]/30">
+    <div className={`relative flex min-h-screen w-full flex-col overflow-x-hidden font-display selection:bg-[#8b5cf6]/30 transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
       {renderHeader()}
 
       <main className="flex flex-1 justify-center py-8">
@@ -120,25 +122,25 @@ export default function CareerPage() {
           <nav className="flex flex-wrap gap-2 text-sm">
             <button
               onClick={() => navigate("/dashboard")}
-              className="text-gray-400 font-medium hover:text-[#8b5cf6] transition-colors"
+              className={`font-medium hover:text-[#8b5cf6] transition-colors ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}
             >
               Home
             </button>
-            <span className="text-gray-600 font-medium">/</span>
+            <span className={`font-medium ${isDarkMode ? "text-gray-600" : "text-slate-400"}`}>/</span>
             <button
               onClick={() => navigate("/career-paths")}
-              className="text-gray-400 font-medium hover:text-[#8b5cf6] transition-colors"
+              className={`font-medium hover:text-[#8b5cf6] transition-colors ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}
             >
               Career Paths
             </button>
-            <span className="text-gray-600 font-medium">/</span>
-            <span className="text-white font-bold capitalize">
+            <span className={`font-medium ${isDarkMode ? "text-gray-600" : "text-slate-400"}`}>/</span>
+            <span className={`font-bold capitalize ${isDarkMode ? "text-white" : "text-charcoal"}`}>
               {displayTitle}
             </span>
           </nav>
 
           {/* ── Hero Card ── */}
-          <div className="flex flex-col lg:flex-row justify-between gap-6 bg-[#161421] p-6 rounded-xl border border-[#2d2845]">
+          <div className={`flex flex-col lg:flex-row justify-between gap-6 p-6 rounded-xl border ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200 shadow-md"}`}>
             <div className="flex flex-col gap-3 max-w-2xl">
               {/* Badges */}
               <div className="flex items-center gap-3">
@@ -153,10 +155,10 @@ export default function CareerPage() {
                   </span>
                 )}
               </div>
-              <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] capitalize">
+              <h1 className={`text-4xl font-black leading-tight tracking-[-0.033em] capitalize ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                 {displayTitle}
               </h1>
-              <p className="text-gray-400 text-lg font-normal leading-relaxed">
+              <p className={`text-lg font-normal leading-relaxed ${isDarkMode ? "text-gray-400" : "text-slate-600"}`}>
                 {career?.description ||
                   career?.shortDescription ||
                   "No description available."}
@@ -184,7 +186,7 @@ export default function CareerPage() {
                     navigator.clipboard.writeText(window.location.href);
                   }
                 }}
-                className="w-full flex cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-[#1c1a2e] text-white text-sm font-bold border border-[#2d2845] hover:bg-[#2d2845] transition-all"
+                className={`w-full flex cursor-pointer items-center justify-center rounded-lg h-12 px-6 text-sm font-bold border transition-all ${isDarkMode ? "bg-[#1c1a2e] text-white border-[#2d2845] hover:bg-[#2d2845]" : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"}`}
               >
                 <span className="material-symbols-outlined mr-2">share</span>
                 Share Career Path
@@ -199,16 +201,16 @@ export default function CareerPage() {
               {/* 3 Stat Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Job Growth */}
-                <div className="flex flex-col gap-2 rounded-xl p-6 bg-[#161421] border border-[#2d2845]">
+                <div className={`flex flex-col gap-2 rounded-xl p-6 border ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200"}`}>
                   <div className="flex items-center justify-between">
-                    <p className="text-gray-400 text-sm font-medium">
+                    <p className={`text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                       Job Growth
                     </p>
                     <span className="material-symbols-outlined text-green-500">
                       trending_up
                     </span>
                   </div>
-                  <p className="text-white tracking-light text-2xl font-bold">
+                  <p className={`tracking-light text-2xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                     {career?.jobOutlook || "Growing"}
                   </p>
                   <p className="text-green-500 text-xs font-medium">
@@ -216,35 +218,35 @@ export default function CareerPage() {
                   </p>
                 </div>
                 {/* Avg Salary */}
-                <div className="flex flex-col gap-2 rounded-xl p-6 bg-[#161421] border border-[#2d2845]">
+                <div className={`flex flex-col gap-2 rounded-xl p-6 border ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200"}`}>
                   <div className="flex items-center justify-between">
-                    <p className="text-gray-400 text-sm font-medium">
+                    <p className={`text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                       Avg Salary
                     </p>
                     <span className="material-symbols-outlined text-[#8b5cf6]">
                       payments
                     </span>
                   </div>
-                  <p className="text-white tracking-light text-2xl font-bold">
+                  <p className={`tracking-light text-2xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                     {career?.averageSalary ||
                       career?.salaryRange ||
                       "Competitive"}
                   </p>
-                  <p className="text-green-500 text-xs font-medium">
+                  <p className={`${isDarkMode ? "text-[#a094b8]" : "text-slate-500"} text-xs font-medium`}>
                     Industry average
                   </p>
                 </div>
                 {/* Open Roles / Education */}
-                <div className="flex flex-col gap-2 rounded-xl p-6 bg-[#161421] border border-[#2d2845]">
+                <div className={`flex flex-col gap-2 rounded-xl p-6 border ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200"}`}>
                   <div className="flex items-center justify-between">
-                    <p className="text-gray-400 text-sm font-medium">
+                    <p className={`text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                       {career?.educationRequired ? "Education" : "Open Roles"}
                     </p>
                     <span className="material-symbols-outlined text-blue-400">
                       {career?.educationRequired ? "school" : "work"}
                     </span>
                   </div>
-                  <p className="text-white tracking-light text-2xl font-bold">
+                  <p className={`tracking-light text-2xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                     {career?.educationRequired || "Multiple paths"}
                   </p>
                   <p className="text-[#8b5cf6] text-xs font-medium">
@@ -256,21 +258,21 @@ export default function CareerPage() {
               </div>
 
               {/* ── Salary Progression Chart ── */}
-              <div className="flex flex-col bg-[#161421] rounded-xl border border-[#2d2845] p-6">
+              <div className={`flex flex-col rounded-xl border p-6 ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200"}`}>
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-white text-lg font-bold">
+                  <h3 className={`text-lg font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                     Salary Progression
                   </h3>
                   <div className="flex gap-4">
                     <div className="flex items-center gap-2">
                       <span className="size-2 bg-[#8b5cf6] rounded-full shadow-[0_0_5px_#8b5cf6]"></span>
-                      <span className="text-xs text-gray-400">
+                      <span className={`text-xs ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                         Current Market
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="size-2 bg-[#2d2845] rounded-full border border-[#8b5cf6]/40"></span>
-                      <span className="text-xs text-gray-400">Avg Base</span>
+                      <span className={`size-2 rounded-full border ${isDarkMode ? "bg-[#2d2845] border-[#8b5cf6]/40" : "bg-slate-200 border-[#8b5cf6]/20"}`}></span>
+                      <span className={`text-xs ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>Avg Base</span>
                     </div>
                   </div>
                 </div>
@@ -278,63 +280,63 @@ export default function CareerPage() {
                 <div className="relative h-56 w-full flex items-end justify-between gap-6 px-4">
                   {/* Grid lines */}
                   <div className="absolute inset-x-0 top-0 h-full flex flex-col justify-between pointer-events-none opacity-10">
-                    <div className="border-t border-white w-full"></div>
-                    <div className="border-t border-white w-full"></div>
-                    <div className="border-t border-white w-full"></div>
-                    <div className="border-t border-white w-full"></div>
+                    <div className={`border-t w-full ${isDarkMode ? "border-white" : "border-slate-800"}`}></div>
+                    <div className={`border-t w-full ${isDarkMode ? "border-white" : "border-slate-800"}`}></div>
+                    <div className={`border-t w-full ${isDarkMode ? "border-white" : "border-slate-800"}`}></div>
+                    <div className={`border-t w-full ${isDarkMode ? "border-white" : "border-slate-800"}`}></div>
                   </div>
                   {/* Junior */}
-                  <div className="w-full bg-[#1c1a2e] rounded-t-lg h-24 relative group">
+                  <div className={`w-full rounded-t-lg h-24 relative group ${isDarkMode ? "bg-[#1c1a2e]" : "bg-slate-100"}`}>
                     <div
                       className="absolute bottom-0 w-full bg-[#8b5cf6]/40 rounded-t-lg h-16 transition-all group-hover:h-20 border-t-2 border-[#8b5cf6]"
                       style={{
                         boxShadow: "0 0 15px rgba(139, 92, 246, 0.5)",
                       }}
                     ></div>
-                    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                    <span className={`absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-tighter ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                       Junior
                     </span>
                   </div>
                   {/* Mid-Level */}
-                  <div className="w-full bg-[#1c1a2e] rounded-t-lg h-36 relative group">
+                  <div className={`w-full rounded-t-lg h-36 relative group ${isDarkMode ? "bg-[#1c1a2e]" : "bg-slate-100"}`}>
                     <div
                       className="absolute bottom-0 w-full bg-[#8b5cf6]/40 rounded-t-lg h-28 transition-all group-hover:h-32 border-t-2 border-[#8b5cf6]"
                       style={{
                         boxShadow: "0 0 15px rgba(139, 92, 246, 0.5)",
                       }}
                     ></div>
-                    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                    <span className={`absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-tighter ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                       Mid-Level
                     </span>
                   </div>
                   {/* Senior */}
-                  <div className="w-full bg-[#1c1a2e] rounded-t-lg h-48 relative group">
+                  <div className={`w-full rounded-t-lg h-48 relative group ${isDarkMode ? "bg-[#1c1a2e]" : "bg-slate-100"}`}>
                     <div
                       className="absolute bottom-0 w-full bg-[#8b5cf6]/40 rounded-t-lg h-40 transition-all group-hover:h-44 border-t-2 border-[#8b5cf6]"
                       style={{
                         boxShadow: "0 0 15px rgba(139, 92, 246, 0.5)",
                       }}
                     ></div>
-                    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                    <span className={`absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-tighter ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                       Senior
                     </span>
                   </div>
                   {/* Lead */}
-                  <div className="w-full bg-[#1c1a2e] rounded-t-lg h-56 relative group">
+                  <div className={`w-full rounded-t-lg h-56 relative group ${isDarkMode ? "bg-[#1c1a2e]" : "bg-slate-100"}`}>
                     <div
                       className="absolute bottom-0 w-full bg-[#8b5cf6]/40 rounded-t-lg h-[200px] transition-all group-hover:h-[216px] border-t-2 border-[#8b5cf6]"
                       style={{
                         boxShadow: "0 0 15px rgba(139, 92, 246, 0.5)",
                       }}
                     ></div>
-                    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                    <span className={`absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-tighter ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                       Lead
                     </span>
                   </div>
                 </div>
                 {/* Pro tip */}
-                <div className="mt-14 p-4 bg-[#1c1a2e] rounded-lg border border-[#8b5cf6]/10">
-                  <p className="text-sm text-gray-300">
+                <div className={`mt-14 p-4 rounded-lg border ${isDarkMode ? "bg-[#1c1a2e] border-[#8b5cf6]/10" : "bg-primary/5 border-[#8b5cf6]/20"}`}>
+                  <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-slate-600"}`}>
                     <span className="font-bold text-[#8b5cf6]">Pro Tip:</span>{" "}
                     Specialized skills and certifications can increase your
                     starting salary by up to 15%.
@@ -345,14 +347,14 @@ export default function CareerPage() {
               {/* ── Key Skills ── */}
               {career?.skillsRequired && career.skillsRequired.length > 0 && (
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-white text-[22px] font-bold">
+                  <h3 className={`text-[22px] font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                     Key Skills
                   </h3>
                   <div className="flex flex-wrap gap-3">
                     {career.skillsRequired.map((skill, index) => (
                       <span
                         key={index}
-                        className="px-4 py-2 bg-[#2d1b4e] text-[#8b5cf6]/90 border border-[#8b5cf6]/20 rounded-full text-sm font-semibold hover:border-[#8b5cf6]/50 transition-colors cursor-default"
+                        className={`px-4 py-2 border rounded-full text-sm font-semibold transition-colors cursor-default ${isDarkMode ? "bg-[#2d1b4e] text-[#8b5cf6] border-[#8b5cf6]/20 hover:border-[#8b5cf6]/50" : "bg-primary/5 text-primary border-primary/20 hover:border-primary/50"}`}
                       >
                         {skill}
                       </span>
@@ -363,16 +365,15 @@ export default function CareerPage() {
 
               {/* ── A Day in the Life (Roadmap) ── */}
               {career?.roadmap && career.roadmap.length > 0 && (
-                <div className="flex flex-col bg-[#161421] rounded-xl border border-[#2d2845] overflow-hidden">
-                  <h3 className="text-white text-lg font-bold p-6 border-b border-[#2d2845]">
+                <div className={`flex flex-col rounded-xl border overflow-hidden ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200"}`}>
+                  <h3 className={`text-lg font-bold p-6 border-b ${isDarkMode ? "text-white border-[#2d2845]" : "text-charcoal border-slate-100"}`}>
                     A Day in the Life
                   </h3>
                   <div className="flex flex-col">
                     {career.roadmap.map((step, index) => (
                       <div
                         key={index}
-                        className={`flex items-start gap-4 p-5 hover:bg-[#1c1a2e] transition-colors group ${index > 0 ? "border-t border-[#2d2845]" : ""
-                          }`}
+                        className={`flex items-start gap-4 p-5 transition-colors group ${index > 0 ? (isDarkMode ? "border-t border-[#2d2845]" : "border-t border-slate-100") : ""} ${isDarkMode ? "hover:bg-[#1c1a2e]" : "hover:bg-slate-50"}`}
                       >
                         <div className="size-10 rounded-lg bg-[#8b5cf6]/10 text-[#8b5cf6] flex items-center justify-center shrink-0 group-hover:bg-[#8b5cf6] group-hover:text-white transition-all">
                           <span className="material-symbols-outlined">
@@ -380,8 +381,8 @@ export default function CareerPage() {
                           </span>
                         </div>
                         <div>
-                          <p className="text-white font-bold">{step}</p>
-                          <p className="text-gray-400 text-sm leading-relaxed">
+                          <p className={`font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>{step}</p>
+                          <p className={`text-sm leading-relaxed ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                             Step {index + 1} in your career journey.
                           </p>
                         </div>
@@ -394,21 +395,21 @@ export default function CareerPage() {
               {/* ── Important Exams ── */}
               {career?.exams && career.exams.length > 0 && (
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-white text-[22px] font-bold">
+                  <h3 className={`text-[22px] font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                     Important Exams
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {career.exams.map((exam, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-3 bg-[#161421] p-4 rounded-xl border border-[#2d2845] hover:border-[#8b5cf6]/30 transition-colors"
+                        className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${isDarkMode ? "bg-[#161421] border-[#2d2845] hover:border-[#8b5cf6]/30" : "bg-white border-slate-200 hover:border-primary/50"}`}
                       >
                         <div className="size-8 rounded-lg bg-[#8b5cf6]/10 text-[#8b5cf6] flex items-center justify-center shrink-0">
                           <span className="material-symbols-outlined text-lg">
                             assignment
                           </span>
                         </div>
-                        <p className="text-white text-sm font-medium">{exam}</p>
+                        <p className={`text-sm font-medium ${isDarkMode ? "text-white" : "text-charcoal"}`}>{exam}</p>
                       </div>
                     ))}
                   </div>
@@ -419,19 +420,19 @@ export default function CareerPage() {
             {/* ======== RIGHT SIDEBAR 1/3 ======== */}
             <div className="flex flex-col gap-6">
               {/* ── Education Roadmap ── */}
-              <div className="bg-[#161421] rounded-xl border border-[#2d2845] p-6 shadow-sm">
-                <h3 className="text-white text-lg font-bold mb-4">
+              <div className={`rounded-xl border p-6 shadow-sm ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200"}`}>
+                <h3 className={`text-lg font-bold mb-4 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                   Education Roadmap
                 </h3>
                 <div className="flex flex-col gap-6 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-[#8b5cf6]/20">
                   {/* Step 1 */}
                   <div className="flex gap-4 relative">
-                    <div className="size-6 rounded-full bg-[#8b5cf6] border-4 border-[#161421] z-10"></div>
+                    <div className={`size-6 rounded-full bg-[#8b5cf6] border-4 z-10 ${isDarkMode ? "border-[#161421]" : "border-white"}`}></div>
                     <div className="flex-1">
-                      <p className="text-sm font-bold text-white">
+                      <p className={`text-sm font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                         {career?.educationRequired || "Bachelor's Degree"}
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                         {career?.educationRequired
                           ? "Required qualification"
                           : "Design, Psych, or CS (4 Years)"}
@@ -440,12 +441,12 @@ export default function CareerPage() {
                   </div>
                   {/* Step 2 */}
                   <div className="flex gap-4 relative">
-                    <div className="size-6 rounded-full bg-[#8b5cf6] border-4 border-[#161421] z-10"></div>
+                    <div className={`size-6 rounded-full bg-[#8b5cf6] border-4 z-10 ${isDarkMode ? "border-[#161421]" : "border-white"}`}></div>
                     <div className="flex-1">
-                      <p className="text-sm font-bold text-white">
+                      <p className={`text-sm font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                         Build Portfolio
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                         {career?.exams && career.exams.length > 0
                           ? `Key exams: ${career.exams.slice(0, 2).join(", ")}`
                           : "3-4 case studies (6-12 Months)"}
@@ -454,12 +455,12 @@ export default function CareerPage() {
                   </div>
                   {/* Step 3 */}
                   <div className="flex gap-4 relative">
-                    <div className="size-6 rounded-full bg-[#1c1a2e] border-2 border-[#8b5cf6] z-10"></div>
+                    <div className={`size-6 rounded-full border-2 border-[#8b5cf6] z-10 ${isDarkMode ? "bg-[#1c1a2e]" : "bg-white"}`}></div>
                     <div className="flex-1">
-                      <p className="text-sm font-bold text-white">
+                      <p className={`text-sm font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                         Specialized Certs
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                         {career?.exams && career.exams.length > 2
                           ? career.exams.slice(2, 4).join(", ") + " (Optional)"
                           : "Industry certifications (Optional)"}
@@ -476,8 +477,8 @@ export default function CareerPage() {
               </div>
 
               {/* ── Top Mentors ── */}
-              <div className="bg-[#161421] rounded-xl border border-[#2d2845] p-6 shadow-sm">
-                <h3 className="text-white text-lg font-bold mb-4">
+              <div className={`rounded-xl border p-6 shadow-sm ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200"}`}>
+                <h3 className={`text-lg font-bold mb-4 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                   Top Mentors
                 </h3>
                 <div className="flex flex-col gap-4">
@@ -491,10 +492,10 @@ export default function CareerPage() {
                       }}
                     ></div>
                     <div className="flex-1">
-                      <p className="text-sm font-bold text-white group-hover:text-[#8b5cf6] transition-colors">
+                      <p className={`text-sm font-bold group-hover:text-[#8b5cf6] transition-colors ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                         Sarah Johnson
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                         Principal Designer at TechCorp
                       </p>
                     </div>
@@ -520,10 +521,10 @@ export default function CareerPage() {
                       }}
                     ></div>
                     <div className="flex-1">
-                      <p className="text-sm font-bold text-white group-hover:text-[#8b5cf6] transition-colors">
+                      <p className={`text-sm font-bold group-hover:text-[#8b5cf6] transition-colors ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                         David Chen
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                         Senior UX, SocialStream
                       </p>
                     </div>
@@ -540,7 +541,7 @@ export default function CareerPage() {
                     </button>
                   </div>
                 </div>
-                <hr className="my-4 border-[#2d2845]" />
+                <hr className={`my-4 ${isDarkMode ? "border-[#2d2845]" : "border-slate-200"}`} />
                 <button
                   onClick={() => navigate("/mentors")}
                   className="text-[#8b5cf6] text-sm font-bold flex items-center justify-center gap-2 hover:translate-x-1 transition-transform w-full"
@@ -555,24 +556,24 @@ export default function CareerPage() {
               {/* ── Related Paths ── */}
               {career?.relatedCareers && career.relatedCareers.length > 0 && (
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-white text-lg font-bold px-2">
+                  <h3 className={`text-lg font-bold px-2 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                     Related Paths
                   </h3>
                   {career.relatedCareers.map((related, index) => (
                     <div
                       key={index}
                       onClick={() => navigate("/career-paths")}
-                      className="bg-[#161421] p-4 rounded-xl border border-[#2d2845] hover:border-[#8b5cf6]/50 cursor-pointer group transition-all"
+                      className={`p-4 rounded-xl border hover:border-[#8b5cf6]/50 cursor-pointer group transition-all ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200 shadow-sm"}`}
                     >
                       <div className="flex justify-between items-center">
-                        <p className="font-bold text-white group-hover:text-[#8b5cf6] transition-colors capitalize">
+                        <p className={`font-bold group-hover:text-[#8b5cf6] transition-colors capitalize ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                           {related}
                         </p>
                         <span className="material-symbols-outlined text-gray-600 group-hover:text-[#8b5cf6] transition-colors">
                           chevron_right
                         </span>
                       </div>
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p className={`text-xs mt-1 ${isDarkMode ? "text-gray-400" : "text-slate-500"}`}>
                         Explore this related career path.
                       </p>
                     </div>
@@ -582,8 +583,8 @@ export default function CareerPage() {
 
               {/* ── Top Colleges ── */}
               {career?.topColleges && career.topColleges.length > 0 && (
-                <div className="bg-[#161421] rounded-xl border border-[#2d2845] p-6 shadow-sm">
-                  <h3 className="text-white text-lg font-bold mb-4">
+                <div className={`rounded-xl border p-6 shadow-sm ${isDarkMode ? "bg-[#161421] border-[#2d2845]" : "bg-white border-slate-200"}`}>
+                  <h3 className={`text-lg font-bold mb-4 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                     Top Colleges
                   </h3>
                   <div className="flex flex-col gap-3">
@@ -597,7 +598,7 @@ export default function CareerPage() {
                             school
                           </span>
                         </div>
-                        <p className="text-sm text-white font-medium">
+                        <p className={`text-sm font-medium ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                           {college}
                         </p>
                       </div>

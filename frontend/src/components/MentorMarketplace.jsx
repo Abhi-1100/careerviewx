@@ -5,23 +5,31 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useContext,
 } from "react";
+
+import { ThemeContext } from "../context/ThemeContext";
 
 /* ─────────────────────────────────────────────────────────────
    COLOUR PALETTE & DESIGN TOKENS
 ───────────────────────────────────────────────────────────── */
-const C = {
-  bg: "#080614",
-  card: "#0f0824",
-  cardHover: "#1a1040",
+const getC = (isDarkMode) => ({
+  bg: isDarkMode ? "#080614" : "#f8fafc",
+  card: isDarkMode ? "#0f0824" : "#ffffff",
+  cardHover: isDarkMode ? "#1a1040" : "#f1f5f9",
   primary: "#7c3aed",
-  primaryLight: "#a78bfa",
-  border: "rgba(255,255,255,0.07)",
-  muted: "#9ca3af",
+  primaryLight: isDarkMode ? "#a78bfa" : "#6d28d9",
+  border: isDarkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.1)",
+  muted: isDarkMode ? "#9ca3af" : "#64748b",
   gold: "#f59e0b",
-  white: "#ffffff",
-  surface: "#150d30",
-};
+  white: isDarkMode ? "#ffffff" : "#0f172a",
+  surface: isDarkMode ? "#150d30" : "#ffffff",
+  heroGradientEnd: isDarkMode ? "#1a0a3a" : "#f3e8ff",
+  textGradientStart: isDarkMode ? "#ffffff" : "#3b0764",
+  textGradientEnd: isDarkMode ? "#a78bfa" : "#7c3aed",
+  buttonBgOff: isDarkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)",
+  divider: isDarkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"
+});
 
 /* ─────────────────────────────────────────────────────────────
    SAMPLE MENTOR DATA  (8 mentors)
@@ -174,6 +182,8 @@ const PER_PAGE = 6;
    STARS COMPONENT
 ───────────────────────────────────────────────────────────── */
 export function Stars({ rating }) {
+  const { isDarkMode } = useContext(ThemeContext);
+  const C = getC(isDarkMode);
   const full = Math.floor(rating);
   const half = rating - full >= 0.5;
   return (
@@ -202,6 +212,8 @@ export function Stars({ rating }) {
    CHECKBOX COMPONENT
 ───────────────────────────────────────────────────────────── */
 export function Checkbox({ label, checked, onChange }) {
+  const { isDarkMode } = useContext(ThemeContext);
+  const C = getC(isDarkMode);
   return (
     <label
       style={{
@@ -249,6 +261,8 @@ export function Checkbox({ label, checked, onChange }) {
    RADIO COMPONENT
 ───────────────────────────────────────────────────────────── */
 export function Radio({ label, checked, onChange }) {
+  const { isDarkMode } = useContext(ThemeContext);
+  const C = getC(isDarkMode);
   return (
     <label
       style={{
@@ -295,6 +309,9 @@ export function Radio({ label, checked, onChange }) {
    VIDEO MODAL  (Feature 3)
 ───────────────────────────────────────────────────────────── */
 export function VideoModal({ mentor, onClose }) {
+  const { isDarkMode } = useContext(ThemeContext);
+  const C = getC(isDarkMode);
+
   useEffect(() => {
     if (!mentor) return;
     const handler = (e) => e.key === "Escape" && onClose();
@@ -381,7 +398,7 @@ export function VideoModal({ mentor, onClose }) {
           <button
             onClick={onClose}
             style={{
-              background: "rgba(255,255,255,0.08)",
+              background: C.buttonBgOff,
               border: "none",
               borderRadius: 10,
               width: 36,
@@ -442,7 +459,7 @@ export function VideoModal({ mentor, onClose }) {
             <button
               onClick={onClose}
               style={{
-                background: "rgba(255,255,255,0.07)",
+                background: C.buttonBgOff,
                 border: `1px solid ${C.border}`,
                 borderRadius: 10,
                 color: C.muted,
@@ -486,6 +503,9 @@ export function VideoModal({ mentor, onClose }) {
    MENTOR CARD  (Features 1 & 2)
 ───────────────────────────────────────────────────────────── */
 export function MentorCard({ mentor, onOpenModal }) {
+  const { isDarkMode } = useContext(ThemeContext);
+  const C = getC(isDarkMode);
+
   const videoRef = useRef(null);
   const timerRef = useRef(null);
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -503,7 +523,7 @@ export function MentorCard({ mentor, onOpenModal }) {
       const vid = videoRef.current;
       if (vid) {
         vid.currentTime = 0;
-        vid.play().catch(() => {});
+        vid.play().catch(() => { });
         setVideoPlaying(true);
       }
     }, 300);
@@ -748,8 +768,8 @@ export function MentorCard({ mentor, onOpenModal }) {
           ))}
           <span
             style={{
-              background: "rgba(255,255,255,0.05)",
-              border: `1px solid rgba(255,255,255,0.1)`,
+              background: C.buttonBgOff,
+              border: `1px solid ${C.border}`,
               color: C.muted,
               fontSize: 10,
               fontWeight: 600,
@@ -767,7 +787,7 @@ export function MentorCard({ mentor, onOpenModal }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
-            borderTop: `1px dashed rgba(255,255,255,0.08)`,
+            borderTop: `1px dashed ${C.divider}`,
             paddingTop: 14,
             marginTop: "auto",
           }}
@@ -801,6 +821,9 @@ export function MentorCard({ mentor, onOpenModal }) {
    MENTOR MARKETPLACE  (main page component)
 ───────────────────────────────────────────────────────────── */
 export default function MentorMarketplace() {
+  const { isDarkMode } = useContext(ThemeContext);
+  const C = getC(isDarkMode);
+
   const [activeCategory, setActiveCategory] = useState("ALL TECH");
   const [selectedIndustries, setSelectedIndustries] = useState([]);
   const [selectedExperience, setSelectedExperience] = useState("");
@@ -864,31 +887,16 @@ export default function MentorMarketplace() {
         }}
       >
         <div
-          style={{
-            maxWidth: 1380,
-            margin: "0 auto",
-            padding: "32px 20px",
-            display: "flex",
-            gap: 28,
-            alignItems: "flex-start",
-          }}
+          className="max-w-[1380px] mx-auto px-5 py-8 flex flex-col lg:flex-row gap-7 items-start"
         >
           {/* ════════════════════════
               SIDEBAR FILTERS
           ════════════════════════ */}
           <aside
+            className="w-full lg:w-[248px] shrink-0 lg:sticky lg:top-[88px] rounded-[18px] p-[22px_18px] flex flex-col gap-6"
             style={{
-              width: 248,
-              flexShrink: 0,
-              position: "sticky",
-              top: 88,
               background: C.card,
               border: `1px solid ${C.border}`,
-              borderRadius: 18,
-              padding: "22px 18px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 24,
             }}
           >
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -982,16 +990,10 @@ export default function MentorMarketplace() {
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 24, minWidth: 0 }}>
             {/* Hero header */}
             <div
+              className="rounded-[18px] p-5 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center flex-wrap gap-4"
               style={{
-                background: `linear-gradient(135deg, ${C.card}, #1a0a3a)`,
+                background: `linear-gradient(135deg, ${C.card}, ${C.heroGradientEnd})`,
                 border: `1px solid rgba(124,58,237,0.2)`,
-                borderRadius: 18,
-                padding: "32px 32px",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: 16,
               }}
             >
               <div>
@@ -1001,9 +1003,8 @@ export default function MentorMarketplace() {
                     fontWeight: 900,
                     fontSize: "clamp(24px, 4vw, 38px)",
                     margin: 0,
-                    background: `linear-gradient(135deg, ${C.white}, ${C.primaryLight})`,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
+                    color: isDarkMode ? "#ffffff" : "#1e1b4b",
+                    lineHeight: 1.15,
                     lineHeight: 1.15,
                   }}
                 >
@@ -1022,7 +1023,7 @@ export default function MentorMarketplace() {
                       background:
                         sortMode === mode
                           ? `linear-gradient(135deg, ${C.primary}, #5b21b6)`
-                          : "rgba(255,255,255,0.07)",
+                          : C.buttonBgOff,
                       border: `1px solid ${sortMode === mode ? C.primary : C.border}`,
                       borderRadius: 10,
                       color: C.white,
@@ -1050,7 +1051,7 @@ export default function MentorMarketplace() {
                     background:
                       activeCategory === cat
                         ? "rgba(124,58,237,0.2)"
-                        : "rgba(255,255,255,0.04)",
+                        : C.buttonBgOff,
                     border: `1px solid ${activeCategory === cat ? "rgba(124,58,237,0.5)" : C.border}`,
                     borderRadius: 99,
                     color: activeCategory === cat ? C.primaryLight : C.muted,
@@ -1100,13 +1101,7 @@ export default function MentorMarketplace() {
                 <p style={{ margin: 0 }}>Try adjusting your filters</p>
               </div>
             ) : (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                  gap: 20,
-                }}
-              >
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {paged.map((mentor) => (
                   <MentorCard
                     key={mentor.id}
@@ -1165,6 +1160,8 @@ export default function MentorMarketplace() {
    PAGINATION BUTTON (internal helper)
 ───────────────────────────────────────────────────────────── */
 function PaginationBtn({ children, onClick, active, disabled }) {
+  const { isDarkMode } = useContext(ThemeContext);
+  const C = getC(isDarkMode);
   return (
     <button
       onClick={onClick}
@@ -1176,7 +1173,7 @@ function PaginationBtn({ children, onClick, active, disabled }) {
         border: `1px solid ${active ? C.primary : C.border}`,
         background: active
           ? `linear-gradient(135deg, ${C.primary}, #5b21b6)`
-          : "rgba(255,255,255,0.04)",
+          : C.buttonBgOff,
         color: active ? C.white : C.muted,
         fontWeight: 700,
         fontSize: 15,

@@ -2,12 +2,15 @@ import React from "react";
 import InternalNavbar from "../components/InternalNavbar";
 import Footer from "../components/internalfooter";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 export default function NotFound() {
   const navigate = useNavigate();
+  const { isDarkMode } = useContext(ThemeContext);
 
   return (
-    <div className="bg-background-dark font-display min-h-screen flex flex-col selection:bg-primary/30 selection:text-white">
+    <div className={`font-display min-h-screen flex flex-col selection:bg-primary/30 selection:text-white transition-colors duration-300 ${isDarkMode ? "bg-background-dark" : "bg-surface-light"}`}>
       <InternalNavbar />
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
@@ -29,10 +32,10 @@ export default function NotFound() {
           </h1>
 
           <div className="flex flex-col gap-4 mb-10 max-w-2xl px-4">
-            <p className="text-white tracking-tight text-3xl md:text-4xl font-extrabold leading-tight">
+            <p className={`tracking-tight text-3xl md:text-4xl font-extrabold leading-tight ${isDarkMode ? "text-white" : "text-charcoal"}`}>
               Oops! This path hasn't been discovered yet
             </p>
-            <p className="text-white/60 text-lg font-normal leading-relaxed">
+            <p className={`text-lg font-normal leading-relaxed ${isDarkMode ? "text-white/60" : "text-slate-500"}`}>
               It looks like the page you are looking for doesn't exist, has been moved, or is hiding behind a career milestone you haven't reached yet.
             </p>
           </div>
