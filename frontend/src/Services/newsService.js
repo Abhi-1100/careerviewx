@@ -36,7 +36,19 @@ export const fetchCareerNews = async () => {
     return FALLBACK_CAREER_NEWS;
   }
 
-  const url = `https://newsapi.org/v2/everything?q=career+OR+jobs+OR+placement&language=en&sortBy=publishedAt&pageSize=20&apiKey=${API_KEY}`;
+  const careerKeywords = [
+    '"career guidance"',
+    '"career development"',
+    '"job market"',
+    '"campus placement"',
+    '"skills development"',
+    '"professional growth"',
+    '"internship"',
+    '"hiring trends"',
+  ];
+  const excludedTopics = ["celebrity", "gossip", "movie", "music", "sports"];
+  const query = `${careerKeywords.join(" OR ")} NOT ${excludedTopics.join(" NOT ")}`;
+  const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=en&sortBy=publishedAt&pageSize=20&searchIn=title,description&apiKey=${API_KEY}`;
 
   try {
     const response = await fetch(url);

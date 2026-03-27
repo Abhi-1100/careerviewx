@@ -40,7 +40,7 @@ const MENTOR_DATA = [
     experience: "Senior (8+ yrs)",
     avatar:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&auto=format",
-    videoId: "dQw4w9WgXcQ",
+    videoId: "U3oljUZQtCk",
     videoSource: "youtube",
     previewMp4: null,
   },
@@ -57,7 +57,7 @@ const MENTOR_DATA = [
     experience: "Senior (8+ yrs)",
     avatar:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&auto=format",
-    videoId: "9bZkp7q19f0",
+    videoId: "b5XNNg_k6oQ",
     videoSource: "youtube",
     previewMp4: null,
   },
@@ -74,7 +74,7 @@ const MENTOR_DATA = [
     experience: "Mid (4-7 yrs)",
     avatar:
       "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&h=120&fit=crop&auto=format",
-    videoId: "ZnudL4JdoS8",
+    videoId: "kwveytaynAs",
     videoSource: "youtube",
     previewMp4: null,
   },
@@ -91,7 +91,7 @@ const MENTOR_DATA = [
     experience: "Senior (8+ yrs)",
     avatar:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&auto=format",
-    videoId: "jNQXAC9IVRw",
+    videoId: "Tef1e9FiSR0",
     videoSource: "youtube",
     previewMp4: null,
   },
@@ -108,7 +108,7 @@ const MENTOR_DATA = [
     experience: "Senior (8+ yrs)",
     avatar:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop&auto=format",
-    videoId: "LXb3EKWsInQ",
+    videoId: "rS3J7TJRbWg",
     videoSource: "youtube",
     previewMp4: null,
   },
@@ -125,7 +125,7 @@ const MENTOR_DATA = [
     experience: "Mid (4-7 yrs)",
     avatar:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&auto=format",
-    videoId: "aircAruvnKk",
+    videoId: "8_Bx7HRo_ms",
     videoSource: "youtube",
     previewMp4: null,
   },
@@ -142,7 +142,7 @@ const MENTOR_DATA = [
     experience: "Senior (8+ yrs)",
     avatar:
       "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=120&h=120&fit=crop&auto=format",
-    videoId: "2lAe1cqCOXo",
+    videoId: "8NFUEHqzYoo",
     videoSource: "youtube",
     previewMp4: null,
   },
@@ -159,7 +159,7 @@ const MENTOR_DATA = [
     experience: "Entry (1-3 yrs)",
     avatar:
       "https://images.unsplash.com/photo-1463453091185-61582044d556?w=120&h=120&fit=crop&auto=format",
-    videoId: "M7lc1UVf-VE",
+    videoId: "UNGenNCw9N4",
     videoSource: "youtube",
     previewMp4: null,
   },
@@ -306,7 +306,7 @@ export function VideoModal({ mentor, onClose }) {
 
   const embedUrl =
     mentor.videoSource === "youtube"
-      ? `https://www.youtube.com/embed/${mentor.videoId}?autoplay=1&rel=0&modestbranding=1`
+      ? `https://www.youtube-nocookie.com/embed/${mentor.videoId}?autoplay=1&rel=0&modestbranding=1`
       : `https://player.vimeo.com/video/${mentor.videoId}?autoplay=1&muted=1&title=0&byline=0`;
 
   return (
