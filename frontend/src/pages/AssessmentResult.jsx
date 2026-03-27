@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/InternalNavbar"
 import Footer from "../components/internalfooter";
+import { ThemeContext } from "../context/ThemeContext";
 
 // Career details mapping based on backend categories
 const careerDetails = {
@@ -185,6 +186,7 @@ export default function AssessmentResult() {
   const location = useLocation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { isDarkMode } = useContext(ThemeContext);
 
   // Get career name from location state
   const careerName = location.state?.recommendedCareer || "design";
@@ -214,24 +216,21 @@ export default function AssessmentResult() {
   };
 
   return (
-    <div className="min-h-screen bg-background-dark text-white font-display">
-
-
-
-
+    <div className={`min-h-screen font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
+      <Navbar />
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-12">
         {/* Success Message */}
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-1.5 bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase rounded-full mb-4">Assessment Complete</span>
-          <h1 className="text-5xl md:text-7xl font-black text-white mb-4 tracking-tighter" style={{ textShadow: "0 0 20px rgba(140, 43, 238, 0.4)" }}>MATCH FOUND!</h1>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">We analyzed your skills, interests, and personality. Here's your perfect professional alignment.</p>
+          <h1 className={`text-5xl md:text-7xl font-black mb-4 tracking-tighter ${isDarkMode ? "text-white" : "text-charcoal"}`} style={{ textShadow: "0 0 20px rgba(140, 43, 238, 0.4)" }}>MATCH FOUND!</h1>
+          <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>We analyzed your skills, interests, and personality. Here's your perfect professional alignment.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Hero Match Card */}
-          <div className="lg:col-span-7 bg-surface-dark rounded-xl border border-primary/10 p-8 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+          <div className={`lg:col-span-7 rounded-xl border p-8 shadow-2xl relative overflow-hidden ${isDarkMode ? "bg-surface-dark border-primary/10" : "bg-white border-slate-200"}`}>
+            <div className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl -mr-32 -mt-32 ${isDarkMode ? "bg-primary/5" : "bg-primary/10"}`}></div>
             <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
               {/* Career Image with Progress Overlay */}
               <div className="relative">
@@ -243,10 +242,10 @@ export default function AssessmentResult() {
                   />
                 </div>
                 {/* Circular Progress Overlay */}
-                <div className="absolute -bottom-6 -right-6 bg-background-dark border-4 border-surface-dark size-24 rounded-full flex items-center justify-center">
+                <div className={`absolute -bottom-6 -right-6 border-4 size-24 rounded-full flex items-center justify-center ${isDarkMode ? "bg-background-dark border-surface-dark" : "bg-white border-slate-50 shadow-md"}`}>
                   <div className="relative size-full flex items-center justify-center">
                     <svg className="size-20 transform -rotate-90">
-                      <circle className="text-slate-800" cx="40" cy="40" fill="transparent" r="34" stroke="currentColor" strokeWidth="6"></circle>
+                      <circle className={isDarkMode ? "text-slate-800" : "text-slate-200"} cx="40" cy="40" fill="transparent" r="34" stroke="currentColor" strokeWidth="6"></circle>
                       <circle
                         className="text-primary"
                         cx="40"
@@ -259,16 +258,16 @@ export default function AssessmentResult() {
                         strokeWidth="6"
                       ></circle>
                     </svg>
-                    <span className="absolute text-xl font-bold text-white">{recommendedCareer.matchPercentage}%</span>
+                    <span className={`absolute text-xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>{recommendedCareer.matchPercentage}%</span>
                   </div>
                 </div>
               </div>
 
               {/* Career Details */}
               <div className="flex-1 text-center md:text-left">
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">{recommendedCareer.title}</h2>
+                <h2 className={`text-3xl md:text-5xl font-bold mb-2 ${isDarkMode ? "text-white" : "text-charcoal"}`}>{recommendedCareer.title}</h2>
                 <p className="text-primary font-semibold text-lg mb-4">{recommendedCareer.level}</p>
-                <p className="text-slate-400 leading-relaxed">
+                <p className={`leading-relaxed ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>
                   {recommendedCareer.description}
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3 justify-center md:justify-start">
@@ -284,8 +283,8 @@ export default function AssessmentResult() {
 
           {/* Analysis Sidebar */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-surface-dark rounded-xl border border-primary/10 p-6">
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <div className={`rounded-xl border p-6 ${isDarkMode ? "bg-surface-dark border-primary/10" : "bg-white border-slate-200 shadow-xl"}`}>
+              <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                 <span className="material-symbols-outlined text-primary">analytics</span>
                 Why it's a great fit
               </h3>
@@ -296,8 +295,8 @@ export default function AssessmentResult() {
                       <span className="material-symbols-outlined text-primary">{reason.icon}</span>
                     </div>
                     <div>
-                      <h4 className="font-bold text-white">{reason.title}</h4>
-                      <p className="text-sm text-slate-400">{reason.description}</p>
+                      <h4 className={`font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>{reason.title}</h4>
+                      <p className={`text-sm ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>{reason.description}</p>
                     </div>
                   </div>
                 ))}
@@ -339,29 +338,29 @@ export default function AssessmentResult() {
 
         {/* Additional Insights */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
-            <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Salary Expectation</h5>
-            <p className="text-2xl font-bold text-white">{recommendedCareer.salaryRange}</p>
-            <p className="text-xs text-slate-500">Based on your experience level</p>
+          <div className={`border p-5 rounded-lg ${isDarkMode ? "bg-surface-dark/50 border-primary/10" : "bg-white border-slate-200 shadow-md"}`}>
+            <h5 className={`text-xs font-bold uppercase tracking-wider mb-2 ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>Salary Expectation</h5>
+            <p className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>{recommendedCareer.salaryRange}</p>
+            <p className={`text-xs ${isDarkMode ? "text-slate-500" : "text-slate-400"}`}>Based on your experience level</p>
           </div>
-          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
-            <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Market Demand</h5>
+          <div className={`border p-5 rounded-lg ${isDarkMode ? "bg-surface-dark/50 border-primary/10" : "bg-white border-slate-200 shadow-md"}`}>
+            <h5 className={`text-xs font-bold uppercase tracking-wider mb-2 ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>Market Demand</h5>
             <div className="flex items-center gap-2">
-              <p className="text-2xl font-bold text-white">{recommendedCareer.marketDemand}</p>
+              <p className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>{recommendedCareer.marketDemand}</p>
               <span className="bg-green-500/20 text-green-500 px-2 py-0.5 rounded text-[10px] font-bold">{recommendedCareer.growthRate} growth</span>
             </div>
-            <p className="text-xs text-slate-500">Industry projection for 2024-2026</p>
+            <p className={`text-xs ${isDarkMode ? "text-slate-500" : "text-slate-400"}`}>Industry projection for 2024-2026</p>
           </div>
-          <div className="bg-surface-dark/50 border border-primary/10 p-5 rounded-lg">
-            <h5 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Skills to Sharpen</h5>
+          <div className={`border p-5 rounded-lg ${isDarkMode ? "bg-surface-dark/50 border-primary/10" : "bg-white border-slate-200 shadow-md"}`}>
+            <h5 className={`text-xs font-bold uppercase tracking-wider mb-2 ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>Skills to Sharpen</h5>
             <div className="flex gap-1 mt-1">
               <span className="material-symbols-outlined text-primary text-sm">star</span>
               <span className="material-symbols-outlined text-primary text-sm">star</span>
               <span className="material-symbols-outlined text-primary text-sm">star</span>
-              <span className="material-symbols-outlined text-slate-700 text-sm">star</span>
-              <span className="material-symbols-outlined text-slate-700 text-sm">star</span>
+              <span className={`material-symbols-outlined text-sm ${isDarkMode ? "text-slate-700" : "text-slate-300"}`}>star</span>
+              <span className={`material-symbols-outlined text-sm ${isDarkMode ? "text-slate-700" : "text-slate-300"}`}>star</span>
             </div>
-            <p className="text-xs text-slate-500 mt-2">Recommended: {recommendedCareer.skillsToSharpen}</p>
+            <p className={`text-xs mt-2 ${isDarkMode ? "text-slate-500" : "text-slate-400"}`}>Recommended: {recommendedCareer.skillsToSharpen}</p>
           </div>
         </div>
       </main>

@@ -41,11 +41,11 @@ export default function CareerGuidanceDashboard() {
   // Career domain → icon + colors
   const careerDomainMeta = {
     engineering: { icon: "engineering", skillColor: "#3b82f6", matchColor: "#10b981" },
-    it:          { icon: "computer",    skillColor: "#8b5cf6", matchColor: "#8b5cf6" },
-    medical:     { icon: "health_and_safety", skillColor: "#10b981", matchColor: "#10b981" },
-    design:      { icon: "draw",        skillColor: "#f59e0b", matchColor: "#f59e0b" },
-    business:    { icon: "business_center", skillColor: "#ef4444", matchColor: "#ef4444" },
-    government:  { icon: "account_balance", skillColor: "#6366f1", matchColor: "#6366f1" },
+    it: { icon: "computer", skillColor: "#8b5cf6", matchColor: "#8b5cf6" },
+    medical: { icon: "health_and_safety", skillColor: "#10b981", matchColor: "#10b981" },
+    design: { icon: "draw", skillColor: "#f59e0b", matchColor: "#f59e0b" },
+    business: { icon: "business_center", skillColor: "#ef4444", matchColor: "#ef4444" },
+    government: { icon: "account_balance", skillColor: "#6366f1", matchColor: "#6366f1" },
   };
 
   // Get user data from localStorage
@@ -282,11 +282,11 @@ export default function CareerGuidanceDashboard() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
         {/* Header */}
-        <header className={`sticky top-0 z-30 flex items-center gap-4 border-b backdrop-blur-xl px-4 sm:px-6 md:px-8 py-4 transition-colors duration-300 ${isDarkMode ? "bg-background-dark/80 border-[#2d264a]" : "bg-surface-light/80 border-border-light"}`}>
-          <div className="flex items-center gap-6 flex-1">
+        <header className={`sticky top-0 z-30 flex items-center gap-2 sm:gap-4 border-b backdrop-blur-xl px-4 sm:px-6 md:px-8 py-4 transition-colors duration-300 ${isDarkMode ? "bg-background-dark/80 border-[#2d264a]" : "bg-surface-light/80 border-border-light"}`}>
+          <div className="flex items-center gap-2 sm:gap-6 flex-1 min-w-0">
             <SearchBar />
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2 sm:gap-5 shrink-0">
             <div className="flex gap-3">
               <div className="relative" ref={notificationRef}>
                 <button
@@ -301,19 +301,19 @@ export default function CareerGuidanceDashboard() {
 
                 {/* Notification Dropdown */}
                 {showNotifications && (
-                  <div className="absolute right-0 mt-3 w-80 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200 bg-[#1a142e]/95 backdrop-blur-xl border border-[#8b5cf6]/20">
-                    <div className="p-4 border-b border-white/5 flex items-center justify-between">
-                      <h3 className="text-sm font-bold text-white">Notifications</h3>
+                  <div className={`fixed inset-x-4 top-[80px] w-auto sm:absolute sm:inset-auto sm:right-0 sm:mt-3 sm:w-80 max-w-[400px] z-50 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 backdrop-blur-xl border ${isDarkMode ? "bg-[#1a142e]/95 border-[#8b5cf6]/20" : "bg-white/95 border-border-light"}`}>
+                    <div className={`p-4 border-b flex items-center justify-between ${isDarkMode ? "border-white/5" : "border-slate-100"}`}>
+                      <h3 className={`text-sm font-bold ${isDarkMode ? "text-white" : "text-charcoal"}`}>Notifications</h3>
                       <span className="text-[10px] font-bold text-[#8b5cf6] px-2 py-0.5 bg-[#8b5cf6]/10 rounded-full uppercase">
                         {notifications.filter(n => n.isNew).length} New
                       </span>
                     </div>
 
-                    <div className="max-h-[380px] overflow-y-auto custom-scrollbar">
+                    <div className="max-h-[60vh] sm:max-h-[380px] overflow-y-auto custom-scrollbar">
                       {notifications.map((notification) => (
                         <div
                           key={notification.id}
-                          className="p-4 hover:bg-white/5 border-b border-white/5 transition-colors cursor-pointer group"
+                          className={`p-4 border-b transition-colors cursor-pointer group ${isDarkMode ? "hover:bg-white/5 border-white/5" : "hover:bg-slate-50 border-slate-100"}`}
                         >
                           <div className="flex gap-3">
                             <div
@@ -329,17 +329,17 @@ export default function CareerGuidanceDashboard() {
                             </div>
                             <div className="flex-1 space-y-1">
                               <div className="flex items-center justify-between">
-                                <p className="text-xs font-semibold text-white group-hover:text-[#8b5cf6] transition-colors">
+                                <p className={`text-xs font-semibold group-hover:text-[#8b5cf6] transition-colors ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                                   {notification.title}
                                 </p>
                                 {notification.isNew && (
-                                  <div className="size-2 bg-[#8b5cf6] rounded-full"></div>
+                                  <div className="size-2 bg-[#8b5cf6] rounded-full shrink-0 ml-2"></div>
                                 )}
                               </div>
-                              <p className="text-[11px] text-[#a094b8] leading-tight">
+                              <p className={`text-[11px] leading-tight ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>
                                 {notification.description}
                               </p>
-                              <p className="text-[10px] text-white/40 pt-1">
+                              <p className={`text-[10px] pt-1 ${isDarkMode ? "text-white/40" : "text-slate-400"}`}>
                                 {notification.time}
                               </p>
                             </div>
@@ -400,8 +400,8 @@ export default function CareerGuidanceDashboard() {
           {/* Welcome Section */}
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="flex flex-col gap-2">
-              <h1 className={`text-4xl font-extrabold tracking-tight ${isDarkMode ? "text-white" : "text-charcoal"}`}>
-                Welcome back, <span className={isDarkMode ? "text-[#8b5cf6]" : "text-primary"}>{user?.name?.split(' ')[0] || "User"}!</span>
+              <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight break-words ${isDarkMode ? "text-white" : "text-charcoal"}`}>
+                Welcome back, <span className={`inline-block ${isDarkMode ? "text-[#8b5cf6]" : "text-primary"}`}>{user?.name?.split(' ')[0] || "User"}!</span>
               </h1>
               <p className={`text-lg font-normal ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>
                 {user?.careerSuggestions && user.careerSuggestions.length > 0

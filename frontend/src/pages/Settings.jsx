@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import InternalNavbar from "../components/InternalNavbar";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Settings = () => {
   const navigate = useNavigate();
+  const { isDarkMode } = useContext(ThemeContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   return (
-    <div className="bg-background-dark text-slate-100 min-h-screen flex flex-col font-display">
+    <div className={`min-h-screen flex flex-col font-display transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-slate-100" : "bg-surface-light text-charcoal"}`}>
       <InternalNavbar />
 
       <main className="flex-1 flex max-w-7xl mx-auto w-full p-6 md:p-12 gap-8">
         <aside className="w-64 flex-shrink-0 hidden lg:flex flex-col gap-8">
           <div className="flex flex-col">
-            <h1 className="text-2xl font-bold text-white mb-1">Settings</h1>
-            <p className="text-slate-500 text-sm">Manage your professional identity</p>
+            <h1 className={`text-2xl font-bold mb-1 ${isDarkMode ? "text-white" : "text-charcoal"}`}>Settings</h1>
+            <p className={`text-sm ${isDarkMode ? "text-slate-500" : "text-slate-500"}`}>Manage your professional identity</p>
           </div>
           <nav className="flex flex-col gap-2">
             <a className="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-white font-medium shadow-lg shadow-primary/20 transition-all" href="#">
@@ -25,16 +27,16 @@ const Settings = () => {
               <span>General</span>
             </a>
           </nav>
-          <div className="mt-auto p-4 rounded-xl bg-gradient-to-br from-primary/20 to-transparent border border-primary/10">
+          <div className={`mt-auto p-4 rounded-xl border ${isDarkMode ? "bg-gradient-to-br from-primary/20 to-transparent border-primary/10" : "bg-primary/5 border-primary/10"}`}>
             <p className="text-xs text-primary font-semibold uppercase tracking-wider mb-2">Pro Member</p>
-            <p className="text-sm text-slate-300 mb-4">You have access to all premium career paths.</p>
-            <button className="w-full py-2 bg-white/5 hover:bg-white/10 text-white text-xs rounded-lg transition-colors border border-white/10">Manage Plan</button>
+            <p className={`text-sm mb-4 ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>You have access to all premium career paths.</p>
+            <button className={`w-full py-2 text-xs rounded-lg transition-colors border ${isDarkMode ? "bg-white/5 hover:bg-white/10 text-white border-white/10" : "bg-white hover:bg-slate-50 text-charcoal border-slate-200"}`}>Manage Plan</button>
           </div>
         </aside>
 
         <section className="flex-1">
-          <div className="rounded-xl p-6 md:p-10 shadow-2xl bg-card-dark/70 backdrop-blur-[12px] border border-primary/10">
-            <div className="flex flex-col sm:flex-row items-center gap-8 mb-12 pb-8 border-b border-primary/10">
+          <div className={`rounded-xl p-6 md:p-10 shadow-2xl backdrop-blur-[12px] border ${isDarkMode ? "bg-card-dark/70 border-primary/10" : "bg-white border-slate-200"}`}>
+            <div className={`flex flex-col sm:flex-row items-center gap-8 mb-12 pb-8 border-b ${isDarkMode ? "border-primary/10" : "border-slate-100"}`}>
               <div className="relative group">
                 <div className="size-32 rounded-full overflow-hidden border-4 border-primary/20">
                   <img
@@ -49,14 +51,14 @@ const Settings = () => {
                 </label>
               </div>
               <div className="text-center sm:text-left flex-1">
-                <h3 className="text-xl font-bold text-white mb-2">Profile Picture</h3>
-                <p className="text-slate-400 text-sm mb-4">Recommended: 800x800px. JPG, PNG or GIF. Max 2MB.</p>
+                <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? "text-white" : "text-charcoal"}`}>Profile Picture</h3>
+                <p className={`text-sm mb-4 ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>Recommended: 800x800px. JPG, PNG or GIF. Max 2MB.</p>
                 <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
                   <button className="px-6 py-2 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-2" type="button">
                     <span className="material-symbols-outlined text-lg">upload</span>
                     Upload New
                   </button>
-                  <button className="px-6 py-2 bg-white/5 hover:bg-white/10 text-slate-300 font-bold rounded-xl text-sm transition-all border border-white/10" type="button">
+                  <button className={`px-6 py-2 font-bold rounded-xl text-sm transition-all border ${isDarkMode ? "bg-white/5 hover:bg-white/10 text-slate-300 border-white/10" : "bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200"}`} type="button">
                     Remove
                   </button>
                 </div>
@@ -133,8 +135,8 @@ const Settings = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 mt-4 border-t border-primary/10">
-                <button className="w-full sm:w-auto px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all border border-white/10" type="button" onClick={() => navigate('/profile')}>
+              <div className={`flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 mt-4 border-t ${isDarkMode ? "border-primary/10" : "border-slate-100"}`}>
+                <button className={`w-full sm:w-auto px-8 py-3 font-bold rounded-xl transition-all border ${isDarkMode ? "bg-white/5 hover:bg-white/10 text-white border-white/10" : "bg-slate-50 hover:bg-slate-100 text-charcoal border-slate-200"}`} type="button" onClick={() => navigate('/profile')}>
                   Cancel
                 </button>
                 <button className="w-full sm:w-auto px-10 py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-lg shadow-primary/30 transition-all flex items-center justify-center gap-2" type="submit">
@@ -157,7 +159,7 @@ const Settings = () => {
         </section>
       </main>
 
-      <footer className="mt-auto border-t border-primary/10 py-6 px-12">
+      <footer className={`mt-auto border-t py-6 px-12 ${isDarkMode ? "border-primary/10" : "border-slate-200"}`}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs uppercase tracking-widest">
           <p>© 2024 Pathfinder Career Platform. All Rights Reserved.</p>
           <div className="flex gap-6">

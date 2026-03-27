@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import InternalNavbar from "../components/InternalNavbar";
 import Footer from "../components/internalfooter";
 import { useNavigate } from "react-router-dom";
 import MentorMarketplace from "../components/MentorMarketplace";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Mentors = () => {
   const navigate = useNavigate();
+  const { isDarkMode } = useContext(ThemeContext);
 
   return (
     <div
+      className={`min-h-screen flex flex-col ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}
       style={{
-        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        background: "#080614",
       }}
     >
       <InternalNavbar />
@@ -35,7 +36,7 @@ const Mentors = () => {
           style={{
             background: "none",
             border: "none",
-            color: "#9ca3af",
+            color: isDarkMode ? "#9ca3af" : "#64748b",
             fontSize: 13,
             fontWeight: 500,
             cursor: "pointer",
@@ -43,11 +44,11 @@ const Mentors = () => {
             transition: "color 0.2s",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.color = "#a78bfa")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = isDarkMode ? "#9ca3af" : "#64748b")}
         >
           Home
         </button>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4b5563" strokeWidth="2">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={isDarkMode ? "#4b5563" : "#94a3b8"} strokeWidth="2">
           <polyline points="9 18 15 12 9 6" />
         </svg>
         <span style={{ color: "#7c3aed", fontSize: 13, fontWeight: 600 }}>

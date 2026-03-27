@@ -90,30 +90,35 @@ const Profile = () => {
           </div>
         )}
 
-        <div className="relative mb-12">
-          <div className="h-48 w-full rounded-2xl bg-gradient-to-r from-primary via-[#a881ff] to-primary overflow-hidden" />
-          <Button
-            variant="ghost"
-            className="absolute top-4 right-4 z-10 backdrop-blur-md border-white/30 text-white hover:bg-white/20"
-            onClick={() => navigate('/settings')}
-          >
-            <span className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-base">edit</span>
-              Edit Profile
-            </span>
-          </Button>
-          <div className="absolute -bottom-12 left-8 flex items-end gap-6">
+        <div className="mb-12">
+          {/* Banner */}
+          <div className="relative h-32 sm:h-48 w-full rounded-2xl bg-gradient-to-r from-primary via-[#a881ff] to-primary overflow-hidden">
+            <Button
+              variant="ghost"
+              className="absolute top-4 right-4 z-10 backdrop-blur-md border border-white/30 text-white hover:bg-white/20 text-xs sm:text-sm px-3 py-1.5"
+              onClick={() => navigate('/settings')}
+            >
+              <span className="flex items-center gap-1 sm:gap-2">
+                <span className="material-symbols-outlined text-sm sm:text-base">edit</span>
+                <span className="hidden sm:inline">Edit Profile</span>
+                <span className="sm:hidden">Edit</span>
+              </span>
+            </Button>
+          </div>
+
+          {/* Profile Details - Avatar overlaps banner, text flows naturally below banner */}
+          <div className="relative z-10 px-4 sm:px-8 flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-6 text-center sm:text-left">
             <div
-              className={`h-32 w-32 rounded-full border-4 bg-cover bg-center shadow-xl ${isDarkMode ? "border-background-dark bg-slate-800" : "border-surface-light bg-slate-200"}`}
+              className={`-mt-12 sm:-mt-16 h-24 w-24 sm:h-32 sm:w-32 flex-shrink-0 rounded-full border-4 bg-cover bg-center shadow-xl ${isDarkMode ? "border-background-dark bg-slate-800" : "border-surface-light bg-slate-200"}`}
             ></div>
-            <div className="mb-2 pb-1">
-              <h2 className={`mt-4 text-3xl font-bold leading-none ${isDarkMode ? "text-white" : "text-charcoal"}`}>
+            <div className="w-full min-w-0 sm:pt-4">
+              <h2 className={`mt-1 text-2xl sm:text-3xl font-bold leading-tight break-words ${isDarkMode ? "text-white" : "text-charcoal"}`}>
                 {user?.name || "User"}
               </h2>
-              <p className={`mt-2 mb-5 font-medium mt-1 ${isDarkMode ? "text-slate-200" : "text-slate-600"}`}>
+              <p className={`mt-2 mb-2 font-medium text-sm sm:text-base break-words leading-relaxed ${isDarkMode ? "text-slate-200" : "text-slate-600"}`}>
                 {user?.education || "Student"} {user?.stream ? `- ${user.stream}` : ""} | {user?.careerSuggestions?.[0] || "Career Explorer"}
               </p>
-              <p className="text-slate-500 text-sm flex items-center gap-1 mt-1">
+              <p className="flex items-center justify-center sm:justify-start gap-1 mt-1 text-slate-500 text-xs sm:text-sm break-all">
                 <span className="material-symbols-outlined text-sm">
                   mail
                 </span>{" "}
@@ -123,7 +128,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
           <div className="lg:col-span-2 space-y-8">
             <section className={`rounded-xl p-6 ${isDarkMode ? "bg-card-dark" : "bg-white border border-border-light shadow-sm"}`}>
               <div className="flex items-center justify-between mb-6">
@@ -216,9 +221,9 @@ const Profile = () => {
                   </span>{" "}
                   Saved Mentors
                 </h3>
-                <a className="text-sm text-primary hover:underline" href="#">
+                <button className="text-sm text-primary hover:underline" onClick={() => navigate('/mentors')}>
                   View All
-                </a>
+                </button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ListItem
@@ -284,7 +289,7 @@ const Profile = () => {
                     <span className="font-medium">Mathematics</span>
                     <span className="text-primary font-bold">88%</span>
                   </div>
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div className={`h-2 w-full rounded-full overflow-hidden ${isDarkMode ? "bg-white/10" : "bg-slate-200"}`}>
                     <div
                       className="h-full bg-primary rounded-full"
                       style={{ width: "88%" }}
