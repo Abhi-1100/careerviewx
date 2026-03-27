@@ -49,19 +49,25 @@ const Profile = () => {
 
     loadUserData();
 
-    // Listen for storage changes
+    // Listen for storage changes (when updated from another tab/window)
     const handleStorageChange = (e) => {
       if (e.key === 'user') {
-        loadUserData();
+        const updatedUser = JSON.parse(e.newValue);
+        setUser(updatedUser);
       }
     };
 
+    // Listen for focus to reload data when returning to the page
+    const handleFocus = () => {
+      loadUserData();
+    };
+
     window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('focus', loadUserData);
+    window.addEventListener('focus', handleFocus);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('focus', loadUserData);
+      window.removeEventListener('focus', handleFocus);
     };
   }, []);
 

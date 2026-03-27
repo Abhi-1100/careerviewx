@@ -22,6 +22,38 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  phone: {
+    type: String,
+    default: ""
+  },
+  bio: {
+    type: String,
+    default: ""
+  },
+  emailVerified: {
+    type: Boolean,
+    default: false
+  },
+  emailVerificationToken: {
+    type: String,
+    default: null
+  },
+  emailVerificationExpire: {
+    type: Date,
+    default: null
+  },
+  passwordResetToken: {
+    type: String,
+    default: null
+  },
+  passwordResetExpire: {
+    type: Date,
+    default: null
+  },
+  googleId: {
+    type: String,
+    default: null
+  },
   careerSuggestions: {
     type: [String],
     default: []

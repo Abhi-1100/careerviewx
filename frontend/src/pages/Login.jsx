@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import loginBg from "../assets/Loginimg.png";
 import OptionCard from "../components/OptionCard";
-import { signup as signupAPI, login as loginAPI, updateProfile } from "../Services/api";
+import { signup as signupAPI, login as loginAPI, updateProfile, googleSignin } from "../Services/api";
 import { useAuth } from "../contexts/AuthContext";
 import { wasRemembered } from "../utils/auth";
 
@@ -44,7 +44,7 @@ const Login = () => {
     setIsSignup(!isSignup);
     setLoginEmail("");
     setLoginPassword("");
-    setRememberMe(wasRemembered()); // Reset to previous user preference
+    setRememberMe(wasRemembered());
     setFirstName("");
     setLastName("");
     setSignupEmail("");
@@ -55,6 +55,57 @@ const Login = () => {
     setStep(1);
     setError("");
   };
+
+  // ============= GOOGLE SIGNIN HANDLER =============
+  const handleGoogleSignin = async (credential) => {
+    setError("");
+    setLoading(true);
+
+    try {
+      if (!credential) {
+        setError("Google sign-in failed. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      // Decode the JWT token from Google
+      const parts = credential.split('.');
+      const payload = JSON.parse(atob(parts[1]));
+
+      const response = await googleSignin({
+        googleId: payload.sub,
+        name: payload.name,
+        email: payload.email,
+        picture: payload.picture
+      });
+
+      if (response.data.success) {
+        auth.login(response.data.token, response.data.user, true); // 30 days by default for Google
+        navigate("/dashboard");
+      } else {
+        setError(response.data.message || "Google sign-in failed");
+      }
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || err.message || "Google sign-in failed. Please try again.";
+      setError(errorMsg);
+      console.error("Google signin error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Initialize Google ONE Tap when component mounts
+  useEffect(() => {
+    // Check if Google Sign-In is available
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID || "your-google-client-id-here",
+        callback: (response) => {
+          handleGoogleSignin(response.credential);
+        }
+      });
+    }
+  }, []);
 
   // ============= LOGIN HANDLER =============
   const handleLogin = async (e) => {
@@ -282,7 +333,13 @@ const Login = () => {
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center ml-1">
                       <label className="block text-xs font-medium text-gray-300">Password</label>
-                      <a href="#forgot_pass" className="text-xs text-primary hover:underline">Forgot Password?</a>
+                      <button
+                        type="button"
+                        onClick={() => navigate("/forgot-password")}
+                        className="text-xs text-primary hover:underline font-medium"
+                      >
+                        Forgot Password?
+                      </button>
                     </div>
                     <div className="relative group">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-500 group-focus-within:text-primary transition-colors text-sm">lock</span>
@@ -348,7 +405,15 @@ const Login = () => {
 
                 {/* SOCIAL BUTTONS */}
                 <div className="grid grid-cols-2 gap-3">
-                  <button className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all text-xs font-medium text-white">
+                  <button
+                    type="button"
+                    onClick={() => window.google?.accounts.id.renderButton(
+                      document.getElementById('google-signin-btn'),
+                      { theme: 'dark', size: 'large' }
+                    )}
+                    className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all text-xs font-medium text-white disabled:opacity-50"
+                    disabled={loading}
+                  >
                     <img
                       alt="Google"
                       className="w-4 h-4 opacity-80"
@@ -360,6 +425,7 @@ const Login = () => {
                     <span className="material-symbols-outlined text-[#0A66C2] text-sm">person</span>
                     LinkedIn
                   </button>
+                  <div id="google-signin-btn" className="hidden"></div>
                 </div>
 
                 {/* SIGNUP LINK */}
@@ -533,7 +599,15 @@ const Login = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <button className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all text-xs font-medium text-white">
+                  <button
+                    type="button"
+                    onClick={() => window.google?.accounts.id.renderButton(
+                      document.getElementById('google-signup-btn'),
+                      { theme: 'dark', size: 'large' }
+                    )}
+                    className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all text-xs font-medium text-white disabled:opacity-50"
+                    disabled={loading}
+                  >
                     <img alt="Google" className="w-4 h-4 opacity-80" src="https://www.svgrepo.com/show/475656/google-color.svg" />
                     Google
                   </button>
@@ -541,6 +615,7 @@ const Login = () => {
                     <span className="material-symbols-outlined text-[#0A66C2] text-sm">person</span>
                     LinkedIn
                   </button>
+                  <div id="google-signup-btn" className="hidden"></div>
                 </div>
 
                 <p className="text-center text-gray-500 text-xs">

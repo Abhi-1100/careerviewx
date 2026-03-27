@@ -25,8 +25,21 @@ API.interceptors.request.use((config) => {
 export const signup = (userData) => API.post('/auth/signup', userData);
 export const login = (credentials) => API.post('/auth/login', credentials);
 export const logout = () => API.post('/auth/logout');
-export const updateProfile = (profileData) => 
+export const googleSignin = (userData) => API.post('/auth/google-signin', userData);
+export const updateProfile = (profileData) =>
   API.put('/auth/profile/update', profileData);
+
+// Email Verification
+export const verifyEmail = (token) =>
+  API.post('/auth/verify-email', { token });
+export const resendVerificationEmail = (email) =>
+  API.post('/auth/resend-verification', { email });
+
+// Password Reset
+export const forgotPassword = (email) =>
+  API.post('/auth/forgot-password', { email });
+export const resetPassword = (token, password, passwordConfirm) =>
+  API.post('/auth/reset-password', { token, password, passwordConfirm });
 
 // Profile API calls (protected)
 export const getProfile = () => API.get('/profile');
