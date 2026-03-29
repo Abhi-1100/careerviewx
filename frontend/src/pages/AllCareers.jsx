@@ -5,6 +5,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import { getCurrentUser } from "../utils/auth";
 import { useAuth } from "../contexts/AuthContext";
 import SearchBar from "../components/SearchBar";
+import { CareerCardSkeleton } from "../components/Skeleton";
 
 import dashboard_i0 from "../assets/dashboard_i0.png";
 import dashboard_i1 from "../assets/dashboard_i1.png";
@@ -215,19 +216,7 @@ export default function AllCareers() {
           </div>
 
           {/* Loading skeleton */}
-          {loading && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className={`p-6 rounded-2xl border animate-pulse ${isDarkMode ? "bg-[#1a142e] border-[#2d264a]" : "bg-white border-border-light"}`}>
-                  <div className={`w-12 h-12 rounded-xl mb-5 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                  <div className={`h-5 w-3/4 rounded mb-3 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                  <div className={`h-3 w-full rounded mb-2 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                  <div className={`h-3 w-5/6 rounded mb-5 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                  <div className={`h-8 w-1/2 rounded-lg ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                </div>
-              ))}
-            </div>
-          )}
+          {loading && <CareerCardSkeleton count={6} />}
 
           {/* Error */}
           {!loading && error && (

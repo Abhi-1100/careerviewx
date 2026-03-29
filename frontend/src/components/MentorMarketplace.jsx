@@ -9,6 +9,7 @@ import React, {
 } from "react";
 
 import { ThemeContext } from "../context/ThemeContext";
+import { MentorCardSkeleton } from "./Skeleton";
 
 /* ─────────────────────────────────────────────────────────────
    COLOUR PALETTE & DESIGN TOKENS
@@ -824,6 +825,7 @@ export default function MentorMarketplace() {
   const { isDarkMode } = useContext(ThemeContext);
   const C = getC(isDarkMode);
 
+  const [initialLoading, setInitialLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("ALL TECH");
   const [selectedIndustries, setSelectedIndustries] = useState([]);
   const [selectedExperience, setSelectedExperience] = useState("");
@@ -856,6 +858,22 @@ export default function MentorMarketplace() {
     setActiveCategory("ALL TECH");
     setPage(1);
   };
+
+  // Brief skeleton on first mount for a polished feel
+  useEffect(() => {
+    const t = setTimeout(() => setInitialLoading(false), 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (initialLoading) {
+    return (
+      <div style={{ minHeight: "100vh", background: C.bg, padding: "40px 20px" }}>
+        <div className="max-w-[1380px] mx-auto">
+          <MentorCardSkeleton count={6} isDark={isDarkMode} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

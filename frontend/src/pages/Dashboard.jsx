@@ -16,6 +16,7 @@ import CourseCard from "../components/cards/Dashboard/CourseCard";
 import MentorSessionCard from "../components/cards/Dashboard/MentorSessionCard";
 import CareerNewsCard from "../components/cards/Dashboard/CareerNewsCard";
 import { ThemeContext } from "../context/ThemeContext";
+import { DashboardCardSkeleton } from "../components/Skeleton";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCurrentUser } from "../utils/auth";
@@ -428,16 +429,7 @@ export default function CareerGuidanceDashboard() {
                   onViewAll={() => navigate('/all-careers')}
                 />
                 {matchesLoading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[0, 1].map((i) => (
-                      <div key={i} className={`p-6 rounded-2xl border animate-pulse ${isDarkMode ? "bg-[#1a142e] border-[#2d264a]" : "bg-white border-border-light"}`}>
-                        <div className={`w-12 h-12 rounded-xl mb-6 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                        <div className={`h-5 w-2/3 rounded mb-3 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                        <div className={`h-3 w-full rounded mb-2 ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                        <div className={`h-3 w-4/5 rounded ${isDarkMode ? "bg-[#2d264a]" : "bg-slate-100"}`} />
-                      </div>
-                    ))}
-                  </div>
+                  <DashboardCardSkeleton count={2} />
                 ) : topMatches.length === 0 ? (
                   <div className={`flex flex-col items-center justify-center py-12 px-6 rounded-2xl border border-dashed text-center ${isDarkMode ? "border-[#2d264a] bg-[#1a142e]/50" : "border-border-light bg-slate-50"}`}>
                     <div className={`size-14 rounded-2xl flex items-center justify-center mb-4 ${isDarkMode ? "bg-[#8b5cf6]/10" : "bg-primary/10"}`}>

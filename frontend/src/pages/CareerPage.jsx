@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar";
 import InternalNavbar from "../components/InternalNavbar";
 import Footer from "../components/internalfooter";
 import { ThemeContext } from "../context/ThemeContext";
+import { CareerPageSkeleton } from "../components/Skeleton";
 
 // Roadmap step icons cycling
 const roadmapIcons = [
@@ -72,14 +73,7 @@ export default function CareerPage() {
     return (
       <div className={`relative flex min-h-screen w-full flex-col overflow-x-hidden font-display selection:bg-[#8b5cf6]/30 transition-colors duration-300 ${isDarkMode ? "bg-background-dark text-white" : "bg-surface-light text-charcoal"}`}>
         {renderHeader()}
-        <div className="flex items-center justify-center h-[60vh]">
-          <div className="flex flex-col items-center gap-4">
-            <div className="animate-spin size-12 border-4 border-[#8b5cf6]/20 border-t-[#8b5cf6] rounded-full"></div>
-            <p className={`text-sm font-medium ${isDarkMode ? "text-[#a094b8]" : "text-slate-500"}`}>
-              Loading career details...
-            </p>
-          </div>
-        </div>
+        <CareerPageSkeleton />
         {renderFooter()}
       </div>
     );

@@ -4,6 +4,7 @@ import InternalNavbar from "../components/InternalNavbar";
 import { getAssessmentHistory } from "../Services/api";
 import { ThemeContext } from "../context/ThemeContext";
 import Footer from "../components/internalfooter";
+import { Shim } from "../components/Skeleton";
 
 const careerIconMap = {
   engineering: { icon: "engineering", color: "text-orange-400", bg: "bg-orange-400/10" },
@@ -129,8 +130,18 @@ export default function AssessmentsHub() {
               </div>
 
               {loadingHistory ? (
-                <div className="flex items-center justify-center py-16">
-                  <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                <div className="flex flex-col gap-4">
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className={`p-4 sm:p-5 rounded-xl flex items-center gap-4 sm:gap-6 ${isDarkMode ? "bg-[#1a142e] border border-[#2d264a]" : "bg-white border border-slate-200"}`}>
+                      <Shim isDark={isDarkMode} style={{ width: 64, height: 64, borderRadius: 12, flexShrink: 0 }} />
+                      <div className="flex-1 flex flex-col gap-2">
+                        <Shim isDark={isDarkMode} style={{ width: "50%", height: 18, borderRadius: 8 }} />
+                        <Shim isDark={isDarkMode} style={{ width: "30%", height: 12, borderRadius: 6 }} />
+                      </div>
+                      <Shim isDark={isDarkMode} style={{ width: 90, height: 28, borderRadius: 999 }} />
+                      <Shim isDark={isDarkMode} style={{ width: 80, height: 36, borderRadius: 10, flexShrink: 0 }} />
+                    </div>
+                  ))}
                 </div>
               ) : history.length === 0 ? (
                 <div className={`p-10 rounded-xl flex flex-col items-center justify-center gap-4 text-center ${isDarkMode ? "glass-panel" : "bg-white border border-border-light shadow-sm"}`}>
