@@ -64,7 +64,7 @@ cd ..
    SMTP_PASSWORD=xxxx xxxx xxxx xxxx  (the 16-character app password - remove spaces when using)
    SMTP_HOST=smtp.gmail.com
    SMTP_PORT=587
-   API_BASE_URL=http://localhost:5000/api
+   FRONTEND_URL=https://careerviewx.vercel.app
    ```
 
 ### Step 3: Google OAuth Setup
@@ -178,7 +178,7 @@ The email service sends beautifully formatted HTML emails for:
 - [ ] `SMTP_PASSWORD` - Your 16-char app password (spaces removed)
 - [ ] `SMTP_HOST` - smtp.gmail.com
 - [ ] `SMTP_PORT` - 587
-- [ ] `API_BASE_URL` - http://localhost:5000/api (for local testing)
+- [ ] `FRONTEND_URL` - https://careerviewx.vercel.app (or your frontend domain)
 
 ### Frontend `.env`:
 - [ ] `REACT_APP_NEWS_API_KEY` - Already set
@@ -202,7 +202,7 @@ The email service sends beautifully formatted HTML emails for:
 - Check that REACT_APP_GOOGLE_CLIENT_ID is set in .env
 
 ### Verification Links Returning Error:
-- Check that API_BASE_URL matches your backend URL
+- Check that FRONTEND_URL matches your frontend URL
 - Ensure token hasn't expired (24 hours for verification)
 - Try resending verification email
 - Check backend logs for errors

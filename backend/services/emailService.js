@@ -2,6 +2,8 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 
+const DEFAULT_FRONTEND_URL = 'https://careerviewx.vercel.app';
+
 // Inline logo as base64 so it shows in email without needing a public URL
 let LOGO_BASE64 = '';
 try {
@@ -12,18 +14,35 @@ try {
 }
 const LOGO_SRC = LOGO_BASE64 ? `data:image/png;base64,${LOGO_BASE64}` : '';
 
+const trimEnv = (value = '') => value.trim();
+
+const getFrontendBaseUrl = () => {
+  const configuredUrl =
+    trimEnv(process.env.FRONTEND_URL) ||
+    trimEnv(process.env.CLIENT_URL) ||
+    trimEnv(process.env.APP_BASE_URL) ||
+    trimEnv(process.env.API_BASE_URL) ||
+    DEFAULT_FRONTEND_URL;
+
+  return configuredUrl.replace(/\/+$/, '');
+};
+
 
 // Create reusable transporter using Gmail
 // NOTE: When using service:'gmail', do NOT also set host/port — it causes auth conflicts.
 const createTransporter = () => {
-  if (!process.env.SMTP_EMAIL || !process.env.SMTP_PASSWORD) {
+  const smtpEmail = trimEnv(process.env.SMTP_EMAIL);
+  const smtpPassword = trimEnv(process.env.SMTP_PASSWORD);
+
+  if (!smtpEmail || !smtpPassword) {
     throw new Error('SMTP_EMAIL and SMTP_PASSWORD must be set in .env');
   }
+
   return nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.SMTP_EMAIL,
-      pass: process.env.SMTP_PASSWORD   // 16-char Gmail App Password (no spaces)
+      user: smtpEmail,
+      pass: smtpPassword   // 16-char Gmail App Password (no spaces)
     }
   });
 };
@@ -91,7 +110,7 @@ const emailWrapper = (title, bodyHtml) => `
 const sendVerificationEmail = async (email, verificationToken, userName = 'User') => {
   try {
     const transporter = createTransporter();
-    const baseUrl = process.env.API_BASE_URL || 'http://localhost:3000';
+    const baseUrl = getFrontendBaseUrl();
     const verificationLink = `${baseUrl}/verify-email?token=${verificationToken}`;
 
     const bodyHtml = `
@@ -153,7 +172,7 @@ const sendVerificationEmail = async (email, verificationToken, userName = 'User'
 const sendPasswordResetEmail = async (email, resetToken, userName = 'User') => {
   try {
     const transporter = createTransporter();
-    const baseUrl = process.env.API_BASE_URL || 'http://localhost:3000';
+    const baseUrl = getFrontendBaseUrl();
     const resetLink = `${baseUrl}/reset-password?token=${resetToken}`;
 
     const bodyHtml = `
