@@ -85,7 +85,20 @@ const userSchema = new mongoose.Schema({
         government: Number
       },
       matchPercentage: { type: Number },
-      takenAt: { type: Date, default: Date.now }
+      takenAt: { type: Date, default: Date.now },
+      aiResult: {
+        summary: { type: String },
+        careers: [
+          {
+            title: { type: String },
+            matchPercent: { type: Number },
+            whyItFits: { type: String },
+            stream: { type: String },
+            skillsToLearn: [String],
+            topColleges: [String]
+          }
+        ]
+      }
     }
   ],
   careerPaths: [

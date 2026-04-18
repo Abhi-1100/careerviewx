@@ -189,10 +189,30 @@ export default function AssessmentsHub() {
                           </div>
                         </div>
                         <button
-                          onClick={() => navigate("/career-result", { state: { recommendedCareer: item.recommendedCareer, scores: item.scores } })}
+                          onClick={() => {
+                            if (item.aiResult && item.aiResult.careers && item.aiResult.careers.length > 0) {
+                              // New AI assessment — has full report data stored
+                              navigate("/assessments/result", {
+                                state: {
+                                  summary: item.aiResult.summary,
+                                  careers: item.aiResult.careers,
+                                }
+                              });
+                            } else {
+                              // Old static assessment — no AI report available
+                              navigate("/career-result", {
+                                state: {
+                                  recommendedCareer: item.recommendedCareer,
+                                  scores: item.scores
+                                }
+                              });
+                            }
+                          }}
                           className={`flex-shrink-0 w-full sm:w-auto px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-all ${isLatest
                             ? "bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-white"
-                            : "bg-white/5 border border-white/10 text-white/60 hover:bg-primary hover:text-white hover:border-primary"
+                            : isDarkMode
+                            ? "bg-white/5 border border-white/10 text-white/60 hover:bg-primary hover:text-white hover:border-primary"
+                            : "bg-slate-50 border border-slate-200 text-slate-500 hover:bg-primary hover:text-white hover:border-primary"
                             }`}
                         >
                           View Report

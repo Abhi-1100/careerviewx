@@ -55,6 +55,14 @@ export const submitAssessment = (answers) =>
   API.post('/assessment/submit', { answers });
 export const getAssessmentHistory = () => API.get('/assessment/history');
 
+// AI-powered Assessment API calls (protected)
+export const getNextQuestion = (data) =>
+  API.post('/assessment/next-question', data);
+export const getFinalResult = (data) =>
+  API.post('/assessment/final-result', data);
+export const generateAllQuestions = () =>
+  API.post('/assessment/generate-all-questions');
+
 // Career API calls (protected)
 export const getCareerByName = (careerName) => 
   API.get(`/careers/${careerName}`);
