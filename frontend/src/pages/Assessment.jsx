@@ -136,8 +136,9 @@ const Assessment = () => {
     }
   };
 
+  const dynamicTotalQuestions = questions.length > 0 ? questions.length : TOTAL_QUESTIONS;
   const questionNumber = currentIndex + 1;
-  const progress = Math.round((questionNumber / TOTAL_QUESTIONS) * 100);
+  const progress = Math.round((questionNumber / dynamicTotalQuestions) * 100);
   const currentQuestion = questions[currentIndex];
 
   // ==================== START SCREEN ====================
@@ -204,7 +205,7 @@ const Assessment = () => {
                       isDarkMode ? "text-white/40" : "text-slate-400"
                     }`}
                   >
-                    0 / {TOTAL_QUESTIONS}
+                    0 / {dynamicTotalQuestions}
                   </span>
                 </div>
                 <div
@@ -351,7 +352,7 @@ const Assessment = () => {
                     Assessment Complete
                   </span>
                   <span className="text-xs font-bold text-primary">
-                    {TOTAL_QUESTIONS} / {TOTAL_QUESTIONS}
+                    {dynamicTotalQuestions} / {dynamicTotalQuestions}
                   </span>
                 </div>
                 <div
@@ -519,7 +520,7 @@ const Assessment = () => {
                     isDarkMode ? "text-white/60" : "text-slate-500"
                   }`}
                 >
-                  Question {questionNumber} of {TOTAL_QUESTIONS}
+                  Question {questionNumber} of {dynamicTotalQuestions}
                 </p>
                 <p className="text-primary text-sm font-bold leading-normal">
                   {progress}%
@@ -539,7 +540,7 @@ const Assessment = () => {
 
               {/* Step indicators */}
               <div className="flex justify-between gap-1 mt-1">
-                {Array.from({ length: TOTAL_QUESTIONS }, (_, i) => (
+                {Array.from({ length: dynamicTotalQuestions }, (_, i) => (
                   <div
                     key={i}
                     className={`h-1 flex-1 rounded-full transition-all duration-300 ${

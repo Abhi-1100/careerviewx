@@ -9,7 +9,7 @@ const SYSTEM_PROMPT = `You are an expert career counselor AI with deep knowledge
  * Call OpenRouter API with messages and return parsed JSON.
  * Retries once on JSON parse failure.
  */
-async function callOpenRouter(messages, retries = 1) {
+async function callOpenRouter(messages, retries = 1, temperature = 0.7) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
     throw new Error("OPENROUTER_API_KEY is not set in environment variables");
@@ -21,8 +21,8 @@ async function callOpenRouter(messages, retries = 1) {
       { role: "system", content: SYSTEM_PROMPT },
       ...messages,
     ],
-    temperature: 0.7,
-    max_tokens: 1500,
+    temperature: temperature,
+    max_tokens: 4000,
   });
 
   const options = {
